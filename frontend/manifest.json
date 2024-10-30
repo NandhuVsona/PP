@@ -2,7 +2,7 @@
     "name": "Penny Partner",
     "short_name": "Penny Partner",
     "description": "A smart tool to track and manage your income and expenses.",
-    "start_url": "index.html",
+    "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#000000",
