@@ -77,13 +77,6 @@ exports.signup = catchAsync(async (req, res, next) => {
     password: tempUser.password,
   });
 
-  res.status(201).json({
-    status: "success",
-    message: tempUser,
-  });
-
-  await TempUsers.findByIdAndDelete(tempUser._id);
-
   const token = signToken(user._id);
   const cookieOptions = {
     expires: new Date(
@@ -94,9 +87,10 @@ exports.signup = catchAsync(async (req, res, next) => {
   };
   res.cookie("jwt", token, cookieOptions);
 
-  return res.sendFile(path.join(__dirname,"..","..","frontend","ind.html"))
+  return res.sendFile(path.join(__dirname, "..", "..", "frontend", "ind.html"));
   // createSendToken(newUser, 201, res);
   // createDefaultData(newUser._id);
+  await TempUsers.findByIdAndDelete(tempUser._id);
 });
 
 //-------------------- LOGIN ----------------------------
@@ -131,7 +125,9 @@ exports.product = catchAsync(async (req, res, next) => {
   }
 
   if (!token) {
-    return res.sendFile(path.join(__dirname,"..","..","frontend","auth.html"))
+    return res.sendFile(
+      path.join(__dirname, "..", "..", "frontend", "auth.html")
+    );
   }
 
   // 2) Verification token
