@@ -825,6 +825,7 @@
       }
 
       async function signup(data) {
+        console.log("called")
         try {
           let req = await fetch("https://pp-qln0.onrender.com/verifyMe", {
             method: "POST",
@@ -836,7 +837,7 @@
 
           if (res.status == "success") {
             console.log(res);
-            successMessage(res, 100);
+            successMessage(res,1000);
             signUpBtn.innerHTML = "GET STARTED";
             document.querySelector(".otp-container").classList.remove("remove");
             document.querySelector(".otp-container").classList.add("active");
@@ -848,6 +849,7 @@
             showMessage(res);
           }
         } catch (e) {
+          console.log(e)
           showMessage(e);
         }
       }
@@ -881,14 +883,14 @@
 
       async function VerifyOTP(data) {
         try {
-          let req = await fetch("https://pp-qln0.onrender.com/signup", {
+          let req = await fetch("https://pp-qln0.onrender.com/api/v1/users/signup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
           });
 
           let res = await req.json();
-
+console.log(res)
           if (res.status == "success") {
             console.log(res);
           } else {

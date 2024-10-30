@@ -36,7 +36,9 @@ app.use(
     saveUninitialized: false, // Don't save uninitialized sessions
     cookie: {
       maxAge: 1000 * 60 * 60,
+      secure: true,
     },
+    store: new session.MemoryStore(),
   })
 );
 //MIDDLEWARES
