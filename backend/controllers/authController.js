@@ -71,16 +71,19 @@ exports.signup = catchAsync(async (req, res, next) => {
     return next(new AppError("OTP you entered is invalid", 400));
   }
 
+  
+  const newUser = await User.create({
+    username: tempUser.username,
+    email: tempUser.email,
+    password: tempUser.password,
+  });
+
   res.status(201).json({
     status: "success",
     message: tempUser,
   });
-  // const newUser = await User.create({
-  //   username: req.body.username,
-  //   email: req.body.email,
-  //   password: req.body.password,
-  //   passwordChangedAt: req.body.passwordChangedAt,
-  // });
+
+  await TempUsers.deleteOne({email:tempUser.email})
 
   // createSendToken(newUser, 201, res);
   // createDefaultData(newUser._id);
