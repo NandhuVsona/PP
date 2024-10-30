@@ -28,7 +28,15 @@ const limiter = rateLimit({
 app.use("/api", limiter);
 
 //MIDDLEWARES
-app.use(cors());
+
+
+// CORS configuration
+app.use(cors({
+  origin: '*', // Allow all origins
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allow all CRUD methods
+  allowedHeaders: ['Content-Type', 'Authorization'] // Specify headers if needed
+}));
+
 app.use(compression());
 app.use("/", express.static(path.join(__dirname, "..", "frontend")));
 app.use(morgan("dev"));
