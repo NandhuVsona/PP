@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Penny Partner</title>
+    <link rel="icon" href="./frontend/images/app-logo.png" type="image/png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://apis.google.com/js/api:client.js"></script>
+  </head>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+    * {
+      margin: 0;
+      padding: 0%;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    :root {
+      --primary-color: linear-gradient(to left, #2972ff, #24f7ff);
+    }
+    .container {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 8px 0px 8px;
+      gap: 15px;
+      background: var(--primary-color);
+      overflow: hidden;
+    }
+    form {
+      border-radius: 30px 30px 0px 0px;
+      width: 100%;
+      height: 100vh;
+      background-color: rgb(255, 255, 255);
+      display: flex;
+      justify-content: start;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+      padding: 20px;
+      padding-top: 30px;
+      overflow: hidden;
+      overflow-y: scroll;
+      scrollbar-width: none;
+      position: relative;
+    }
+
+    form .form-switch {
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border: 1px solid rgba(128, 128, 128, 0.635);
+      min-height: 55px;
+      max-height: 55px;
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    form .form-switch p {
+      line-height: 55px;
+      z-index: 1;
+      font-weight: 600;
+      font-size: 18px;
+      width: 50%;
+      height: 100%;
+      text-align: center;
+    }
+    form .form-switch .label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 10px;
+      background: var(--primary-color);
+      width: 50%;
+      height: 100%;
+      transition: all 0.4s ease;
+    }
+    form main {
+      width: 100%;
+      height: 100%;
+    }
+    form main section {
+      width: 100%;
+      height: 100%;
+      display: none;
+      justify-content: start;
+      flex-direction: column;
+      gap: 30px;
+      align-items: center;
+    }
+    form main section.active {
+      display: flex;
+    }
+    form main section .form-group {
+      width: 100%;
+
+      position: relative;
+    }
+
+    form main section .form-group img {
+      opacity: 0.6;
+      position: absolute;
+      top: 15px;
+      left: 10px;
+    }
+    form main section .form-group input {
+      width: 100%;
+      height: 55px;
+      padding-left: 45px;
+      font-size: 18px;
+      border-radius: 5px;
+      border: none;
+      border: 2px solid rgba(128, 128, 128, 0.404);
+    }
+    form main section .form-group input:focus {
+      outline: none;
+      border: 1.5px solid #24f7ff;
+    }
+    form main section button {
+      width: 100%;
+      min-height: 55px;
+      font-size: 20px;
+      font-weight: 500;
+      border-radius: 5px;
+      border: none;
+      background: var(--primary-color);
+      color: #ffffff;
+    }
+    form .form-switch .label.moveL {
+      left: 50%;
+      transition: all 0.15s ease;
+    }
+    form .form-switch .label.moveR {
+      left: 0px;
+      transition: all 0.5s ease;
+    }
+    form main section button:focus {
+      outline: none;
+    }
+    .forgot-pass {
+      color: #515151d0;
+    }
+    #gSignInWrapper {
+      width: 100%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 15px;
+    }
+    #customBtn {
+      gap: 15px;
+      background: white;
+      color: #444;
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
+      border: 2px solid rgba(128, 128, 128, 0.404);
+      white-space: nowrap;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 55px;
+    }
+    #customBtn:hover {
+      cursor: pointer;
+    }
+
+    .google {
+      width: 25px;
+      height: 25px;
+    }
+    span.buttonText {
+      font-size: 17px;
+      font-weight: 500;
+      font-family: inherit;
+    }
+    #password {
+      margin-bottom: 20px;
+    }
+    .container .title {
+      color: #ffffff;
+    }
+    .active {
+      color: #ffffff;
+    }
+    @media screen and (min-width: 576px) {
+      form {
+        width: 500px;
+      }
+    }
+    .section-1 {
+      animation: slideRight 0.3s ease;
+    }
+    .section-2 {
+      animation: slideleft 0.3s ease;
+    }
+    /*  @keyframes slideleft {
+      0% {
+        transform: translateX(200px);
+      }
+    }
+    @keyframes slideRight {
+      0% {
+        transform: translateX(-200px);
+      }
+    }*/
+    .logo {
+      width: 80px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      padding: 10px;
+    }
+    .no-account {
+      width: 100%;
+      color: #515151d0;
+      text-align: center;
+    }
+    /*OTP BOX STYLING*/
+    .otp-container {
+        display: none;
+
+      position: absolute;
+      color: #000000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgb(255, 255, 255);
+      z-index: 1;
+      padding: 10px;
+      animation: otpbox .7s ease ;
+    }
+    .otp-container.active{
+        display: flex;
+    }
+    @keyframes otpbox {
+        0%{
+            transform: translate(400px);
+        }
+        100%{
+            transform: translate(0px);
+        }
+    }
+    .otp-container.remove{
+        animation: cancelOtpBox .5s ease ;
+        animation-fill-mode: forwards;
+    }
+    @keyframes cancelOtpBox {
+        0% {
+            transform: translate(0);
+           
+          }
+          100% {
+            transform: translate(100%);
+           
+          }
+    }
+    .otp-container .otp-body {
+        margin-top: 20px;
+      display: flex;
+      gap: 30px;
+      justify-content: start;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+    }
+    .otp-container .otp-body ul {
+      list-style: none;
+      display: flex;
+      gap: 10px;
+      width: 100%;
+    }
+    .otp-container .otp-body ul li {
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .otp-container .otp-body ul li input {
+     
+  width: 60px;
+      border: 1px solid gray;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 40px;
+padding: 5px;
+      text-align: center;
+    }
+    @media screen and (max-width:476px) {
+        
+    .otp-container .otp-body ul li input {
+    height: 60px;
+    padding: 5px;
+        width: 50px;
+          border: 1px solid gray;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          font-size: 30px;
+          font-weight: bold;
+          text-align: center;
+        }
+    }
+    .otp-container .otp-body ul li input:focus {
+      outline: none;
+    }
+    .opt-btns {
+      display: flex;
+      width: 100%;
+      justify-content: space-around;
+      align-items: center;
+      gap: 20px;
+    }
+    .opt-btns div {
+     text-align: center;
+     background: var(--primary-color);
+     height: 50px;
+     line-height: 50px;
+     font-size: 20px;
+     color: #ffffff;
+     border-radius: 5px;
+     text-transform: uppercase;
+      width: 200px;
+    }
+    .text-msg{
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        gap: 5px;
+        color: rgb(86, 86, 86);
+    }
+  </style>
+  <body>
+    <div class="container">
+      <img class="logo" src="images/app-logo.png" alt="" />
+      <h3 class="title">Welcome Back</h3>
+      <form action="" autocomplete="off">
+        <div class="form-switch">
+          <div class="label"></div>
+          <p class="active signin">Sign In</p>
+          <p class="signup">Sign Up</p>
+        </div>
+        <main>
+          <!-- <section >
+            <div class="form-group">
+              <img src="icons/message.svg" alt="" />
+              <input type="text" placeholder="Enter your email" />
+            </div>
+            <div class="form-group">
+              <img src="icons/password.svg" alt="" />
+              <input
+                id="password"
+                type="text"
+                placeholder="Enter your password"
+              />
+              <small class="forgot-pass">Forgot password</small>
+            </div>
+
+            <button>GET STARTED</button>
+            <div id="gSignInWrapper">
+              <div id="customBtn" class="customGPlusSignIn">
+                <img
+                  class="google"
+                  src="https://cdn.freebiesupply.com/logos/large/2x/google-icon-logo-png-transparent.png"
+                  alt=""
+                />
+                <span class="buttonText">Continue with Google</span>
+              </div>
+              <small class="no-account">Don't have an account? signup</small>
+            </div>
+          </section> -->
+          <section class="section-2 active">
+            <div class="form-group">
+              <img src="icons/user.svg" alt="" />
+              <input type="text" placeholder="Enter your name" />
+            </div>
+            <div class="form-group">
+              <img src="icons/message.svg" alt="" />
+              <input type="text" placeholder="Enter your email" />
+            </div>
+            <div class="form-group">
+              <img src="icons/password.svg" alt="" />
+              <input type="text" placeholder="Enter your password" />
+            </div>
+
+            <button id="sendOtp">GET STARTED</button>
+            <div id="gSignInWrapper">
+              <div id="customBtn" class="customGPlusSignIn">
+                <img
+                  class="google"
+                  src="https://cdn.freebiesupply.com/logos/large/2x/google-icon-logo-png-transparent.png"
+                  alt=""
+                />
+                <span class="buttonText">Continue with Google</span>
+              </div>
+            </div>
+            <div class="otp-container">
+              <div class="otp-body">
+                <h1>Verify Your Account</h1>
+                <div class="text-msg">
+                  <small>We emailed you the six digit code to cool..</small>
+                  <small
+                    >Enter the code below to confirm your email address.</small
+                  >
+                </div>
+                <ul class="opt-input-boxs">
+                  <li><input type="tel" maxlength="1" placeholder="0"  /></li>
+                  <li><input type="tel" maxlength="1" placeholder="0"/></li>
+                  <li><input type="tel" maxlength="1" placeholder="0"/></li>
+                  <li><input type="tel" maxlength="1" placeholder="0"/></li>
+                  <li><input type="tel" maxlength="1" placeholder="0"/></li>
+                  <li><input type="tel" maxlength="1" placeholder="0"/></li>
+                </ul>
+                <div class="opt-btns">
+                  <div id="cancelOtpBox">Cancel</div>
+                  <div>Verify OTP</div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </form>
+    </div>
+    <script>
+      let signInLabel = document.querySelector(".signin");
+      let signUpLabel = document.querySelector(".signup");
+      let label = document.querySelector(".label");
+      let title = document.querySelector(".title");
+      let cancelBtn = document.getElementById("cancelOtpBox");
+      let sendOtpBtn = document.getElementById("sendOtp");
+      let labelColor = document.querySelectorAll("form .form-switch p");
+      let sections = document.querySelectorAll("section");
+
+      signUpLabel.addEventListener("click", () => {
+        label.style.left = "50%";
+        labelColor[1].style.color = "#ffffff";
+        labelColor[0].style.color = "#000000";
+        title.innerHTML = "Thanks for Joining us";
+        manageSection(1);
+        sections[0].classList.add("section-1");
+      });
+      signInLabel.addEventListener("click", () => {
+        label.style.left = "0%";
+        labelColor[1].style.color = "#000000";
+        labelColor[0].style.color = "#ffffff";
+        title.innerHTML = "Welcome Back!";
+        manageSection(0);
+      });
+
+      function manageSection(num) {
+        sections.forEach((s) => s.classList.remove("active"));
+        sections[num].classList.add("active");
+      }
+      cancelBtn.addEventListener("click",()=>{
+       
+        document.querySelector(".otp-container").classList.add("remove")
+      })
+      sendOtpBtn.addEventListener("click",(e)=>{
+        e.preventDefault()
+        document.querySelector(".otp-container").classList.remove("remove")
+        document.querySelector(".otp-container").classList.add("active")
+      })
+    </script>
+  </body>
+</html>
