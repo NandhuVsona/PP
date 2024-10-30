@@ -434,6 +434,29 @@
       background-color: rgb(255, 119, 0);
       transition: all 0.3s ease;
     }
+    .spin {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 5px solid white;
+      background-color: transparent;
+      position: absolute;
+      border-left: 5px solid transparent;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: rotate 1s linear infinite;
+    }
+    @keyframes rotate {
+      0% {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
+
+    .signin-btn,
+    .signUp {
+      position: relative;
+    }
   </style>
   <body>
     <div class="container">
@@ -477,18 +500,22 @@
           <section class="section-2">
             <div class="form-group">
               <img src="icons/user.svg" alt="" />
-              <input type="text" placeholder="Enter your name" />
+              <input id="name" type="text" placeholder="Enter your name" />
             </div>
             <div class="form-group">
               <img src="icons/message.svg" alt="" />
-              <input type="text" placeholder="Enter your email" />
+              <input class="email" type="text" placeholder="Enter your email" />
             </div>
             <div class="form-group">
               <img src="icons/password.svg" alt="" />
-              <input type="text" placeholder="Enter your password" />
+              <input
+                class="password"
+                type="text"
+                placeholder="Enter your password"
+              />
             </div>
 
-            <button id="sendOtp">GET STARTED</button>
+            <button id="sendOtp" class="signUp">GET STARTED</button>
             <div id="gSignInWrapper">
               <div id="customBtn" class="customGPlusSignIn">
                 <img
@@ -553,6 +580,7 @@
     <script>
       let signInLabel = document.querySelector(".signin");
       let signUpLabel = document.querySelector(".signup");
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       let label = document.querySelector(".label");
       let title = document.querySelector(".title");
       let cancelBtn = document.getElementById("cancelOtpBox");
@@ -560,6 +588,8 @@
       let labelColor = document.querySelectorAll("form .form-switch p");
       let inputBoxes = document.querySelectorAll("input[type='tel']");
       let sections = document.querySelectorAll("section");
+      let loginBtn = document.querySelector(".signin-btn");
+      let signUpBtn = document.querySelector(".signUp");
 
       signUpLabel.addEventListener("click", () => {
         label.style.left = "50%";
@@ -571,6 +601,7 @@
         document.querySelector(".otp-container").classList.remove("remove");
         document.querySelector(".otp-container").classList.remove("active");
       });
+
       signInLabel.addEventListener("click", () => {
         label.style.left = "0%";
         labelColor[1].style.color = "#000000";
@@ -583,13 +614,16 @@
         sections.forEach((s) => s.classList.remove("active"));
         sections[num].classList.add("active");
       }
+
       cancelBtn.addEventListener("click", () => {
         document.querySelector(".otp-container").classList.add("remove");
       });
+
       sendOtpBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        document.querySelector(".otp-container").classList.remove("remove");
-        document.querySelector(".otp-container").classList.add("active");
+        // Uncomment to activate OTP container
+        // document.querySelector(".otp-container").classList.remove("remove");
+        // document.querySelector(".otp-container").classList.add("active");
       });
 
       inputBoxes.forEach((box, i) => {
@@ -608,17 +642,41 @@
       });
 
       document.querySelector(".signin-btn").addEventListener("click", () => {
+        document.querySelector(".signin-btn").innerHTML =
+          "<div class='spin'></div>";
         let email = document.getElementById("email").value.trim();
         let password = document.getElementById("password").value.trim();
         let data = {
           email,
           password,
         };
-        login(data);
+        let errorData = {
+          message: "Oops! Something's missing.",
+          status: "Failed",
+        };
+        if (!email.length || !password.length) {
+          loginBtn.disabled = true;
+          signUpBtn.disabled = true;
+          loginBtn.innerHTML = "GET STARTED";
+          showMessage(errorData, 30);
+          return;
+        }
+
+        if (!validateEmail(email)) {
+          errorData.message = "Please enter a valid email.";
+          loginBtn.disabled = true;
+          signUpBtn.disabled = true;
+          loginBtn.innerHTML = "GET STARTED";
+          showMessage(errorData, 30);
+          return;
+        }
+
+        console.log("success");
+        // Uncomment to activate login function
+        // login(data);
       });
 
       async function login(data) {
-        console.log("hello");
         let req = await fetch(
           "https://pp-qln0.onrender.com/api/v1/users/login",
           {
@@ -629,20 +687,23 @@
         );
 
         let res = await req.json();
-        console.log(res);
+
         if (res.status == "success") {
           window.location.href = "/";
         } else {
+          loginBtn.disabled = true;
+          loginBtn.innerHTML = "GET STARTED";
           showMessage(res);
         }
       }
-      function showMessage(value) {
-        console.log(value)
+
+      function showMessage(value, time = 50) {
         let title = document.querySelector(".message-box .message");
         let text = document.querySelector(".message-box .text");
         text.textContent = value.message;
-        title.textContent ="Status : "+ value.status
-        //for tostal
+        title.textContent = "Status : " + value.status;
+
+        // For tostal
         let successWidth = 100;
 
         document.querySelector(".success-tostal").style.display = "flex";
@@ -653,12 +714,89 @@
             clearInterval(successIntervalId);
             document.querySelector(".success-tostal").style.display = "none";
             document.querySelector(".success-line").style.width = "100%";
+            loginBtn.disabled = false;
+            signUpBtn.disabled = false;
             successWidth = 0;
           }
           successWidth--;
-        }, 50);
+        }, time);
       }
-      
+
+      signUpBtn.addEventListener("click", () => {
+        signUpBtn.innerHTML = "<div class='spin'></div>";
+        let username = document.getElementById("name").value.trim();
+        let email = document.querySelector(".email").value.trim();
+        let password = document.querySelector(".password").value.trim();
+        let data = {
+          username,
+          email,
+          password,
+        };
+        let errorData = {
+          message: "Oops! Something's missing.",
+          status: "Failed",
+        };
+        if (!username.length || !email.length || !password.length) {
+          signUpBtn.disabled = true;
+          loginBtn.disabled = true;
+          signUpBtn.innerHTML = "GET STARTED";
+          showMessage(errorData, 30);
+          return;
+        }
+        if (username.length > 20) {
+          errorData.message = "Username is too long";
+          signUpBtn.disabled = true;
+          loginBtn.disabled = true;
+          signUpBtn.innerHTML = "GET STARTED";
+          return showMessage(errorData, 30);
+        }
+        if (!validateEmail(email)) {
+          errorData.message = "Please enter a valid email.";
+          signUpBtn.disabled = true;
+          loginBtn.disabled = true;
+          signUpBtn.innerHTML = "GET STARTED";
+          showMessage(errorData, 30);
+          return;
+        }
+
+        if (password.length < 8) {
+          errorData.message = "Password is too short.";
+          signUpBtn.disabled = true;
+          loginBtn.disabled = true;
+          signUpBtn.innerHTML = "GET STARTED";
+          showMessage(errorData, 30);
+          return;
+        }
+
+        // Uncomment to activate signup function
+        // signup(data);
+        console.log("success");
+      });
+
+      async function signup(data) {
+        let req = await fetch(
+          "https://pp-qln0.onrender.com/api/v1/users/signup",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          }
+        );
+
+        let res = await req.json();
+
+        if (res.status == "success") {
+          window.location.href = "/";
+        } else {
+          signUpBtn.disabled = true;
+          signUpBtn.innerHTML = "GET STARTED";
+          showMessage(res);
+        }
+      }
+
+      function validateEmail(email) {
+        return emailRegex.test(email);
+      }
     </script>
   </body>
 </html>
