@@ -77,18 +77,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     password: tempUser.password,
   });
 
-  const token = signToken(newUser._id);
-  const cookieOptions = {
-    expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-    ),
-    // secure:true,
-    httpOnly: true,
-  };
-  res.cookie("jwt", token, cookieOptions);
-
-  return res.sendFile(path.join(__dirname, "..", "..", "frontend", "ind.html"));
-  // createSendToken(newUser, 201, res);
+  createSendToken(newUser, 201, res);
   // createDefaultData(newUser._id);
   await TempUsers.findByIdAndDelete(tempUser._id);
 });
