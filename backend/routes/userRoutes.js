@@ -7,6 +7,7 @@ const {
   forgotPassword,
   resetPassword,
   updatePassword,
+  tempUser,
 } = require("../controllers/authController");
 const {
   getall,
@@ -60,6 +61,8 @@ router.patch("/updateMe", product, updateMe);
 router.delete("/deleteMe", product, deleteMe);
 
 router.route("/:id").get(getUser).delete(deleteUser);
+
+
 
 //CATEGORY ROUTES
 router

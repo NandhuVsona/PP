@@ -23,7 +23,6 @@ const signToken = (id) => {
 };
 
 const createSendToken = (user, statusCode, res) => {
-  
   //JWT
   const token = signToken(user._id);
   const cookieOptions = {
@@ -56,14 +55,29 @@ exports.checkId = async (req, res, next, val) => {
 //----------------- SIGN UP --------------------------
 
 exports.signup = catchAsync(async (req, res, next) => {
-  const newUser = await User.create({
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password,
-    passwordChangedAt: req.body.passwordChangedAt,
-  });
+  console.log(req.body);
+  const { username, email, password, otp, expires } = req.session.user;
 
-  createSendToken(newUser, 201, res);
+  if (expires < Date.now()) {
+    return next(new AppError("Your OTP has expired.", 400));
+  }
+
+  if (otp != req.body.otp) {
+    return next(new AppError("OTP you entered is invalid", 400));
+  }
+
+  res.status(201).json({
+    status: "success",
+    message: req.session.user,
+  });
+  // const newUser = await User.create({
+  //   username: req.body.username,
+  //   email: req.body.email,
+  //   password: req.body.password,
+  //   passwordChangedAt: req.body.passwordChangedAt,
+  // });
+
+  // createSendToken(newUser, 201, res);
   // createDefaultData(newUser._id);
 });
 
@@ -227,4 +241,69 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
   // 4) Log user in,sent JWT
   createSendToken(user, 200, res);
+});
+
+exports.tempUser = catchAsync(async (req, res, next) => {
+  let user = await User.findOne({ email: req.body.email });
+
+  if (user) {
+    return next(new AppError("Email already in use.", 400));
+  }
+  // 1 >> Generate the OTP
+  const otp = crypto.randomInt(100000, 999999).toString();
+  const otpExpirationTime = Date.now() + 5 * 60 * 1000;
+
+  const { username, email, password } = req.body;
+
+  req.session.user = {
+    username,
+    email,
+    password,
+    otp,
+    expires: otpExpirationTime,
+  };
+  console.log(req.session.user);
+
+  const message = `
+  <h2>Dear ${username},</h2>
+
+<p>Thank you for using <strong>Penny Partner</strong>!</p>
+
+<p>Your One-Time Password (OTP) for verification is:</p>
+<div style="text-align: center;">
+    <h1 style="font-size: 36px; color: #000;">${otp}</h1>
+</div>
+
+<p>Please enter this OTP in <strong>Penny Partner</strong> to complete your verification process.</p>
+
+<p>If you did not request this verification, please ignore this email.</p>
+
+<p>Thank you!</p>
+
+<h3>Best regards,</h3>
+<p>Penny Partner</p>
+`;
+
+  try {
+    await sendEmail({
+      email: req.body.email,
+      subject: "OTP Verification Code (valid for 5 min)",
+      message,
+    });
+
+    res.status(200).json({
+      status: "success",
+      message: "OTP has been successfully sent",
+    });
+  } catch (e) {
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save({ validateBeforeSave: false });
+    return next(
+      new AppError(
+        "There was an error sending the email. Try again later!",
+        500
+      )
+    );
+  }
 });
