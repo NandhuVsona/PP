@@ -71,7 +71,6 @@ exports.signup = catchAsync(async (req, res, next) => {
     return next(new AppError("OTP you entered is invalid", 400));
   }
 
-  
   const newUser = await User.create({
     username: tempUser.username,
     email: tempUser.email,
@@ -83,8 +82,19 @@ exports.signup = catchAsync(async (req, res, next) => {
     message: tempUser,
   });
 
-  await TempUsers.deleteOne({email:tempUser.email})
+  await TempUsers.findByIdAndDelete(tempUser._id);
 
+  const token = signToken(user._id);
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    // secure:true,
+    httpOnly: true,
+  };
+  res.cookie("jwt", token, cookieOptions);
+
+  return res.sendFile(path.join(__dirname,"..","..","frontend","ind.html"))
   // createSendToken(newUser, 201, res);
   // createDefaultData(newUser._id);
 });
@@ -121,9 +131,7 @@ exports.product = catchAsync(async (req, res, next) => {
   }
 
   if (!token) {
-    return next(
-      new AppError("You are not logged in! Please log in to get access", 401)
-    );
+    return res.sendFile(path.join(__dirname,"..","..","frontend","auth.html"))
   }
 
   // 2) Verification token
