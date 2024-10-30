@@ -20,11 +20,11 @@ const cookieParser = require("cookie-parser");
 // app.use(helmet());
 
 //Limit requests from same IP
-const limiter = rateLimit({
-  max: 50,
-  windowMs: 60 * 60 * 1000,
-  message: "Too many requests from this IP, please try again in an hour!",
-});
+// const limiter = rateLimit({
+//   max: 50,
+//   windowMs: 60 * 60 * 1000,
+//   message: "Too many requests from this IP, please try again in an hour!",
+// });
 app.use("/api", limiter);
 
 //MIDDLEWARES

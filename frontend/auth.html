@@ -24,6 +24,8 @@
     }
     :root {
       --primary-color: linear-gradient(to left, #2972ff, #24f7ff);
+
+      --tostal-color: linear-gradient(to left, #ffb829, #ff5e00);
     }
     .container {
       width: 100%;
@@ -350,88 +352,88 @@
       color: rgb(86, 86, 86);
     }
     /* Style for tostal */
-.success-tostal {
-  background-color: rgb(255, 208, 208);
-  width: 300px;
-  height: 60px;
-  padding: 5px 10px 5px 20px;
-  display: none;
-  justify-content: space-evenly;
-  align-items: center;
-  gap: 15px;
-  position: absolute;
-  top: 3rem;
-  opacity: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 10px;
-  overflow: hidden;
-  color: inherit;
-  border-left: 5px solid rgb(255, 0, 0);
-  animation: messagebox 0.3s ease;
-  -webkit-animation: messagebox 0.3s ease;
-  animation-fill-mode: forwards;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-}
-@keyframes messagebox {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
+    .success-tostal {
+      background-color: rgb(249, 225, 197);
+      width: 300px;
+      height: 60px;
+      padding: 5px 5px 5px 8px;
+      display: none;
+      justify-content: space-evenly;
+      align-items: center;
+      gap: 10px;
+      position: absolute;
+      top: 3rem;
+      opacity: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 10px;
+      overflow: hidden;
+      color: inherit;
+      border-left: 5px solid rgb(255, 136, 0);
+      animation: messagebox 0.3s ease;
+      -webkit-animation: messagebox 0.3s ease;
+      animation-fill-mode: forwards;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      -ms-border-radius: 10px;
+      -o-border-radius: 10px;
+    }
+    @keyframes messagebox {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
 
-.x-icon {
-  width: 30px;
-  height: 30px;
-  background-color: rgb(255, 0, 0);
-  border-radius: 50%;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.x-icon .bar-1 {
-  width: 3px;
-  height: 16px;
-  transform: rotate(-45deg) translateY(1px) translateY(1px);
-  background-color: #ffffff;
-}
-.x-icon .bar-2 {
-  width: 3px;
-  height: 16px;
-  transform: rotate(45deg) translateY(1px) translateY(1px);
-  background-color: #ffffff;
-}
+    .x-icon {
+      width: 30px;
+      height: 30px;
+      background-color: rgb(255, 119, 0);
+      border-radius: 50%;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .x-icon .bar-1 {
+      width: 3px;
+      height: 16px;
+      transform: rotate(-45deg) translateY(1px) translateY(1px);
+      background-color: #ffffff;
+    }
+    .x-icon .bar-2 {
+      width: 3px;
+      height: 16px;
+      transform: rotate(45deg) translateY(1px) translateY(1px);
+      background-color: #ffffff;
+    }
 
-.message-box {
-  flex-grow: 1;
-}
+    .message-box {
+      flex-grow: 1;
+    }
 
-.message-box .message {
-  width: 100%;
-  font-size: 15px;
-  font-weight: 700;
-  color: #000000;
-}
-.message-box .text {
-  width: 100%;
-  font-size: 14px;
-  color: #000000;
-}
-.success-line {
-  position: absolute;
-  width: 100%;
-  height: 5px;
-  bottom: 0;
-  left: 0;
-  background-color: rgb(255, 0, 0);
-  transition: all 0.3s ease;
-}
+    .message-box .message {
+      width: 100%;
+      font-size: 15px;
+      font-weight: 700;
+      color: #000000;
+    }
+    .message-box .text {
+      width: 100%;
+      font-size: 14px;
+      color: #000000;
+    }
+    .success-line {
+      position: absolute;
+      width: 100%;
+      height: 5px;
+      bottom: 0;
+      left: 0;
+      background-color: rgb(255, 119, 0);
+      transition: all 0.3s ease;
+    }
   </style>
   <body>
     <div class="container">
@@ -615,9 +617,8 @@
         login(data);
       });
 
-
       async function login(data) {
-        console.log("hello")
+        console.log("hello");
         let req = await fetch(
           "https://pp-qln0.onrender.com/api/v1/users/login",
           {
@@ -628,22 +629,22 @@
         );
 
         let res = await req.json();
-        console.log(res)
+        console.log(res);
         if (res.status == "success") {
           window.location.href = "/";
-        }
-        else{
-          showMessage({message:"failed to login",title:"hello User"})
+        } else {
+          showMessage(res);
         }
       }
       function showMessage(value) {
+        console.log(value)
         let title = document.querySelector(".message-box .message");
         let text = document.querySelector(".message-box .text");
         text.textContent = value.message;
-        title.textContent = value.title;
+        title.textContent ="Status : "+ value.status
         //for tostal
         let successWidth = 100;
-      
+
         document.querySelector(".success-tostal").style.display = "flex";
         const successIntervalId = setInterval(() => {
           document.querySelector(".success-line").style.width =
@@ -657,7 +658,7 @@
           successWidth--;
         }, 50);
       }
-      showMessage({message:"failed to login",title:"hello User"})
+      
     </script>
   </body>
 </html>
