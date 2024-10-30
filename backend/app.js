@@ -66,7 +66,7 @@ app.use(mongoSanitize());
 //    console.log(req.headers)
 //   next()
 // })
-app.get("/", product, (req, res) => {
+app.get(["/","/ind.html"], product, (req, res) => {
   res.sendFile(path.join(__dirname, "..", "frontend", "ind.html"));
 });
 app.use("/api/v1/users", userRoutes);

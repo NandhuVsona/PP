@@ -896,7 +896,8 @@
           let res = await req.json();
           console.log(res);
           if (res.status == "success") {
-            console.log(res);
+            window.location.href = "/";
+            
           } else {
             showMessage(res);
           }
