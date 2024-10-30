@@ -1,16 +1,15 @@
 const sendErrorDev = (err, res) => {
-  res.send(err.message+"<a href='/auth'>Login</a>")
-  // return res.status(err.statusCode).json({
-  //   status: err.status,
-  //   error: err,
-  //   message: err.message,
-  //   stack: err.stack,
-  // });
+  return res.status(err.statusCode).json({
+    status: err.status,
+    error: err,
+    message: err.message,
+    stack: err.stack,
+  });
 };
 
 const sendErrorPro = (err, res) => {
   //operationl error, trusted error: send message to client
-  if(err.isOperational){
+  if (err.isOperational) {
     return res.status(err.statusCode).json({
       status: err.status,
       message: err.message,
@@ -18,15 +17,15 @@ const sendErrorPro = (err, res) => {
   }
 
   //Programming or other unknown error : dont't leak errot details
-  else{
+  else {
     // 1) Log error
-    console.log("ERROR 💥",err)
+    console.log("ERROR 💥", err);
 
     //2 Send generic message
     res.status(500).json({
-      status:"error",
-      message:"Something went very wrong"
-    })
+      status: "error",
+      message: "Something went very wrong",
+    });
   }
 };
 
@@ -38,8 +37,8 @@ module.exports = (err, req, res, next) => {
   if (process.env.NODE_ENV === "development") {
     sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === "production") {
-    if(err.name === 'castError'){
-      handleCastErrorDB()
+    if (err.name === "castError") {
+      handleCastErrorDB();
     }
     sendErrorPro(err, res);
   }
