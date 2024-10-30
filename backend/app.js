@@ -34,11 +34,8 @@ app.use(
     secret: "secretpennypartner",
     resave: false, // Forces session to be saved back to the session store
     saveUninitialized: false, // Don't save uninitialized sessions
-    cookie: {
-      maxAge: 1000 * 60 * 60,
-      secure: true,
-    },
-    store: new session.MemoryStore(),
+    saveUninitialized: true,
+    cookie: { maxAge: 60000 },
   })
 );
 //MIDDLEWARES
