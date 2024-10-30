@@ -7,6 +7,6 @@ const tempSchema = new mongoose.Schema({
   otp:String,
 });
 
-const TempUsers = mongoose.model("TempUsers", userSchema);
+const TempUsers = mongoose.model("TempUsers", tempSchema);
 
 module.exports = TempUsers;
