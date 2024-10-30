@@ -352,6 +352,7 @@
       color: rgb(86, 86, 86);
     }
     /* Style for tostal */
+    .failure-tostal,
     .success-tostal {
       background-color: rgb(249, 225, 197);
       width: 300px;
@@ -425,6 +426,7 @@
       font-size: 14px;
       color: #000000;
     }
+    .failure-line,
     .success-line {
       position: absolute;
       width: 100%;
@@ -456,6 +458,38 @@
     .signin-btn,
     .signUp {
       position: relative;
+    }
+    .success-tostal {
+      background-color: rgb(255, 255, 255);
+
+      border-left: 5px solid green;
+    }
+
+    .tick-icon {
+      width: 30px;
+      height: 30px;
+      background-color: rgb(3, 172, 31);
+      border-radius: 50%;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .tick-icon .bar-1 {
+      width: 3px;
+      height: 10px;
+      transform: rotate(-40deg) translate(-5px);
+      background-color: #ffffff;
+    }
+    .tick-icon .bar-2 {
+      width: 3px;
+      height: 18px;
+      transform: rotate(45deg) translate(1px) translateY(0px);
+      background-color: #ffffff;
+    }
+
+    .success-line {
+      background-color: rgb(34, 177, 21);
     }
   </style>
   <body>
@@ -537,27 +571,27 @@
                 </div>
                 <ul class="otp-input-boxs">
                   <li>
-                    <input type="tel" maxlength="1" placeholder="0" required />
+                    <input type="tel" maxlength="1" placeholder="0" />
                   </li>
                   <li>
-                    <input type="tel" maxlength="1" placeholder="0" required />
+                    <input type="tel" maxlength="1" placeholder="0" />
                   </li>
                   <li>
-                    <input type="tel" maxlength="1" placeholder="0" required />
+                    <input type="tel" maxlength="1" placeholder="0" />
                   </li>
                   <li>
-                    <input type="tel" maxlength="1" placeholder="0" required />
+                    <input type="tel" maxlength="1" placeholder="0" />
                   </li>
                   <li>
-                    <input type="tel" maxlength="1" placeholder="0" required />
+                    <input type="tel" maxlength="1" placeholder="0" />
                   </li>
                   <li>
-                    <input type="tel" maxlength="1" placeholder="0" required />
+                    <input type="tel" maxlength="1" placeholder="0" />
                   </li>
                 </ul>
                 <div class="opt-btns">
                   <div id="cancelOtpBox">Cancel</div>
-                  <div>Verify OTP</div>
+                  <div class="otp-btn">Verify OTP</div>
                 </div>
               </div>
             </div>
@@ -565,7 +599,7 @@
         </main>
       </form>
       <!-- Tostal -->
-      <div class="success-tostal">
+      <div class="failure-tostal">
         <div class="x-icon">
           <div class="bar-1"></div>
           <div class="bar-2"></div>
@@ -573,6 +607,17 @@
         <div class="message-box">
           <p class="message">Error</p>
           <p class="text">Select the requierd fields</p>
+        </div>
+        <div class="failure-line"></div>
+      </div>
+      <div class="success-tostal">
+        <div class="tick-icon">
+          <div class="bar-1"></div>
+          <div class="bar-2"></div>
+        </div>
+        <div class="message-box">
+          <p class="success-message"></p>
+          <p class="success-text"></p>
         </div>
         <div class="success-line"></div>
       </div>
@@ -621,10 +666,13 @@
 
       sendOtpBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        // Uncomment to activate OTP container
-        // document.querySelector(".otp-container").classList.remove("remove");
-        // document.querySelector(".otp-container").classList.add("active");
       });
+
+      function otpFunctionality() {
+        // Uncomment to activate OTP container
+        document.querySelector(".otp-container").classList.remove("remove");
+        document.querySelector(".otp-container").classList.add("active");
+      }
 
       inputBoxes.forEach((box, i) => {
         box.addEventListener("keydown", (e) => {
@@ -641,7 +689,8 @@
         });
       });
 
-      document.querySelector(".signin-btn").addEventListener("click", () => {
+      document.querySelector(".signin-btn").addEventListener("click", (e) => {
+        e.preventDefault()
         document.querySelector(".signin-btn").innerHTML =
           "<div class='spin'></div>";
         let email = document.getElementById("email").value.trim();
@@ -689,7 +738,7 @@
         let res = await req.json();
 
         if (res.status == "success") {
-          window.location.href = "/";
+         // window.location.href = "/";
         } else {
           loginBtn.disabled = true;
           loginBtn.innerHTML = "GET STARTED";
@@ -704,25 +753,27 @@
         title.textContent = "Status : " + value.status;
 
         // For tostal
-        let successWidth = 100;
+        let failureWidth = 100;
 
-        document.querySelector(".success-tostal").style.display = "flex";
-        const successIntervalId = setInterval(() => {
-          document.querySelector(".success-line").style.width =
-            successWidth - 1 + "%";
-          if (successWidth <= -10) {
-            clearInterval(successIntervalId);
-            document.querySelector(".success-tostal").style.display = "none";
-            document.querySelector(".success-line").style.width = "100%";
+        document.querySelector(".failure-tostal").style.display = "flex";
+        const failureIntervalId = setInterval(() => {
+          document.querySelector(".failure-line").style.width =
+            failureWidth - 1 + "%";
+          if (failureWidth <= -10) {
+            clearInterval(failureIntervalId);
+            document.querySelector(".failure-tostal").style.display = "none";
+            document.querySelector(".failure-line").style.width = "100%";
             loginBtn.disabled = false;
             signUpBtn.disabled = false;
-            successWidth = 0;
+            failureWidth = 0;
           }
-          successWidth--;
+          failureWidth--;
         }, time);
       }
 
-      signUpBtn.addEventListener("click", () => {
+      signUpBtn.addEventListener("click", signupFunctionality);
+
+      function signupFunctionality() {
         signUpBtn.innerHTML = "<div class='spin'></div>";
         let username = document.getElementById("name").value.trim();
         let email = document.querySelector(".email").value.trim();
@@ -769,34 +820,104 @@
         }
 
         // Uncomment to activate signup function
-        // signup(data);
+        signup(data);
         console.log("success");
-      });
+      }
 
       async function signup(data) {
-        let req = await fetch(
-          "https://pp-qln0.onrender.com/api/v1/users/signup",
-          {
+        try {
+          let req = await fetch("https://pp-qln0.onrender.com/verifyMe", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
+          });
+
+          let res = await req.json();
+
+          if (res.status == "success") {
+            console.log(res);
+            successMessage(res, 100);
+            signUpBtn.innerHTML = "GET STARTED";
+            document.querySelector(".otp-container").classList.remove("remove");
+            document.querySelector(".otp-container").classList.add("active");
+            signUpBtn.removeEventListener("click", signupFunctionality);
+            signUpBtn.addEventListener("click", otpFunctionality);
+          } else {
+            signUpBtn.disabled = true;
+            signUpBtn.innerHTML = "GET STARTED";
+            showMessage(res);
           }
-        );
-
-        let res = await req.json();
-
-        if (res.status == "success") {
-          window.location.href = "/";
-        } else {
-          signUpBtn.disabled = true;
-          signUpBtn.innerHTML = "GET STARTED";
-          showMessage(res);
+        } catch (e) {
+          showMessage(e);
         }
       }
 
       function validateEmail(email) {
         return emailRegex.test(email);
       }
+
+      function successMessage(value, time = 50) {
+        let title = document.querySelector(".message-box .success-message");
+        let text = document.querySelector(".message-box .success-text");
+        text.textContent = value.message;
+        title.textContent = "Status : " + value.status;
+
+        let successWidth = 0;
+        document.querySelector(".success-tostal").style.display = "flex";
+        const successIntervalId = setInterval(() => {
+          document.querySelector(".success-line").style.width =
+            successWidth - 1 + "%";
+          if (successWidth <= -10) {
+            clearInterval(successIntervalId);
+            document.querySelector(".success-tostal").style.display = "none";
+            document.querySelector(".success-line").style.width = "100%";
+            loginBtn.disabled = false;
+            signUpBtn.disabled = false;
+            successWidth = 0;
+          }
+          successWidth--;
+        }, time);
+      }
+
+      async function VerifyOTP(data) {
+        try {
+          let req = await fetch("https://pp-qln0.onrender.com/signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+
+          let res = await req.json();
+
+          if (res.status == "success") {
+            console.log(res);
+          } else {
+            showMessage(res);
+          }
+        } catch (e) {
+          showMessage(e);
+        }
+      }
+
+      document.querySelector(".otp-btn").addEventListener("click", () => {
+        let otp = "";
+        let data = document.querySelectorAll(".otp-input-boxs li input");
+        data.forEach((item) => {
+          otp += item.value;
+        });
+
+        if (otp.length < 6) {
+          return showMessage({
+            status: "Failed",
+            message: "Kindly enter your OTP!",
+          });
+        }
+
+        let obj = {
+          otp,
+        };
+        VerifyOTP(obj);
+      });
     </script>
   </body>
 </html>
