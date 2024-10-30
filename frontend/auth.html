@@ -690,7 +690,7 @@
       });
 
       document.querySelector(".signin-btn").addEventListener("click", (e) => {
-        e.preventDefault()
+        e.preventDefault();
         document.querySelector(".signin-btn").innerHTML =
           "<div class='spin'></div>";
         let email = document.getElementById("email").value.trim();
@@ -738,7 +738,7 @@
         let res = await req.json();
 
         if (res.status == "success") {
-         // window.location.href = "/";
+          // window.location.href = "/";
         } else {
           loginBtn.disabled = true;
           loginBtn.innerHTML = "GET STARTED";
@@ -825,7 +825,7 @@
       }
 
       async function signup(data) {
-        console.log("called")
+        console.log("called");
         try {
           let req = await fetch("https://pp-qln0.onrender.com/verifyMe", {
             method: "POST",
@@ -837,7 +837,8 @@
 
           if (res.status == "success") {
             console.log(res);
-            successMessage(res,1000);
+            localStorage.setItem("email", data.email);
+            successMessage(res, 1000);
             signUpBtn.innerHTML = "GET STARTED";
             document.querySelector(".otp-container").classList.remove("remove");
             document.querySelector(".otp-container").classList.add("active");
@@ -849,7 +850,7 @@
             showMessage(res);
           }
         } catch (e) {
-          console.log(e)
+          console.log(e);
           showMessage(e);
         }
       }
@@ -883,14 +884,17 @@
 
       async function VerifyOTP(data) {
         try {
-          let req = await fetch("https://pp-qln0.onrender.com/api/v1/users/signup", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-          });
+          let req = await fetch(
+            "https://pp-qln0.onrender.com/api/v1/users/signup",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data),
+            }
+          );
 
           let res = await req.json();
-console.log(res)
+          console.log(res);
           if (res.status == "success") {
             console.log(res);
           } else {
@@ -917,7 +921,9 @@ console.log(res)
 
         let obj = {
           otp,
+          email: localStorage.getItem("email"),
         };
+        console.log(obj);
         VerifyOTP(obj);
       });
     </script>

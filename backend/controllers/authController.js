@@ -57,9 +57,9 @@ exports.checkId = async (req, res, next, val) => {
 
 exports.signup = catchAsync(async (req, res, next) => {
   console.log(req.body);
-  const tempUser = await TempUsers.findOne({email:req.body.email});
+  const tempUser = await TempUsers.findOne({ email: req.body.email });
 
-  if(!tempUser){
+  if (!tempUser) {
     return next(new AppError("Something went worng.", 400));
   }
 
@@ -260,14 +260,6 @@ exports.tempUser = catchAsync(async (req, res, next) => {
 
   const { username, email, password } = req.body;
 
-  let tempUser = await TempUsers.create({
-    username,
-    email,
-    password,
-    otp,
-    otpExpires: otpExpirationTime,
-  });
-
   const message = `
   <h2>Dear ${username},</h2>
 
@@ -299,6 +291,22 @@ exports.tempUser = catchAsync(async (req, res, next) => {
       status: "success",
       message: "OTP has been successfully sent",
     });
+
+    let isExit = await TempUsers.findOne({ email });
+
+    if (!isExit) {
+      await TempUsers.create({
+        username,
+        email,
+        password,
+        otp,
+        otpExpires: otpExpirationTime,
+      });
+    } else {
+      isExit.opt = otp;
+      isExit.otpExpires = otpExpirationTime;
+      await isExit.save();
+    }
   } catch (e) {
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
