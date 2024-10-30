@@ -8,6 +8,7 @@ const { createDefaultData } = require("../utils/defaultData.js");
 const { promisify } = require("util");
 const sendEmail = require("../utils/email.js");
 const path = require("path");
+const TempUsers = require("../models/tempModel.js");
 
 //--------------------------------------
 
@@ -56,19 +57,23 @@ exports.checkId = async (req, res, next, val) => {
 
 exports.signup = catchAsync(async (req, res, next) => {
   console.log(req.body);
-  const { username, email, password, otp, expires } = req.session.user;
+  const tempUser = await TempUsers.findOne({email:req.body.email});
 
-  if (expires < Date.now()) {
+  if(!tempUser){
+    return next(new AppError("Something went worng.", 400));
+  }
+
+  if (tempUser.otpExpires < Date.now()) {
     return next(new AppError("Your OTP has expired.", 400));
   }
 
-  if (otp != req.body.otp) {
+  if (tempUser.otp != req.body.otp) {
     return next(new AppError("OTP you entered is invalid", 400));
   }
 
   res.status(201).json({
     status: "success",
-    message: req.session.user,
+    message: tempUser,
   });
   // const newUser = await User.create({
   //   username: req.body.username,
@@ -255,14 +260,13 @@ exports.tempUser = catchAsync(async (req, res, next) => {
 
   const { username, email, password } = req.body;
 
-  req.session.user = {
+  let tempUser = await TempUsers.create({
     username,
     email,
     password,
     otp,
-    expires: otpExpirationTime,
-  };
-  console.log(req.session.user);
+    otpExpires: otpExpirationTime,
+  });
 
   const message = `
   <h2>Dear ${username},</h2>
