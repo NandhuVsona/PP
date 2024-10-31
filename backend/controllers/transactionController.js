@@ -5,10 +5,11 @@ const AppError = require("../utils/appError");
 
 exports.getAllTransactions = catchAsync(async (req, res, next) => {
   const { month } = req.query;
+  console.log(req.user)
   const allTransaction = await Transactions.aggregate([
     {
       $match: {
-        userId: new mongoose.Types.ObjectId(req.params.id),
+        userId: new mongoose.Types.ObjectId(req.user._id),
         month,
       },
     },

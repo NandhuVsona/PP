@@ -67,26 +67,26 @@ router.route("/:id").get(getUser).delete(deleteUser);
 //CATEGORY ROUTES
 router
   .route("/categories/:id")
-  .get(getAllCategories)
-  .post(createCategory)
-  .patch(updateCategory)
-  .delete(deleteCategory);
+  .get(product,getAllCategories)
+  .post(product,createCategory)
+  .patch(product,updateCategory)
+  .delete(product,deleteCategory);
 
 //BUDGET ROUTES
 router
   .route("/budgets/:id")
-  .get(getBudgets)
-  .post(setBudget)
-  .patch(updateBudget)
-  .delete(deleteBudget);
+  .get(product,getBudgets)
+  .post(product,setBudget)
+  .patch(product,updateBudget)
+  .delete(product,deleteBudget);
 
 //TRANSACTIONS ROUTES
 router
   .route("/transactions/:id")
-  .get(getAllTransactions)
-  .post(createTransaction)
-  .patch(updateTransaction)
-  .delete(deleteTransaction);
+  .get(product,getAllTransactions)
+  .post(product,createTransaction)
+  .patch(product,updateTransaction)
+  .delete(product,deleteTransaction);
 
 router.get("/data/:id", getAccountsAndCategories);
 router.patch("/budgets/some/:id", homeUpdate);
