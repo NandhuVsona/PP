@@ -76,7 +76,9 @@ exports.getAllTransactions = catchAsync(async (req, res, next) => {
   });
 });
 exports.createTransaction = catchAsync(async (req, res, next) => {
-  let newTransaction = await Transactions.create(req.body);
+  let data = req.body;
+  data.userId = req.user._id
+  let newTransaction = await Transactions.create(data);
   res.status(201).json({
     newTransaction,
   });

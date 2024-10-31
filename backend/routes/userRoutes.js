@@ -82,7 +82,7 @@ router
 
 //TRANSACTIONS ROUTES
 router
-  .route("/transactions/:id")
+  .route("/transactions")
   .get(product,getAllTransactions)
   .post(product,createTransaction)
   .patch(product,updateTransaction)

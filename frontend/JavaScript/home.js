@@ -817,7 +817,7 @@ async function loadData(userId, month) {
 
   try {
     let req = await fetch(
-      `https://penny-partner-api.onrender.com/api/v1/users/transactions/${userId}/?month=${month}`
+      `https://penny-partner-api.onrender.com/api/v1/users/transactions/?month=${month}`
     );
     let res = await req.json();
     if (res.status === "success") {
@@ -907,7 +907,7 @@ async function deleteRecordToDb(transactionId) {
 async function saveRecordToDb(userId, data) {
   try {
     let response = await fetch(
-      `https://penny-partner-api.onrender.com/api/v1/users/transactions/${userId}`,
+      `https://penny-partner-api.onrender.com/api/v1/users/transactions`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
