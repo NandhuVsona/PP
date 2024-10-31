@@ -738,8 +738,8 @@
         let res = await req.json();
         console.log(res);
         if (res.status == "success") {
-          //window.location.reload();
-          console.log(res);
+          window.location.reload();
+         
         } else {
           loginBtn.disabled = true;
           loginBtn.innerHTML = "GET STARTED";
