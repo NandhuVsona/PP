@@ -71,9 +71,7 @@ app.get("/", product, (req, res) => {
 });
 app.use("/api/v1/users", userRoutes);
 // app.use("/", userRoutes);
-app.get("/auth", (req, res) => {
-  res.sendFile(path.join(__dirname,"views","auth.html"));
-});
+
 
 //OTP VERIFICATION
 app.post("/verifyMe", tempUser);
