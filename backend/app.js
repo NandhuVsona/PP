@@ -66,13 +66,13 @@ app.use(mongoSanitize());
 //    console.log(req.headers)
 //   next()
 // })
-app.get(["/","/ind.html"], product, (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "frontend", "ind.html"));
+app.get("/", product, (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "index.html"));
 });
 app.use("/api/v1/users", userRoutes);
 // app.use("/", userRoutes);
 app.get("/auth", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "frontend", "auth.html"));
+  res.sendFile(path.join(__dirname,"views","auth.html"));
 });
 
 //OTP VERIFICATION

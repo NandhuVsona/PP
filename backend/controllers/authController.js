@@ -30,7 +30,7 @@ const createSendToken = (user, statusCode, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-     secure:true,
+    secure: true,
     httpOnly: true,
   };
   res.cookie("jwt", token, cookieOptions);
@@ -98,10 +98,10 @@ exports.logIn = catchAsync(async (req, res, next) => {
   }
 
   createSendToken(user, 200, res);
-  
 });
 
 exports.product = catchAsync(async (req, res, next) => {
+  console.log("product calling");
   //  1) Getting token and check of it's there
 
   let token;
@@ -115,9 +115,7 @@ exports.product = catchAsync(async (req, res, next) => {
   }
 
   if (!token) {
-    return res.sendFile(
-      path.join(__dirname, "..", "..", "frontend", "auth.html")
-    );
+    return res.sendFile(path.join(__dirname, "..", "views", "auth.html"));
   }
 
   // 2) Verification token
@@ -146,6 +144,8 @@ exports.product = catchAsync(async (req, res, next) => {
 
   //GRAND ACCESS TO THE PRODUCTED ROUTE
   req.user = freshUser;
+  console.log(token);
+  console.log(req.user);
   next();
 });
 
@@ -247,7 +247,6 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
 exports.tempUser = catchAsync(async (req, res, next) => {
   let user = await User.findOne({ email: req.body.email });
-
   if (user) {
     return next(new AppError("Email already in use.", 400));
   }

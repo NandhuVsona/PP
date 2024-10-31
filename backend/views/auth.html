@@ -722,7 +722,7 @@
 
         console.log("success");
         // Uncomment to activate login function
-         login(data);
+        login(data);
       });
 
       async function login(data) {
@@ -736,9 +736,10 @@
         );
 
         let res = await req.json();
-
+        console.log(res);
         if (res.status == "success") {
-           window.location.href = "/";
+          //window.location.reload();
+          console.log(res);
         } else {
           loginBtn.disabled = true;
           loginBtn.innerHTML = "GET STARTED";
@@ -897,7 +898,6 @@
           console.log(res);
           if (res.status == "success") {
             window.location.href = "/";
-            
           } else {
             showMessage(res);
           }
