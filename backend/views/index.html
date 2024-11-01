@@ -1022,7 +1022,7 @@
           <div class="scroll-container">
             <img src="./cloud.png" class="cloud" alt="Cloud" />
           </div>
-          <img class="user-profile" src="images/men.png" alt="" />
+          <img class="user-profile" src="images/profiles/men.png" alt="" />
           <h2>Hello Ganesh</h2>
         </header>
 
@@ -1109,7 +1109,7 @@
               <div class="app-logo">
                 <img src="images/app-logo.png" alt="" />
               </div>
-              <p>Rate this web app</p>
+              <p>Enjoying this app? Rate us!</p>
             </div>
             <div class="rating-star-container">
               <input hidden type="tel" value="0" id="rateValue" />
@@ -1147,10 +1147,10 @@
 
         <div class="rr-body">
           <div class="rating-num-left">
-            <h1>4.5</h1>
+            <h1></h1>
             <div class="obtained-star-container"></div>
             <div class="overall-star-container"></div>
-            <small>134</small>
+            <small class="nRating">134</small>
           </div>
           <div class="rating-bar-right">
             <ul class="rr-bar-container">
@@ -1188,7 +1188,9 @@
           </div>
         </div>
 
-        <ul class="user-feedback"></ul>
+        <ul class="user-feedback">
+          
+        </ul>
         <div class="review-back-btn">
           <img src="icons/return.svg" alt="" />
         </div>
@@ -1207,7 +1209,37 @@
           <div class="edit-box">
             <div class="input-container">
               <div class="form">
-                <label for="username">Update username</label>
+                <div class="profile-container">
+                  <div class="current-profile-conteiner">
+                    <div class="imgs">
+                      <img src="./images/profiles/profile-0.png" alt="">
+                    </div>
+                    <h3 class="username-display">Ganesh</h3>
+                  </div>
+                  <div class="profile-options">
+                    <ul class="profile-list">
+                     
+                      <li>
+                        <img src="./images/profiles/profile-0.png" alt="" />
+                      </li>
+                      <li><img src="./images/profiles/profile-3.png" alt="" /></li>
+                      <li><img src="./images/profiles/profile-4.png" alt="" /></li>
+                      <li><img src="./images/profiles/profile-5.png" alt="" /></li>
+                     
+                      
+                      <li><img src="./images/profiles/profile-8.jpeg" alt="" /></li>
+                      <li><img src="./images/profiles/profile-9.jpg" alt="" /></li>
+                     
+                      
+                      <li><img src="./images/profiles/profile-7.jpg" alt="" /></li>
+                      <li><img src="./images/profiles/profile-1.png" alt="" /></li>
+                      <li><img src="./images/profiles/profile-6.png" alt="" /></li>
+                      <li><img src="./images/profiles/profile-2.png" alt="" /></li>
+                  
+                  
+                    </ul>
+                  </div>
+                </div>
                 <div class="input-box">
                   <img src="icons/user.svg" alt="" />
                   <input
@@ -1365,6 +1397,26 @@
         </div>
       </div>
     </div>
+
+    <script>
+      let profileList = document.querySelectorAll(".profile-options .profile-list li");
+      let currentProfile = document.querySelector(".current-profile-conteiner .imgs img");
+      let userName = document.querySelector(".username-display");
+
+      profileList.forEach(profile =>{
+        profile.addEventListener("click",()=>{
+          currentProfile.setAttribute("src",profile.children[0].getAttribute('src'))
+        })
+      })
+
+      let inBox = document.getElementById("username");
+
+      inBox.addEventListener("input",(e)=>{
+        userName.textContent = e.target.value
+      })
+
+
+    </script>
     <!-- <script>
       
       if ('serviceWorker' in navigator) {

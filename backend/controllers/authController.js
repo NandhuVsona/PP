@@ -30,8 +30,9 @@ const createSendToken = (user, statusCode, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    secure: true,
-    httpOnly: true,
+    secure: process.env.JWT_COOKIE_SECURE,
+    HttpOnly: true,
+    sameSite: "none",
   };
   res.cookie("jwt", token, cookieOptions);
   res.status(statusCode).json({
@@ -78,7 +79,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   });
 
   createSendToken(newUser, 201, res);
-  // createDefaultData(newUser._id);
+  await createDefaultData(newUser._id);
   await TempUsers.findByIdAndDelete(tempUser._id);
 });
 
@@ -144,7 +145,7 @@ exports.product = catchAsync(async (req, res, next) => {
 
   //GRAND ACCESS TO THE PRODUCTED ROUTE
   req.user = freshUser;
-  console.log(token);
+ 
   console.log(req.user);
   next();
 });

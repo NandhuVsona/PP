@@ -221,12 +221,30 @@
         transform: translateX(-200px);
       }
     }
-    .logo {
+    .logo-container {
       width: 80px;
+      height: 80px;
       background-color: #ffffff;
       border-radius: 50%;
       padding: 10px;
     }
+    .logo {
+      width: 100%;
+      animation: zoom 0.5s ease 0.3s;
+      border-radius: 50%;
+      animation-fill-mode: forwards;
+    }
+
+    @keyframes zoom {
+      from {
+        transform: scale(0);
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
     .no-account {
       width: 100%;
       color: #515151d0;
@@ -494,7 +512,9 @@
   </style>
   <body>
     <div class="container">
-      <img class="logo" src="images/app-logo.png" alt="" />
+      <div class="logo-container">
+        <img class="logo" src="images/app-logo.png" alt="" />
+      </div>
       <h3 class="title">Welcome Back</h3>
       <form action="" autocomplete="off">
         <div class="form-switch">
@@ -722,7 +742,7 @@
 
         console.log("success");
         // Uncomment to activate login function
-         login(data);
+        login(data);
       });
 
       async function login(data) {
@@ -738,7 +758,7 @@
         let res = await req.json();
 
         if (res.status == "success") {
-           window.location.href = "/";
+          window.location.href = "/";
         } else {
           loginBtn.disabled = true;
           loginBtn.innerHTML = "GET STARTED";
@@ -897,7 +917,6 @@
           console.log(res);
           if (res.status == "success") {
             window.location.href = "/";
-            
           } else {
             showMessage(res);
           }

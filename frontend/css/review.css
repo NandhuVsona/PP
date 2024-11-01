@@ -1,5 +1,5 @@
 .rr-container {
-  display: none;
+  display: flex;
   justify-content: start;
   background-color: #ffffff;
   align-items: center;
@@ -10,7 +10,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  opacity: 0;
+  opacity: 1;
   flex-direction: column;
   scrollbar-width: none;
   gap: 25px;
@@ -50,6 +50,33 @@
   justify-content: center;
   align-items: center;
   width: 40%;
+}
+
+.review-operations {
+  position: relative;
+}
+
+.rr-options.active {
+  display: flex;
+  flex-direction: column;
+}
+.rr-options {
+  animation: downrr 0.3s ease;
+  position: absolute;
+  display: none;
+  left: -100px;
+  top: 0px;
+  background-color: rgb(242, 242, 242);
+  box-shadow: 5px 5px px #87868633;
+  -webkit-animation: downrr 0.3s ease;
+}
+
+@keyframes downrr {
+  0% {
+    transform: translateY(-20px) scale(0);
+    opacity: 0;
+  }
+
 }
 .rr-body .rating-num-left h1 {
   font-size: 50px;
@@ -382,8 +409,8 @@ li.li-bar {
   gap: 10px;
 }
 
-
-.review-back-btn,.account-back-btn {
+.review-back-btn,
+.account-back-btn {
   position: fixed;
   bottom: 25px;
   right: 15px;

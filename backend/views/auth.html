@@ -221,11 +221,28 @@
         transform: translateX(-200px);
       }
     }
-    .logo {
+    .logo-container {
       width: 80px;
+      height: 80px;
       background-color: #ffffff;
       border-radius: 50%;
       padding: 10px;
+    }
+    .logo {
+      width: 100%;
+      animation: zoom 0.5s ease 0.3s;
+      border-radius: 50%;
+      animation-fill-mode: forwards;
+    }
+
+    @keyframes zoom {
+      from {
+        transform: scale(0);
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
     .no-account {
       width: 100%;
@@ -494,7 +511,9 @@
   </style>
   <body>
     <div class="container">
-      <img class="logo" src="images/app-logo.png" alt="" />
+      <div class="logo-container">
+        <img class="logo" src="images/app-logo.png" alt="" />
+      </div>
       <h3 class="title">Welcome Back</h3>
       <form action="" autocomplete="off">
         <div class="form-switch">
@@ -506,7 +525,12 @@
           <section class="active">
             <div class="form-group">
               <img src="icons/message.svg" alt="" />
-              <input id="email" type="text" placeholder="Enter your email" />
+              <input
+                value="naveenvsona@gmail.com"
+                id="email"
+                type="text"
+                placeholder="Enter your email"
+              />
             </div>
             <div class="form-group">
               <img src="icons/password.svg" alt="" />
@@ -514,6 +538,7 @@
                 id="password"
                 type="text"
                 placeholder="Enter your password"
+                value="00000000"
               />
               <small class="forgot-pass">Forgot password</small>
             </div>
@@ -726,20 +751,15 @@
       });
 
       async function login(data) {
-        let req = await fetch(
-          "https://pp-qln0.onrender.com/api/v1/users/login",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-          }
-        );
+        let req = await fetch("http://localhost:4000/api/v1/users/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
 
         let res = await req.json();
         console.log(res);
         if (res.status == "success") {
-          window.location.reload();
-         
         } else {
           loginBtn.disabled = true;
           loginBtn.innerHTML = "GET STARTED";
@@ -828,7 +848,7 @@
       async function signup(data) {
         console.log("called");
         try {
-          let req = await fetch("https://pp-qln0.onrender.com/verifyMe", {
+          let req = await fetch("http://localhost:4000/verifyMe", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
@@ -885,14 +905,11 @@
 
       async function VerifyOTP(data) {
         try {
-          let req = await fetch(
-            "https://pp-qln0.onrender.com/api/v1/users/signup",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(data),
-            }
-          );
+          let req = await fetch("http://localhost:4000/api/v1/users/signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
 
           let res = await req.json();
           console.log(res);

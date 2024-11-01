@@ -6,7 +6,7 @@ const { Transactions } = require("../models/transactionModel");
 const { Budgets } = require("../models/budgetModel");
 
 exports.getAllCategories = catchAsync(async (req, res, next) => {
-  let categories = await Categories.find({ userId: req.params.id });
+  let categories = await Categories.find({ userId: req.user._id });
 
   if (!categories) {
     return next(new AppError("Categories not found", 404));
@@ -24,7 +24,7 @@ exports.createCategory = catchAsync(async (req, res, next) => {
     image: req.body.image,
     name: req.body.name,
     type: req.body.type,
-    userId: req.params.id,
+    userId: req.user._id,
   });
 
   // Respond with the newly created category
@@ -46,7 +46,7 @@ exports.updateCategory = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteCategory = catchAsync(async (req, res, next) => {
-  let { userId } = req.query;
+  let { userId } = req.user._id;
   let categoryId = req.params.id;
 
   const transactions = await Transactions.deleteMany({

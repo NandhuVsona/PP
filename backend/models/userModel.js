@@ -99,5 +99,6 @@ userSchema.pre(/^find/, function (next) {
   next();
 });
 
+
 const User = mongoose.model("Users", userSchema);
 module.exports = User;

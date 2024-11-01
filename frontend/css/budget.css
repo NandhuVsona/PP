@@ -347,3 +347,81 @@ max-width: 100% !important;
   align-items: center;
   gap: 30px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* STYLING  FOR PROFLE CONTAINER */
+.profile-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+  padding: 10px 5px 5px 5px;
+}
+.current-profile-conteiner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  
+}
+.current-profile-conteiner .imgs {
+  width: 80px;
+  height: 80px;
+  background-color: rgba(16, 110, 105, 0.461);
+  border-radius: 50%;
+}
+.profile-options {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.profile-options .profile-list {
+  display: flex;
+  width: 100%;
+  scrollbar-width: none;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  gap: 10px;
+}
+.profile-options .profile-list li {
+  width: 50px;
+  flex: 0 0 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba(16, 110, 105, 0.461);
+  overflow: hidden;
+}
+.profile-options .profile-list li img {
+  width: 100%;
+}
+.current-profile-conteiner .imgs img{ 
+  width: 100%;
+}
+.current-profile-conteiner .imgs{
+  overflow: hidden;
+}
+.username-display{
+  height: 2em;
+}

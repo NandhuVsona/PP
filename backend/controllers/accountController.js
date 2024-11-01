@@ -2,11 +2,12 @@ const { Accounts } = require("../models/accountModel");
 const catchAsync = require("../utils/catchAsync");
 
 exports.createAccount = catchAsync(async (req, res, next) => {
+console.log(req.user)
   const newAccount = await Accounts.create({
     icon: req.body.icon,
     accountName: req.body.accountName,
     balance: req.body.balance,
-    userId:req.params.id
+    userId:req.user._id,
   });
   res.status(201).json({
     status: "success",
@@ -15,7 +16,7 @@ exports.createAccount = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllAccounts = catchAsync(async (req, res, next) => {
-  const accounts = await Accounts.find({userId:req.params.id});
+  const accounts = await Accounts.find({userId:req.user._id});
   res.status(200).json({
     status: "success",
     data: accounts,

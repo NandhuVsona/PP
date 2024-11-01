@@ -31,7 +31,7 @@ let accounts;
 let transactionHistory;
 async function getAccountsAndCategories() {
   let req = await fetch(
-    `https://penny-partner-api.onrender.com/api/v1/users/data/66efd1552e03ec45ce74d5fd`
+    `http://localhost:4000/api/v1/users/data/66efd1552e03ec45ce74d5fd`
   );
   let res = await req.json();
 
@@ -817,7 +817,7 @@ async function loadData(userId, month) {
 
   try {
     let req = await fetch(
-      `https://penny-partner-api.onrender.com/api/v1/users/transactions/?month=${month}`
+      `http://localhost:4000/api/v1/users/transactions/?month=${month}`
     );
     let res = await req.json();
     if (res.status === "success") {
@@ -857,10 +857,10 @@ loadData("66efd1552e03ec45ce74d5fd", formatedMonth);
 
 //--------------UPDATE RECORDS--------------------------
 async function updateRecordToDb(transactionId, data) {
-  console.log(transactionId,data)
+  console.log(transactionId, data);
   try {
     let response = await fetch(
-      `https://penny-partner-api.onrender.com/api/v1/users/transactions/${transactionId}`,
+      `http://localhost:4000/api/v1/users/transactions/${transactionId}`,
       {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -885,7 +885,7 @@ async function deleteRecordToDb(transactionId) {
   console.log(clickedView);
   try {
     let response = await fetch(
-      `https://penny-partner-api.onrender.com/api/v1/users/transactions/${transactionId}`,
+      `http://localhost:4000/api/v1/users/transactions/${transactionId}`,
       {
         method: "DELETE",
       }
@@ -907,7 +907,7 @@ async function deleteRecordToDb(transactionId) {
 async function saveRecordToDb(userId, data) {
   try {
     let response = await fetch(
-      `https://penny-partner-api.onrender.com/api/v1/users/transactions`,
+      `http://localhost:4000/api/v1/users/transactions`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1189,9 +1189,9 @@ function addEventListener() {
 function dynamicChange(data) {
   console.log(data);
   let element = clickedView;
-  console.log(clickedView.innerHTML)
+  console.log(clickedView.innerHTML);
   if (data.type == "transfer") {
-    clickedView.innerHTML =`
+    clickedView.innerHTML = `
     <div class="transaction-info">
     <img
       src="icons/Income-expense/transfer.jpg"
@@ -1225,7 +1225,7 @@ function dynamicChange(data) {
   <div class="transaction-amount">
     <p class="amount ${data.type}">₹${data.amount}</p>
   </div>
-   <small style="display: none;" >${data.description}</small>`
+   <small style="display: none;" >${data.description}</small>`;
     // element.children[0].children[1].children[1].children[3].setAttribute(
     //   "src",
     //   data.categoryIcon
@@ -1233,7 +1233,7 @@ function dynamicChange(data) {
     // element.children[0].children[1].children[1].children[4].textContent =
     //   data.categoryName;
   } else {
-   clickedView.innerHTML =  `
+    clickedView.innerHTML = `
  <div class="transaction-info">
                     <img
                       src="${data.categoryIcon}"
@@ -1256,7 +1256,7 @@ function dynamicChange(data) {
                   <div class="transaction-amount">
                     <p class="amount ${data.type}">₹${data.amount}</p>
                   </div>
-                  <small style="display: none;" >${data.description}</small>`
+                  <small style="display: none;" >${data.description}</small>`;
   }
   // element.lastElementChild.textContent = data.description;
   // element.firstElementChild.children[0].setAttribute(
@@ -1273,7 +1273,7 @@ function dynamicChange(data) {
   //   data.accountName;
   // element.children[1].children[0].textContent = data.amount;
   //later you chaet this currrent it wil issue*********===============-------------==========---------
-  console.log(clickedView.innerHTML)
+  console.log(clickedView.innerHTML);
   document.querySelector(".input-containers").classList.remove("active");
 }
 
@@ -1281,7 +1281,7 @@ function dynamicChange(data) {
 async function updateBudgetDb(catId, data) {
   let userId = "66efd1552e03ec45ce74d5fd";
   let req = await fetch(
-    `https://penny-partner-api.onrender.com/api/v1/users/budgets/some/${userId}/?categoryId=${catId}`,
+    `http://localhost:4000/api/v1/users/budgets/some/${userId}/?categoryId=${catId}`,
     {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -1324,7 +1324,7 @@ async function updateBudgetDb(catId, data) {
 //       </div>
 //     </div>
 //   </div>
- 
+
 //   <div class="transaction-amount">
 //     <p class="amount ${data.type}">₹${data.amount}</p>
 //   </div>

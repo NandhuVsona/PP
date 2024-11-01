@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const userRoutes = require("./routes/userRoutes.js");
+const reviewRoutes = require("./routes/reviewRoutes.js");
 const morgan = require("morgan");
 const AppError = require("./utils/appError.js");
 const globalErrorHandler = require("./controllers/errorController.js");
@@ -29,15 +30,15 @@ const session = require("express-session");
 // });
 // app.use("/api", limiter);
 
-app.use(
-  session({
-    secret: "secretpennypartner",
-    resave: false, // Forces session to be saved back to the session store
-    saveUninitialized: false, // Don't save uninitialized sessions
-    saveUninitialized: true,
-    cookie: { maxAge: 60000 },
-  })
-);
+// app.use(
+//   session({
+//     secret: "secretpennypartner",
+//     resave: false, // Forces session to be saved back to the session store
+//     saveUninitialized: false, // Don't save uninitialized sessions
+//     saveUninitialized: true,
+//     cookie: { maxAge: 60000 },
+//   })
+// );
 //MIDDLEWARES
 
 // CORS configuration
@@ -62,16 +63,15 @@ app.use(mongoSanitize());
 // Data sanitization against XSS
 // app.use(xss());
 
-// app.use((req,res,next)=>{
-//    console.log(req.headers)
-//   next()
-// })
+app.use((req, res, next) => {
+  console.log(req.user);
+  next();
+});
 app.get("/", product, (req, res) => {
   res.sendFile(path.join(__dirname, "views", "index.html"));
 });
 app.use("/api/v1/users", userRoutes);
-// app.use("/", userRoutes);
-
+app.use("/api/v1/reviews", reviewRoutes);
 
 //OTP VERIFICATION
 app.post("/verifyMe", tempUser);

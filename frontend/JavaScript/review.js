@@ -30,30 +30,87 @@ function handleReviewStar(num) {
   return star;
 }
 loadReviews();
-function loadReviews() {
-  document.querySelector(".user-feedback").innerHTML = "";
-  reviewData.forEach((data) => {
-    let template = ` <li class="review-card">
-      <div class="review-card-head">
-        <div class="review-left-part">
-          <div style="background-color:${getRandomColor()}" class="img review-profile">${data.reviewer.charAt(0).toLocaleUpperCase()}</div>
-          <p>${data.reviewer}</p>
+async function loadReviews() {
+  let req = await fetch(
+    "http://127.0.0.1:5500/frontend/JavaScript/reviews.json"
+  );
+  let res = await req.json();
+  console.log(res);
+  if (true) {
+    // let { stats, reviews } = res;
+    document.querySelector(".user-feedback").innerHTML = "";
+    // document.querySelector(".rating-num-left h1").innerHTML = stats.avgRating;
+    // document.querySelector(".nRating").innerHTML = stats.nRating;
+    res.forEach((data) => {
+      let template = ` <li class="review-card">
+        <div class="review-card-head">
+          <div class="review-left-part">
+            <div style="background-color:${getRandomColor()}" class="img review-profile">${data.user
+        .charAt(0)
+        .toLocaleUpperCase()}</div>
+            <p>${data.user}</p>
+          </div>
+          <div class="review-operations">
+           
+                    <img class="dot svg rr-dots" src="icons/dot.svg" alt="" />
+                    <div class="options rr-options" data-account-id=>
+                      <p class="edit-btn-rr">Edit</p>
+                      <p class="delete-review">Delete</p>
+                    </div>
+                </div>  
         </div>
-        <div class="review-operations">
-          <img class="review-dot" src="./icons/dot.svg" alt="" />
+        <div class="review-card-center">
+          <div class="reviewed-star">
+            ${handleReviewStar(data.rating)}
+          </div>
+          <small class="review-date">${data.createdAt.slice(0, 10)}</small>
         </div>
-      </div>
-      <div class="review-card-center">
-        <div class="reviewed-star">
-          ${handleReviewStar(data.rating)}
-        </div>
-        <small class="review-date">${data.date}</small>
-      </div>
-      <p class="review-text">
-        ${data.comment}
-      </p>
-    </li>`;
-    userFeedBack.innerHTML += template;
+        <p class="review-text">
+          ${data.review}
+        </p>
+      </li>`;
+      userFeedBack.innerHTML += template;
+    });
+  }
+  document.querySelectorAll(".rr-dots")[0].addEventListener("click", () => {
+    document.querySelectorAll(".rr-options")[0].classList.toggle("active");
+  });
+  let delBtn = document.querySelectorAll(".delete-review")[0];
+  delBtn.addEventListener("click", () => {
+    delBtn.parentElement.parentElement.parentElement.parentElement.remove();
+  });
+
+  let editBtn = document.querySelectorAll(".edit-btn-rr")[0];
+  editBtn.addEventListener("click", () => {
+    let review =
+      editBtn.parentElement.parentElement.parentElement.parentElement
+        .lastElementChild.textContent;
+    let filledStar =
+      editBtn.parentElement.parentElement.parentElement.parentElement
+        .children[1].children[0].innerHTML;
+
+    const filledStarCount = (filledStar.match(/icons\/filledstar\.svg/g) || [])
+      .length;
+    console.log(filledStarCount);
+    document.getElementById("rateValue").value = filledStarCount;
+    document.getElementById("calculate-word-len").innerHTML = review.trim();
+    let stars = document.querySelectorAll(".rating-star-container div.star");
+    for (let i = 0; i < filledStarCount; i++) {
+      stars[i].classList.add("active");
+    }
+    let btn = document.querySelector(".review-post-btn");
+    btn.disabled = false;
+    btn.textContent = "UPDATE";
+    document.querySelector(".review-input-container").classList.add("active");
+
+    btn.addEventListener("click", () => {
+      let stars = document.querySelectorAll(
+        ".rating-star-container .star.active"
+      );
+      document.getElementById("rateValue").value = stars.length
+      editBtn.parentElement.parentElement.parentElement.parentElement.lastElementChild.textContent =
+        document.getElementById("calculate-word-len").textContent.trim();
+    });
   });
 }
 
@@ -89,7 +146,7 @@ function isValidReview() {
     postBtn.disabled = true;
   }
 }
-postBtn.addEventListener("click", () => {
+postBtn.addEventListener("click", async () => {
   const today = new Date();
 
   // Get the day, month, and year
@@ -111,15 +168,22 @@ postBtn.addEventListener("click", () => {
   let rateValue = document.getElementById("rateValue");
   let reviewObj = {
     id: Math.floor(Math.random() * 50050),
-    reviewer: "Naveen V",
+    username: "Naveen V",
     rating: rateValue.value,
-    comment: feedBack.value.trim(),
+    review: feedBack.value.trim(),
     date: `${year}-${month}-${day}`,
   };
 
-  reviewData.unshift(reviewObj);
-  loadReviews();
-  loadBars();
+  dynamictemplate(reviewObj);
+
+  let req = await fetch("http://localhost:4000/api/v1/reviews", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(reviewObj),
+  });
+  let res = await req.json();
+  console.log(res);
+
   feedBack.value = "";
   rateValue.vlaue = 0;
   stars.forEach((s) => s.classList.remove("active"));
@@ -128,13 +192,7 @@ postBtn.addEventListener("click", () => {
 });
 
 function loadBars() {
-  let currentNum = [
-    "oneStar",
-    "twoStar",
-    "threeStar",
-    "fourStar",
-    "fiveStar",
-  ];
+  let currentNum = ["oneStar", "twoStar", "threeStar", "fourStar", "fiveStar"];
   let oneStar = 0;
   let twoStar = 0;
   let threeStar = 0;
@@ -155,11 +213,46 @@ function loadBars() {
     }
   });
   let totalReviews = reviewData.length;
-  document.querySelector(".bar-rating-5 .child-bar-line").style.width = (fiveStar/totalReviews)*100 + "%";
-  document.querySelector(".bar-rating-4 .child-bar-line").style.width = (fourStar/totalReviews)*100 + "%";
-  document.querySelector(".bar-rating-3 .child-bar-line").style.width = (threeStar/totalReviews)*100 + "%";
-  document.querySelector(".bar-rating-2 .child-bar-line").style.width = (twoStar/totalReviews)*100 + "%";
-  document.querySelector(".bar-rating-1 .child-bar-line").style.width = (oneStar/totalReviews)*100 + "%";
+  document.querySelector(".bar-rating-5 .child-bar-line").style.width =
+    (fiveStar / totalReviews) * 100 + "%";
+  document.querySelector(".bar-rating-4 .child-bar-line").style.width =
+    (fourStar / totalReviews) * 100 + "%";
+  document.querySelector(".bar-rating-3 .child-bar-line").style.width =
+    (threeStar / totalReviews) * 100 + "%";
+  document.querySelector(".bar-rating-2 .child-bar-line").style.width =
+    (twoStar / totalReviews) * 100 + "%";
+  document.querySelector(".bar-rating-1 .child-bar-line").style.width =
+    (oneStar / totalReviews) * 100 + "%";
 }
 
 loadBars();
+
+function dynamictemplate(reviewObj) {
+  let template = ` <li class="review-card">
+      <div class="review-card-head">
+        <div class="review-left-part">
+          <div style="background-color:${getRandomColor()}" class="img review-profile">${reviewObj.username
+    .charAt(0)
+    .toLocaleUpperCase()}</div>
+          <p>${reviewObj.username}</p>
+        </div>
+        <div class="review-operations">
+                    <img class="dot svg" src="icons/dot.svg" alt="" />
+                    <div class="options" data-account-id="9">
+                      <p class="edit-btn">Edit</p>
+                      <p class="delete-account">Delete</p>
+                    </div>
+                  </div>
+      </div>
+      <div class="review-card-center">
+        <div class="reviewed-star">
+          ${handleReviewStar(reviewObj.rating)}
+        </div>
+        <small class="review-date">${reviewObj.date}</small>
+      </div>
+      <p class="review-text">
+        ${reviewObj.review}
+      </p>
+    </li>`;
+  userFeedBack.innerHTML = template + userFeedBack.innerHTML;
+}

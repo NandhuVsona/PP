@@ -45,7 +45,10 @@ const {
 const router = express.Router();
 
 //MIDDLEWARE
-router.route("/accounts/:id").get(product, getAllAccounts).post(createAccount); //Here id is user id
+router
+  .route("/accounts")
+  .get(product, getAllAccounts)
+  .post(product, createAccount); //Here id is user id
 router.route("/accounts/:id").patch(updateAccount).delete(deleteAccount); //Here id is account id
 
 // router.param("id", checkId);
@@ -60,33 +63,33 @@ router.patch("/updateMyPassword", product, updatePassword);
 router.patch("/updateMe", product, updateMe);
 router.delete("/deleteMe", product, deleteMe);
 
-router.route("/:id").get(getUser).delete(deleteUser);
-
-
+// router.route("/:id").get(getUser).delete(deleteUser);
 
 //CATEGORY ROUTES
 router
+  .route("/categories")
+  .get(product, getAllCategories)
+  .post(product, createCategory);
+router
   .route("/categories/:id")
-  .get(product,getAllCategories)
-  .post(product,createCategory)
-  .patch(product,updateCategory)
-  .delete(product,deleteCategory);
+  .patch(product, updateCategory)
+  .delete(product, deleteCategory);
 
 //BUDGET ROUTES
 router
   .route("/budgets/:id")
-  .get(product,getBudgets)
-  .post(product,setBudget)
-  .patch(product,updateBudget)
-  .delete(product,deleteBudget);
+  .get(product, getBudgets)
+  .post(product, setBudget)
+  .patch(product, updateBudget)
+  .delete(product, deleteBudget);
 
 //TRANSACTIONS ROUTES
 router
   .route("/transactions")
-  .get(product,getAllTransactions)
-  .post(product,createTransaction)
-  .patch(product,updateTransaction)
-  .delete(product,deleteTransaction);
+  .get(product, getAllTransactions)
+  .post(product, createTransaction)
+  .patch(product, updateTransaction)
+  .delete(product, deleteTransaction);
 
 router.get("/data/:id", getAccountsAndCategories);
 router.patch("/budgets/some/:id", homeUpdate);

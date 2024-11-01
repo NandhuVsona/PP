@@ -275,7 +275,7 @@ document.addEventListener("click", (e) => {
 //-------------READ BUDGETS -----------------------
 async function loadDataBudgets(userId) {
   let req = await fetch(
-    `https://penny-partner-api.onrender.com/api/v1/users/budgets/${userId}`
+    `http://localhost:4000/api/v1/users/budgets`
   );
   let res = await req.json();
 
@@ -310,7 +310,7 @@ async function createBudgetDb(userId, data) {
   });
   data.month = formattedMonth;
   let req = await fetch(
-    `https://penny-partner-api.onrender.com/api/v1/users/budgets/${userId}`,
+    `http://localhost:4000/api/v1/users/budgets`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -328,7 +328,7 @@ async function createBudgetDb(userId, data) {
 //--------------------REMOVE BUDGETS---------------------
 async function removeBudgetDb(budgetId, callBack) {
   let req = await fetch(
-    `https://penny-partner-api.onrender.com/api/v1/users/budgets/${budgetId}`,
+    `http://localhost:4000/api/v1/users/budgets/${budgetId}`,
     {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -340,7 +340,7 @@ async function removeBudgetDb(budgetId, callBack) {
 //--------------------UPDATE BUDGETS---------------------
 async function updateBudgetDb(budgetId, data) {
   let req = await fetch(
-    `https://penny-partner-api.onrender.com/api/v1/users/budgets/${budgetId}`,
+    `http://localhost:4000/api/v1/users/budgets/${budgetId}`,
     {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -353,7 +353,7 @@ async function updateBudgetDb(budgetId, data) {
 
 async function loadBudgeted() {
   let req = await fetch(
-    `https://penny-partner-api.onrender.com/api/v1/users/budgets/66efd1552e03ec45ce74d5fd`
+    `http://localhost:4000/api/v1/users/budgets`
   );
   let res = await req.json();
   if (res.status == "success") {

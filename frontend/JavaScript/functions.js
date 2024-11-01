@@ -216,7 +216,7 @@ function openEditPanael(account, amount) {
 // 1) SAVE FUNCTIONALITY
 async function saveAccountDb(data, userId) {
   let req = await fetch(
-    `https://penny-partner-api.onrender.com/api/v1/users/accounts/${userId}`,
+    `http://localhost:4000/api/v1/users/accounts`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -237,7 +237,7 @@ async function saveAccountDb(data, userId) {
 
 async function updateAccountDb(data, accountId) {
   let req = await fetch(
-    `https://penny-partner-api.onrender.com/api/v1/users/accounts/${accountId}`,
+    `http://localhost:4000/api/v1/users/accounts/${accountId}`,
     {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -252,7 +252,7 @@ async function updateAccountDb(data, accountId) {
 
 async function deleteAccountDb(accountId) {
   let req = await fetch(
-    `https://penny-partner-api.onrender.com/api/v1/users/accounts/${accountId}`,
+    `http://localhost:4000/api/v1/users/accounts/${accountId}`,
     {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
