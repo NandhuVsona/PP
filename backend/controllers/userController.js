@@ -24,11 +24,12 @@ exports.getall = catchAsync(async (req, res, next) => {
 });
 
 exports.updateMe = catchAsync(async (req, res, next) => {
-  const filteredBody = filterObj(req.body, "name", "currency");
-  const user = await User.findByIdAndUpdate(req.user.id, filteredBody, {
+  const filteredBody = filterObj(req.body, "username", "profile", "currency");
+  const user = await User.findByIdAndUpdate(req.user._id, filteredBody, {
     new: true,
     runValidators: true,
   });
+
   res.status(200).json({
     status: "success",
     user,
@@ -43,11 +44,10 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getUser = async (req, res) => {
-  // let userId = req.params.id;
-  // let user = await User.findById(userId);
+exports.getUser = catchAsync(async (req, res) => {
+  let user = await User.findById(req.user._id);
   res.status(200).json({
     status: "success",
-    // data: user,
+    data: user,
   });
-};
+});

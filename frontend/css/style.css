@@ -993,3 +993,6 @@ z-index: 10 !important;
   background-color: #ffffff;
 }
 
+.currency-symbol{
+  margin: 5px;
+}

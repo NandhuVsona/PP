@@ -63,7 +63,7 @@ router.patch("/updateMyPassword", product, updatePassword);
 router.patch("/updateMe", product, updateMe);
 router.delete("/deleteMe", product, deleteMe);
 
-// router.route("/:id").get(getUser).delete(deleteUser);
+router.route("/").get(product, getUser);
 
 //CATEGORY ROUTES
 router
@@ -91,6 +91,6 @@ router
   .patch(product, updateTransaction)
   .delete(product, deleteTransaction);
 
-router.get("/data/:id", getAccountsAndCategories);
+router.get("/data", product, getAccountsAndCategories);
 router.patch("/budgets/some/:id", homeUpdate);
 module.exports = router;

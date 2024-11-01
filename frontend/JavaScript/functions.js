@@ -104,7 +104,7 @@ export function saveAccount() {
                   <img class='icon' src="${icon}" alt="" />
                   <div class="card-info">
                     <p class="bold">${accountName}</p>
-                    <p>Balance: <span class="green bold">₹${
+                    <p>Balance: <span class="green bold"><span class="currency-symbol"></span> ${
                       balance == 0 ? "0" : balance.toLocaleString("en-IN")
                     }</span></p>
                   </div>
@@ -157,7 +157,7 @@ export function updateAccount() {
     updatedAccountName;
 
   selectedCard.children[0].children[1].children[1].children[0].innerHTML =
-    formatedAmount == 0 ? "₹0" : "₹" + formatedAmount.toLocaleString("en-IN");
+    formatedAmount == 0 ? "<span class='currency-symbol'></span> 0" : "<span class='currency-symbol'></span> " + formatedAmount.toLocaleString("en-IN");
 
   const accountId =
     selectedCard.lastElementChild.lastElementChild.dataset.accountId;
@@ -215,14 +215,11 @@ function openEditPanael(account, amount) {
 
 // 1) SAVE FUNCTIONALITY
 async function saveAccountDb(data, userId) {
-  let req = await fetch(
-    `http://localhost:4000/api/v1/users/accounts`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    }
-  );
+  let req = await fetch(`http://localhost:4000/api/v1/users/accounts`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
   let res = await req.json();
   console.log(res);
   if (res.status === "success") {
@@ -271,28 +268,25 @@ editNameBtn.addEventListener("click", () => {
   inputBox.focus();
 });
 
-let cancelBtn = document.querySelector(".aBtns .cancel-btn");
-cancelBtn.addEventListener("click", () => {
-  document.querySelector(".edit-box").classList.remove("active");
-});
-
 // Currency functionality
 let currencyOptions = document.querySelector(".currency-options");
-let currencyBox = document.querySelector(".currency-container")
-let closeCurrencyBox = document.querySelector(".close-currency")
-let currencyBtn = document.querySelector(".currency-open")
+let currencyBox = document.querySelector(".currency-container");
+let closeCurrencyBox = document.querySelector(".close-currency");
+let currencyBtn = document.querySelector(".currency-open");
 countriesCurrencyData.forEach((item) => {
-  let template = `<li data-currency-Id="${item.id}">
+  let template = `<li data-currency-Id="${item.symbol}">
                   <input name="currency" type="radio">
                   <p>${item.country} ${item.currency} - <span>${item.currencyCode}</span></p>
                 </li>`;
   currencyOptions.innerHTML += template;
 });
 
-currencyBtn.addEventListener("click",()=>{
-currencyBox.classList.add("active")
-})
+currencyBtn.addEventListener("click", () => {
+  currencyBox.classList.add("active");
+});
 
-closeCurrencyBox.addEventListener("click",()=>{
-  currencyBox.classList.remove("active")
-})
+closeCurrencyBox.addEventListener("click", () => {
+  currencyBox.classList.remove("active");
+});
+
+//

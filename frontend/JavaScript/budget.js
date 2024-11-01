@@ -215,12 +215,10 @@ setBudgetLimitBtn.addEventListener("click", () => {
 
   try {
     if (Number(budget) > 0) {
-      let userId = "66efd1552e03ec45ce74d5fd";
-
       let spend = chechHistory(id);
       let remaining = budget - spend;
 
-      let data = { categoryId: id, budget, spend, userId };
+      let data = { categoryId: id, budget, spend };
 
       createBudgetDb(userId, data);
       setBudgetTemplate(id, name, image, budget, remaining, spend);
@@ -274,16 +272,14 @@ document.addEventListener("click", (e) => {
 
 //-------------READ BUDGETS -----------------------
 async function loadDataBudgets(userId) {
-  let req = await fetch(
-    `http://localhost:4000/api/v1/users/budgets`
-  );
+  let req = await fetch(`http://localhost:4000/api/v1/users/budgets`);
   let res = await req.json();
 
   if (res.status == "success") {
     let { data } = res;
 
     ulParent.innerHTML = " ";
-    document.querySelector(".budget-list").innerHTML = ''
+    document.querySelector(".budget-list").innerHTML = "";
 
     let unBudgeted = data[0].unBudgeted;
     let budgeted = data[0].budgeted;
@@ -309,14 +305,11 @@ async function createBudgetDb(userId, data) {
     year: "numeric",
   });
   data.month = formattedMonth;
-  let req = await fetch(
-    `http://localhost:4000/api/v1/users/budgets`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    }
-  );
+  let req = await fetch(`http://localhost:4000/api/v1/users/budgets`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
   let res = await req.json();
 
   document.querySelector(
@@ -352,9 +345,7 @@ async function updateBudgetDb(budgetId, data) {
 }
 
 async function loadBudgeted() {
-  let req = await fetch(
-    `http://localhost:4000/api/v1/users/budgets`
-  );
+  let req = await fetch(`http://localhost:4000/api/v1/users/budgets`);
   let res = await req.json();
   if (res.status == "success") {
     let { data } = res;

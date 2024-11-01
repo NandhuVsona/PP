@@ -63,8 +63,8 @@ exports.deleteCategory = catchAsync(async (req, res, next) => {
 
 //for income expense and account
 exports.getAccountsAndCategories = catchAsync(async (req, res, next) => {
-  let categories = await Categories.find({ userId: req.params.id });
-  let accounts = await Accounts.find({ userId: req.params.id });
+  let categories = await Categories.find({ userId: req.user._id });
+  let accounts = await Accounts.find({ userId: req.user._id });
 
   if (!categories) {
     return next(new AppError("Categories not found", 404));

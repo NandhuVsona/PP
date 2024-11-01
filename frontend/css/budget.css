@@ -90,7 +90,6 @@ main section.budgets {
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%);
 }
 .bar-status.limited {
-  
   background: linear-gradient(to left, #02c20f, rgb(0, 134, 60));
 }
 
@@ -100,7 +99,7 @@ main section.budgets {
   height: 10px;
 }
 .bar-status.limit-exceed {
-max-width: 100% !important;
+  max-width: 100% !important;
   background: linear-gradient(to left, #ff8000, red);
 }
 
@@ -145,7 +144,7 @@ max-width: 100% !important;
 .budgeted-categories {
   padding: 10px;
 }
-.budgeted-categories h3{
+.budgeted-categories h3 {
   margin: 10px 5px 20px 5px;
 }
 
@@ -348,24 +347,6 @@ max-width: 100% !important;
   gap: 30px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* STYLING  FOR PROFLE CONTAINER */
 .profile-container {
   width: 100%;
@@ -382,7 +363,6 @@ max-width: 100% !important;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  
 }
 .current-profile-conteiner .imgs {
   width: 80px;
@@ -416,12 +396,23 @@ max-width: 100% !important;
 .profile-options .profile-list li img {
   width: 100%;
 }
-.current-profile-conteiner .imgs img{ 
+.current-profile-conteiner .imgs img {
   width: 100%;
 }
-.current-profile-conteiner .imgs{
+.current-profile-conteiner .imgs {
   overflow: hidden;
 }
-.username-display{
+.username-display {
   height: 2em;
+}
+.aBtns button {
+  transition: all 0.3s ease;
+}
+.aBtns button:hover {
+  color: #ffffff;
+  background: linear-gradient(
+    to bottom left,
+    rgb(0, 255, 213),
+    rgb(230, 0, 255)
+  );
 }

@@ -41,6 +41,10 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
+  profile:{
+    type:String,
+    default: () => `profile-${Math.floor(Math.random()*10)}.png`
+  }
 });
 
 userSchema.pre("save", async function (next) {

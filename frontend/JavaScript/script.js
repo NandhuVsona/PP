@@ -25,7 +25,7 @@ function renderAccounts(data) {
                     <img class="icon" src="${item.icon}" alt="" />
                     <div class="card-info">
                       <p class="bold">${item.accountName}</p>
-                      <p>Balance: <span class="green bold">₹${item.balance.toLocaleString()}</span></p>
+                      <p>Balance: <span class="green bold"><span class="currency-symbol"></span> ${item.balance.toLocaleString()}</span></p>
                     </div>
                   </div>
                   <div class="operations">
