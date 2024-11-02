@@ -1,5 +1,6 @@
-import { countriesCurrencyData } from "../data/currency.js";
 import { closeEditBox, closeAccountBox } from "./script.js";
+let  userCurrency = JSON.parse(localStorage.getItem("currency"))
+
 
 const globalId = "66efd1552e03ec45ce74d5fd";
 let accountsList = document.querySelectorAll(".account-list li");
@@ -57,9 +58,8 @@ export function reloadFunctionality() {
           .children[0].textContent;
 
       const amount =
-        btn.parentElement.parentElement.parentElement.children[0].children[1].children[1].children[0].textContent.slice(
-          1
-        );
+        btn.parentElement.parentElement.parentElement.children[0].children[1].children[1].children[0].textContent.trim().split(" ")[1]
+        console.log(amount)
       options[index].classList.remove("active");
       selectedCard = btn.parentElement.parentElement.parentElement;
 
@@ -104,7 +104,7 @@ export function saveAccount() {
                   <img class='icon' src="${icon}" alt="" />
                   <div class="card-info">
                     <p class="bold">${accountName}</p>
-                    <p>Balance: <span class="green bold"><span class="currency-symbol"></span> ${
+                    <p>Balance: <span class="green bold"><span class="currency-symbol">${JSON.parse(localStorage.getItem("currency"))}</span> ${
                       balance == 0 ? "0" : balance.toLocaleString("en-IN")
                     }</span></p>
                   </div>
@@ -135,6 +135,7 @@ export function saveAccount() {
 //update functionality---------------------------------------------
 
 export function updateAccount() {
+  let currency = JSON.parse(localStorage.getItem("currency"))
   accountPage.classList.remove("blur");
   closeEditBox();
   let updatedAmount = document.getElementById("edit-amount").value.trim();
@@ -157,7 +158,7 @@ export function updateAccount() {
     updatedAccountName;
 
   selectedCard.children[0].children[1].children[1].children[0].innerHTML =
-    formatedAmount == 0 ? "<span class='currency-symbol'></span> 0" : "<span class='currency-symbol'></span> " + formatedAmount.toLocaleString("en-IN");
+    formatedAmount == 0 ? `<span class='currency-symbol'>${currency}</span> 0` : `<span class='currency-symbol'>${currency}</span> ` + formatedAmount.toLocaleString("en-IN");
 
   const accountId =
     selectedCard.lastElementChild.lastElementChild.dataset.accountId;
@@ -173,6 +174,7 @@ export function updateAccount() {
 //edit account functainolity
 editBtns.forEach((btn, index) => {
   btn.addEventListener("click", () => {
+    console.log("hello")
     const accountName =
       btn.parentElement.parentElement.parentElement.children[0].children[1]
         .children[0].textContent;
@@ -181,6 +183,7 @@ editBtns.forEach((btn, index) => {
       btn.parentElement.parentElement.parentElement.children[0].children[1].children[1].children[0].textContent.slice(
         1
       );
+      console.log(amount)
     options[index].classList.remove("active");
     selectedCard = btn.parentElement.parentElement.parentElement;
 
@@ -258,35 +261,6 @@ async function deleteAccountDb(accountId) {
   console.log("Successfully Deleted");
 }
 
-//Account page functionality
-let editNameBtn = document.querySelector(".edit-username");
-editNameBtn.addEventListener("click", () => {
-  document.querySelector(".edit-box").classList.add("active");
-  let inputBox = document.getElementById("username");
 
-  inputBox.setSelectionRange(inputBox.value.length, inputBox.value.length);
-  inputBox.focus();
-});
-
-// Currency functionality
-let currencyOptions = document.querySelector(".currency-options");
-let currencyBox = document.querySelector(".currency-container");
-let closeCurrencyBox = document.querySelector(".close-currency");
-let currencyBtn = document.querySelector(".currency-open");
-countriesCurrencyData.forEach((item) => {
-  let template = `<li data-currency-Id="${item.symbol}">
-                  <input name="currency" type="radio">
-                  <p>${item.country} ${item.currency} - <span>${item.currencyCode}</span></p>
-                </li>`;
-  currencyOptions.innerHTML += template;
-});
-
-currencyBtn.addEventListener("click", () => {
-  currencyBox.classList.add("active");
-});
-
-closeCurrencyBox.addEventListener("click", () => {
-  currencyBox.classList.remove("active");
-});
 
 //

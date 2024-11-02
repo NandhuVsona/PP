@@ -1,6 +1,7 @@
 import { expenseCategories } from "../data/categories.js";
 let parent = document.querySelector(".budget-list");
 let budgetedCategories = [];
+let  userCurrency = JSON.parse(localStorage.getItem("currency"))
 let clickedBudget = ""; //this for knowing user which category is clicked
 
 let updatedArray = expenseCategories;
@@ -173,11 +174,11 @@ function setBudgetTemplate(id, name, image, budget, remaining, spend) {
                             <p class="change-font-style">${name}</p>
                             <div class="spent-box">
                               <p>Spent:</p>
-                              <p class="amount-spent red">₹${spend}</p>
+                              <p class="amount-spent red"><span class="currency-symbol">${userCurrency}</span> ${spend}</p>
                             </div>
                             <div class="remaining-box">
                               <p>Remaining:</p>
-                              <p class="amount-remaining green">₹${remaining}</p>
+                              <p class="amount-remaining green"><span class="currency-symbol">${userCurrency}</span> ${remaining}</p>
                             </div>
                           </div>
                         </div>
@@ -192,7 +193,7 @@ function setBudgetTemplate(id, name, image, budget, remaining, spend) {
                       </div>
                       <div class="bar-container">
                         <div class="label-content">
-                          <div class="label">₹${budget}</div>
+                          <div class="label"><span class="currency-symbol">${userCurrency}</span> ${budget}</div>
                         </div>
                         <div class="bar-status ${
                           spend > budget ? "limit-exceed" : "limited"

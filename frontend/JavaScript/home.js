@@ -1,4 +1,7 @@
 // import { updateBudgetDb } from "./budget.js";
+let  userCurrency = JSON.parse(localStorage.getItem("currency"))
+console.log(userCurrency)
+
 
 function goFullscreen() {
   if (document.documentElement.requestFullscreen) {
@@ -53,10 +56,10 @@ function loadUserAccounts(data) {
     let existingAccounts = document.querySelector(".parent-box");
     let template = `<li data-account-id="${item._id}" class="bunch-account">
                   <div class="left-part">
-                    <img src="${item.icon}" alt="">
+                    <img src="${item.icon}" alt="${item.accountName}">
                     <p class="semi-bold">${item.accountName}</p>
                   </div>
-                  <p class="semi-bold green"><span class="currency-symbol"></span> ${item.balance}</p>
+                  <p class="semi-bold green"><span class="currency-symbol">${JSON.parse(localStorage.getItem("currency"))}</span> ${item.balance}</p>
                 </li>`;
     existingAccounts.innerHTML += template;
     accountEventListener();
@@ -158,7 +161,7 @@ function childTemplate(transactions) {
                       </div>
                      
                       <div class="transaction-amount">
-                        <p class="amount ${item.type}"><span class="currency-symbol"></span> ${item.amount}</p>
+                        <p class="amount ${item.type}"><span class="currency-symbol">${userCurrency}</span> ${item.amount}</p>
                       </div>
                        <small style="display: none;" >${item.description}</small>
                     </li>`;
@@ -185,7 +188,7 @@ function childTemplate(transactions) {
                       </div>
                     
                       <div class="transaction-amount">
-                        <p class="amount ${item.category[0].type}"><span class="currency-symbol"></span> ${item.amount}</p>
+                        <p class="amount ${item.category[0].type}"><span class="currency-symbol">${userCurrency}</span> ${item.amount}</p>
                       </div>
                       <small style="display: none;" >${item.description}</small>
                     </li>`;
@@ -218,7 +221,7 @@ function analysis(src, name, amount, percentage) {
                   <div class="text-amount-bar">
                     <div class="category-name-analysis">
                       <p class="little-bold">${name}</p>
-                      <div class="money-value"><span class="currency-symbol"></span> ${amount}</div>
+                      <div class="money-value"><span class="currency-symbol">${userCurrency}</span> ${amount}</div>
                     </div>
                     <div class="analysis-bar-container">
                       <div class="analysis-bar" style="width:${percentage}%;"></div>
@@ -959,7 +962,7 @@ function changeCategory(num) {
                       <img src="${cat.icon}" alt="">
                       <p class="semi-bold">${cat.accountName}</p>
                     </div>
-                    <p class="semi-bold green"><span class="currency-symbol"></span> ${cat.balance}</p>
+                    <p class="semi-bold green"><span class="currency-symbol">${userCurrency}</span> ${cat.balance}</p>
                   </li>`;
 
       categoryOptions.innerHTML += template;
@@ -999,7 +1002,7 @@ function temporaryDisplay(data) {
                   </div>
                 
                   <div class="transaction-amount">
-                    <p class="amount ${data.type}"><span class="currency-symbol"></span> ${data.amount}</p>
+                    <p class="amount ${data.type}"><span class="currency-symbol">${userCurrency}</span> ${data.amount}</p>
                   </div>
                   <small style="display: none;" >${data.description}</small>
                 `;
@@ -1036,7 +1039,7 @@ function temporaryDisplay(data) {
   </div>
  
   <div class="transaction-amount">
-    <p class="amount ${data.type}"><span class="currency-symbol"></span> ${data.amount}</p>
+    <p class="amount ${data.type}"><span class="currency-symbol">${userCurrency}</span> ${data.amount}</p>
   </div>
    <small style="display: none;" >${data.description}</small>
 </li>`;
@@ -1223,7 +1226,7 @@ function dynamicChange(data) {
   </div>
  
   <div class="transaction-amount">
-    <p class="amount ${data.type}"><span class="currency-symbol"></span> ${data.amount}</p>
+    <p class="amount ${data.type}"><span class="currency-symbol">${userCurrency}</span> ${data.amount}</p>
   </div>
    <small style="display: none;" >${data.description}</small>`;
     // element.children[0].children[1].children[1].children[3].setAttribute(
@@ -1254,7 +1257,7 @@ function dynamicChange(data) {
                   </div>
                 
                   <div class="transaction-amount">
-                    <p class="amount ${data.type}"><span class="currency-symbol"></span> ${data.amount}</p>
+                    <p class="amount ${data.type}"><span class="currency-symbol">${userCurrency}</span> ${data.amount}</p>
                   </div>
                   <small style="display: none;" >${data.description}</small>`;
   }
@@ -1326,7 +1329,7 @@ async function updateBudgetDb(catId, data) {
 //   </div>
 
 //   <div class="transaction-amount">
-//     <p class="amount ${data.type}"><span class="currency-symbol"></span> ${data.amount}</p>
+//     <p class="amount ${data.type}"><span class="currency-symbol">${userCurrency}</span> ${data.amount}</p>
 //   </div>
 //    <small style="display: none;" >${data.description}</small>
 // </li>`;

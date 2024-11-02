@@ -23,9 +23,42 @@ async function profileSetup() {
       .querySelector(".user-profile")
       .setAttribute("src", "images/profiles/" + data.profile);
     changeCurrency(data.currency);
+    localStorage.setItem("currency", JSON.stringify(data.currency));
   }
 }
 profileSetup();
+
+//Account page functionality
+let editNameBtn = document.querySelector(".edit-username");
+editNameBtn.addEventListener("click", () => {
+  document.querySelector(".edit-box").classList.add("active");
+  let inputBox = document.getElementById("username");
+
+  inputBox.setSelectionRange(inputBox.value.length, inputBox.value.length);
+  inputBox.focus();
+});
+
+// Currency functionality
+import { countriesCurrencyData } from "../data/currency.js";
+let currencyOptions = document.querySelector(".currency-options");
+let currencyBox = document.querySelector(".currency-container");
+let closeCurrencyBox = document.querySelector(".close-currency");
+let currencyBtn = document.querySelector(".currency-open");
+countriesCurrencyData.forEach((item) => {
+  let template = `<li data-currency-Id="${item.symbol}">
+                  <input name="currency" type="radio">
+                  <p>${item.country} ${item.currency} - <span>${item.currencyCode}</span></p>
+                </li>`;
+  currencyOptions.innerHTML += template;
+});
+
+currencyBtn.addEventListener("click", () => {
+  currencyBox.classList.add("active");
+});
+
+closeCurrencyBox.addEventListener("click", () => {
+  currencyBox.classList.remove("active");
+});
 
 function filterObj(obj) {
   let allowedFields = ["username", "profile", "currency"];
@@ -110,13 +143,17 @@ setTimeout(() => {
 }, 1000);
 
 function changeCurrency($) {
-  document
-    .querySelectorAll(".currency-symbol")
-    .forEach((itme) => (itme.textContent = $));
+  let $preference = document
+    .getElementsByClassName("currency-symbol")
+  for(let i =0; i<$preference.length; i++){
+    $preference[i].textContent = $
+  }
 }
 
 closeCurrency.addEventListener("click", () => {
+  
   if (selectedCurrency) {
+    localStorage.setItem("currency",JSON.stringify(selectedCurrency))
     updateMe({ currency: selectedCurrency });
   }
 });
