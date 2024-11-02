@@ -848,7 +848,7 @@
       async function signup(data) {
         console.log("called");
         try {
-          let req = await fetch("http://localhost:4000/verifyMe", {
+          let req = await fetch("https://pp-qln0.onrender.com/verifyMe", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
@@ -905,7 +905,7 @@
 
       async function VerifyOTP(data) {
         try {
-          let req = await fetch("http://localhost:4000/api/v1/users/signup", {
+          let req = await fetch("https://pp-qln0.onrender.com/api/v1/users/signup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
