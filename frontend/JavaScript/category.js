@@ -1,4 +1,3 @@
-const globalId = "66efd1552e03ec45ce74d5fd";
 
 //Skeleton load effect
 let incomeElement = document.querySelector(".income-list-skeketon");
@@ -248,7 +247,7 @@ document.addEventListener("click", (e) => {
 
 async function loadData() {
   let req = await fetch(
-    `http://localhost:4000/api/v1/users/categories`
+    `https://pp-qln0.onrender.com/api/v1/users/categories`
   );
   let res = await req.json();
 
@@ -288,7 +287,7 @@ function showCategory() {
 // -----------------CREATE CATEGORY TO DB ----------------------------
 async function saveCategoryDb(data, userId) {
   let req = await fetch(
-    `http://localhost:4000/api/v1/users/categories/${userId}`,
+    `https://pp-qln0.onrender.com/api/v1/users/categories/${userId}`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -302,7 +301,7 @@ async function saveCategoryDb(data, userId) {
 // -----------------UPDATE CATEGORY TO DB ----------------------------
 async function updateCategoryDb(data, categoryId) {
   let req = await fetch(
-    `http://localhost:4000/api/v1/users/categories/${categoryId}`,
+    `https://pp-qln0.onrender.com/api/v1/users/categories/${categoryId}`,
     {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -314,7 +313,7 @@ async function updateCategoryDb(data, categoryId) {
 // -----------------DELETE CATEGORY TO DB ----------------------------
 async function deleteCategoryDb(userId, categoryId) {
   let req = await fetch(
-    `http://localhost:4000/api/v1/users/categories/${categoryId}?userId=${userId}`,
+    `https://pp-qln0.onrender.com/api/v1/users/categories/${categoryId}?userId=${userId}`,
     {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },

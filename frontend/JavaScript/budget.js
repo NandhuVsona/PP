@@ -1,7 +1,7 @@
 import { expenseCategories } from "../data/categories.js";
 let parent = document.querySelector(".budget-list");
 let budgetedCategories = [];
-let  userCurrency = JSON.parse(localStorage.getItem("currency"))
+let userCurrency = JSON.parse(localStorage.getItem("currency"));
 let clickedBudget = ""; //this for knowing user which category is clicked
 
 let updatedArray = expenseCategories;
@@ -116,10 +116,11 @@ function openEditBox(btn) {
   let text = parent.children[0].children[1].children[0].textContent;
   let budget =
     parent.parentElement.children[1].children[0].children[0].textContent;
+    console.log(budget)
 
   let itemName = document.querySelector(".edit-category-name");
   let itemImage = document.querySelector(".edit-budget-icon");
-  updatedLimitinput.value = budget.slice(1);
+  updatedLimitinput.value = Number(budget.split(" ")[1]);
 
   itemName.innerHTML = text;
   itemImage.setAttribute("src", image);
@@ -129,10 +130,11 @@ function openEditBox(btn) {
   updateLimitBtn.addEventListener("click", () => {
     closeEditBox();
     let updatedLimit = document.getElementById("budget-updated-value").value;
+    console.log(updatedLimit)
     try {
       if (!isNaN(Number(updatedLimit))) {
         parent.parentElement.children[1].children[0].children[0].innerHTML =
-          updatedLimit;
+          updatedLimit.trim();
         updateBudgetDb(id, { budget: updatedLimit });
       }
     } catch (err) {
@@ -221,7 +223,7 @@ setBudgetLimitBtn.addEventListener("click", () => {
 
       let data = { categoryId: id, budget, spend };
 
-      createBudgetDb(userId, data);
+      createBudgetDb(data);
       setBudgetTemplate(id, name, image, budget, remaining, spend);
       reload();
       clickedBudget.remove();
@@ -272,10 +274,10 @@ document.addEventListener("click", (e) => {
 });
 
 //-------------READ BUDGETS -----------------------
-async function loadDataBudgets(userId) {
-  let req = await fetch(`http://localhost:4000/api/v1/users/budgets`);
+async function loadDataBudgets(month) {
+  let req = await fetch(`https://pp-qln0.onrender.com/api/v1/users/budgets?month=${month}`);
   let res = await req.json();
-
+console.log(res)
   if (res.status == "success") {
     let { data } = res;
 
@@ -299,30 +301,35 @@ async function loadDataBudgets(userId) {
 }
 
 //--------------------CREATE BUDGETS---------------------
-async function createBudgetDb(userId, data) {
+async function createBudgetDb(data) {
   const date = new Date();
   const formattedMonth = date.toLocaleString("en-US", {
     month: "long",
     year: "numeric",
   });
   data.month = formattedMonth;
-  let req = await fetch(`http://localhost:4000/api/v1/users/budgets`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  let res = await req.json();
+  try {
+    let req = await fetch(`https://pp-qln0.onrender.com/api/v1/users/budgets`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    let res = await req.json();
+    console.log(res);
 
-  document.querySelector(
-    ".set-budgeted-list"
-  ).lastElementChild.children[0].lastElementChild.lastElementChild.dataset.categoryId =
-    res.data._id;
+    document.querySelector(
+      ".set-budgeted-list"
+    ).lastElementChild.children[0].lastElementChild.lastElementChild.dataset.categoryId =
+      res.data._id;
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 //--------------------REMOVE BUDGETS---------------------
 async function removeBudgetDb(budgetId, callBack) {
   let req = await fetch(
-    `http://localhost:4000/api/v1/users/budgets/${budgetId}`,
+    `https://pp-qln0.onrender.com/api/v1/users/budgets/${budgetId}`,
     {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -334,7 +341,7 @@ async function removeBudgetDb(budgetId, callBack) {
 //--------------------UPDATE BUDGETS---------------------
 async function updateBudgetDb(budgetId, data) {
   let req = await fetch(
-    `http://localhost:4000/api/v1/users/budgets/${budgetId}`,
+    `https://pp-qln0.onrender.com/api/v1/users/budgets/${budgetId}`,
     {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -346,7 +353,7 @@ async function updateBudgetDb(budgetId, data) {
 }
 
 async function loadBudgeted() {
-  let req = await fetch(`http://localhost:4000/api/v1/users/budgets`);
+  let req = await fetch(`https://pp-qln0.onrender.com/api/v1/users/budgets`);
   let res = await req.json();
   if (res.status == "success") {
     let { data } = res;
@@ -405,5 +412,5 @@ function chechHistory(id) {
 }
 
 document.querySelector(".skeleton-budget").addEventListener("click", () => {
-  loadDataBudgets("66efd1552e03ec45ce74d5fd");
+  loadDataBudgets("November%202024");
 });

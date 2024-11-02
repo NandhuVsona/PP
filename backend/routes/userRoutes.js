@@ -77,9 +77,10 @@ router
 
 //BUDGET ROUTES
 router
-  .route("/budgets/:id")
+  .route("/budgets")
   .get(product, getBudgets)
   .post(product, setBudget)
+router.route("/budgets/:id")
   .patch(product, updateBudget)
   .delete(product, deleteBudget);
 
@@ -88,6 +89,8 @@ router
   .route("/transactions")
   .get(product, getAllTransactions)
   .post(product, createTransaction)
+  router
+  .route("/transactions/:id")
   .patch(product, updateTransaction)
   .delete(product, deleteTransaction);
 

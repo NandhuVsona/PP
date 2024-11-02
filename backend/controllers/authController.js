@@ -146,7 +146,7 @@ exports.product = catchAsync(async (req, res, next) => {
   //GRAND ACCESS TO THE PRODUCTED ROUTE
   req.user = freshUser;
  
-  console.log(req.user);
+  // console.log(req.user);
   next();
 });
 
@@ -286,7 +286,7 @@ exports.tempUser = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
       status: "success",
-      message: "OTP has been successfully sent",
+      message: "OTP sent to your email",
     });
 
     let isExit = await TempUsers.findOne({ email });

@@ -176,7 +176,7 @@ postBtn.addEventListener("click", async () => {
 
   dynamictemplate(reviewObj);
 
-  let req = await fetch("http://localhost:4000/api/v1/reviews", {
+  let req = await fetch("https://pp-qln0.onrender.com/api/v1/reviews", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(reviewObj),

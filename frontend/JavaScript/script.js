@@ -1,17 +1,16 @@
 //--------------DARK MODE FUNCTIONALITY-----------------
 let isDark = JSON.parse(localStorage.getItem("Theme"));
-let sunMoon = document.querySelector(".theme .left-part img")
+let sunMoon = document.querySelector(".theme .left-part img");
 
 if (isDark) {
   document.querySelector(".app").classList.add("dark");
-  document.querySelector(".sun-theme").setAttribute("src","moon.png")
-  sunMoon.setAttribute("src","icons/moon.svg")
-}
-else{
-  document.querySelector(".sun-theme").setAttribute("src","sun.png")
+  document.querySelector(".sun-theme").setAttribute("src", "moon.png");
+  sunMoon.setAttribute("src", "icons/moon.svg");
+} else {
+  document.querySelector(".sun-theme").setAttribute("src", "sun.png");
 }
 
-let  userCurrency = JSON.parse(localStorage.getItem("currency"))
+let userCurrency = JSON.parse(localStorage.getItem("currency"));
 import {
   reloadFunctionality,
   saveAccount,
@@ -26,7 +25,9 @@ function renderAccounts(data) {
                     <img class="icon" src="${item.icon}" alt="" />
                     <div class="card-info">
                       <p class="bold">${item.accountName}</p>
-                      <p>Balance: <span class="green bold"><span class="currency-symbol">${JSON.parse(localStorage.getItem("currency"))}</span> ${item.balance.toLocaleString()}</span></p>
+                      <p>Balance: <span class="green bold"><span class="currency-symbol">${JSON.parse(
+                        localStorage.getItem("currency")
+                      )}</span> ${item.balance.toLocaleString()}</span></p>
                     </div>
                   </div>
                   <div class="operations">
@@ -81,12 +82,12 @@ preference.addEventListener("click", () => {
   app.classList.toggle("dark");
   if (app.classList.contains("dark")) {
     localStorage.setItem("Theme", "true");
-    document.querySelector(".sun-theme").setAttribute("src","moon.png")
-    sunMoon.setAttribute("src","icons/moon.svg")
+    document.querySelector(".sun-theme").setAttribute("src", "moon.png");
+    sunMoon.setAttribute("src", "icons/moon.svg");
   } else {
     localStorage.setItem("Theme", "false");
-    document.querySelector(".sun-theme").setAttribute("src","sun.png")
-    sunMoon.setAttribute("src","icons/sun.svg")
+    document.querySelector(".sun-theme").setAttribute("src", "sun.png");
+    sunMoon.setAttribute("src", "icons/sun.svg");
   }
 });
 
@@ -234,9 +235,7 @@ document.addEventListener("touchend", (e) => {
 });
 
 async function loadAccountsData() {
-  const req = await fetch(
-    "http://localhost:4000/api/v1/users/accounts"
-  );
+  const req = await fetch("https://pp-qln0.onrender.com/api/v1/users/accounts");
   const res = await req.json();
   if (res.status === "success") {
     let { data } = res;
@@ -252,3 +251,33 @@ async function loadAccountsData() {
     reloadFunctionality();
   }
 }
+
+// let deferredPrompt;
+
+// window.addEventListener("beforeinstallprompt", (e) => {
+//   // Prevent the mini-infobar from appearing
+//   e.preventDefault();
+//   // Store the event for later use
+//   deferredPrompt = e;
+// });
+
+// let downloadApp = document.querySelector(".download-app");
+
+// downloadApp.addEventListener("click", async () => {
+//   console.log("Download button clicked");
+//   if (deferredPrompt) {
+//     // Show the install prompt
+//     deferredPrompt.prompt();
+//     // Wait for the user's response to the prompt
+//     const { outcome } = await deferredPrompt.userChoice;
+//     if (outcome === "accepted") {
+//       console.log("PWA installation accepted");
+//     } else {
+//       console.log("PWA installation dismissed");
+//     }
+//     // Clear the deferredPrompt variable
+//     deferredPrompt = null;
+//   } else {
+//     console.log("Install prompt is not ready yet.");
+//   }
+// });

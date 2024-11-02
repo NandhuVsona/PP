@@ -218,7 +218,7 @@ function openEditPanael(account, amount) {
 
 // 1) SAVE FUNCTIONALITY
 async function saveAccountDb(data, userId) {
-  let req = await fetch(`http://localhost:4000/api/v1/users/accounts`, {
+  let req = await fetch(`https://pp-qln0.onrender.com/api/v1/users/accounts`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -237,7 +237,7 @@ async function saveAccountDb(data, userId) {
 
 async function updateAccountDb(data, accountId) {
   let req = await fetch(
-    `http://localhost:4000/api/v1/users/accounts/${accountId}`,
+    `https://pp-qln0.onrender.com/api/v1/users/accounts/${accountId}`,
     {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -252,7 +252,7 @@ async function updateAccountDb(data, accountId) {
 
 async function deleteAccountDb(accountId) {
   let req = await fetch(
-    `http://localhost:4000/api/v1/users/accounts/${accountId}`,
+    `https://pp-qln0.onrender.com/api/v1/users/accounts/${accountId}`,
     {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -263,4 +263,77 @@ async function deleteAccountDb(accountId) {
 
 
 
-//
+// TRANSACTION TEMPLATES
+export function normalTemplate(data) {
+  let template = `
+                  <div class="transaction-info">
+                    <img
+                      src="${data.categoryIcon}"
+                      alt=""
+                      class="transaction-icon"
+                    />
+                    <div class="cat-account">
+                      <div class="category-name little-bold">${
+                        data.categoryName
+                      }</div>
+                      <div class="transaction-account-info">
+                        <img
+                          src="${data.accountIcon}"
+                          alt=""
+                          class="account-icon"
+                        />
+                        <small class="account-name">${data.accountName}</small>
+                      </div>
+                    </div>
+                  </div>
+                
+                  <div class="transaction-amount">
+                    <p class="amount ${
+                      data.type
+                    }"><span class="currency-symbol">${userCurrency}</span> ${data.amount.toLocaleString()}</p>
+                  </div>
+                  <small style="display: none;" >${data.description}</small>
+                `;
+  return template;
+}
+
+export function transferTemplate(data) {
+  let template = `
+  <div class="transaction-info">
+    <img
+      src="icons/Income-expense/transfer.jpg"
+      alt=""
+      class="transaction-icon"
+    />
+    <div class="cat-account">
+      <div class="category-name little-bold">Transfer</div>
+      <div class="transaction-account-info">
+        <img
+          src="${data.accountIcon}"
+          alt=""
+          class="account-icon"
+        />
+         <small class="account-name">${data.accountName}</small>
+          <img
+          src="icons/tarrow.svg"
+          alt=""
+         class="transfer-arrow"
+        />
+        <img
+          src="${data.categoryIcon}"
+          alt=""
+          class="account-icon"
+        />
+         <small class="account-name">${data.categoryName}</small>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="transaction-amount">
+    <p class="amount ${
+      data.type
+    }"><span class="currency-symbol">${userCurrency}</span> ${data.amount.toLocaleString()}</p>
+  </div>
+   <small style="display: none;" >${data.description}</small>`;
+  return template;
+}

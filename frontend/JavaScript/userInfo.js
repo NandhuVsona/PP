@@ -8,7 +8,7 @@ let closeCurrency = document.querySelector(".close-currency");
 let selectedCurrency;
 
 async function profileSetup() {
-  let req = await fetch("http://localhost:4000/api/v1/users");
+  let req = await fetch("https://pp-qln0.onrender.com/api/v1/users");
   let res = await req.json();
   if (res.status == "success") {
     let { data } = res;
@@ -34,8 +34,8 @@ editNameBtn.addEventListener("click", () => {
   document.querySelector(".edit-box").classList.add("active");
   let inputBox = document.getElementById("username");
 
-  inputBox.setSelectionRange(inputBox.value.length, inputBox.value.length);
-  inputBox.focus();
+  // inputBox.setSelectionRange(inputBox.value.length, inputBox.value.length);
+  // inputBox.focus();
 });
 
 // Currency functionality
@@ -72,7 +72,7 @@ function filterObj(obj) {
 }
 async function updateMe(obj) {
   let data = filterObj(obj);
-  let req = await fetch(`http://localhost:4000/api/v1/users/updateMe`, {
+  let req = await fetch(`https://pp-qln0.onrender.com/api/v1/users/updateMe`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),

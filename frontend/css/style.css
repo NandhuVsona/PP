@@ -479,7 +479,8 @@ main section.active {
   outline: none;
 }
 .input-body input:focus ~ label,
-.input-body input:valid ~ label {
+.input-body input:valid ~ label
+ {
   top: -27px;
   left: 0px;
 }

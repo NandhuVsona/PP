@@ -1,7 +1,9 @@
-// import { updateBudgetDb } from "./budget.js";
-let  userCurrency = JSON.parse(localStorage.getItem("currency"))
-console.log(userCurrency)
+import { normalTemplate, transferTemplate } from "./functions.js";
 
+// import { updateBudgetDb } from "./budget.js";
+
+let userCurrency = JSON.parse(localStorage.getItem("currency"));
+console.log(userCurrency);
 
 function goFullscreen() {
   if (document.documentElement.requestFullscreen) {
@@ -11,7 +13,8 @@ function goFullscreen() {
     document.documentElement.webkitRequestFullscreen();
   } else if (document.documentElement.msRequestFullscreen) {
     /* IE11 */
-    document.documentElement.msRequestFullscreen();
+    document.documentElement.msReq;
+    uestFullscreen();
   }
 }
 
@@ -33,9 +36,7 @@ let incomeCategories;
 let accounts;
 let transactionHistory;
 async function getAccountsAndCategories() {
-  let req = await fetch(
-    `http://localhost:4000/api/v1/users/data`
-  );
+  let req = await fetch(`https://pp-qln0.onrender.com/api/v1/users/data`);
   let res = await req.json();
 
   if (res.status === "success") {
@@ -59,7 +60,9 @@ function loadUserAccounts(data) {
                     <img src="${item.icon}" alt="${item.accountName}">
                     <p class="semi-bold">${item.accountName}</p>
                   </div>
-                  <p class="semi-bold green"><span class="currency-symbol">${JSON.parse(localStorage.getItem("currency"))}</span> ${item.balance}</p>
+                  <p class="semi-bold green"><span class="currency-symbol">${JSON.parse(
+                    localStorage.getItem("currency")
+                  )}</span> ${item.balance}</p>
                 </li>`;
     existingAccounts.innerHTML += template;
     accountEventListener();
@@ -129,7 +132,11 @@ function childTemplate(transactions) {
   let content = "";
   transactions.forEach((item) => {
     if (item.type == "transfer") {
-      let transferTemplate = `<li data-transaction-id="${item._id}" data-user-id="${item.userId}"  data-account-id="${item.account[0]._id}">
+      let transferTemplate = `<li data-transaction-id="${
+        item._id
+      }" data-user-id="${item.userId}"  data-account-id="${
+        item.account[0]._id
+      }">
                       <div class="transaction-info">
                         <img
                           src="icons/Income-expense/transfer.jpg"
@@ -144,7 +151,9 @@ function childTemplate(transactions) {
                               alt=""
                               class="account-icon"
                             />
-                             <small class="account-name">${item.account[0].accountName}</small>
+                             <small class="account-name">${
+                               item.account[0].accountName
+                             }</small>
                               <img
                               src="icons/tarrow.svg"
                               alt=""
@@ -155,19 +164,29 @@ function childTemplate(transactions) {
                               alt=""
                               class="account-icon"
                             />
-                             <small class="account-name">${item.toAccount[0].accountName}</small>
+                             <small class="account-name">${
+                               item.toAccount[0].accountName
+                             }</small>
                           </div>
                         </div>
                       </div>
                      
                       <div class="transaction-amount">
-                        <p class="amount ${item.type}"><span class="currency-symbol">${userCurrency}</span> ${item.amount}</p>
+                        <p class="amount ${
+                          item.type
+                        }"><span class="currency-symbol">${userCurrency}</span> ${item.amount.toLocaleString()}</p>
                       </div>
-                       <small style="display: none;" >${item.description}</small>
+                       <small style="display: none;" >${
+                         item.description
+                       }</small>
                     </li>`;
       content += transferTemplate;
     } else {
-      let template = `<li data-transaction-id="${item._id}" data-user-id="${item.userId}" data-category-id="${item.category[0]._id}" data-account-id="${item.account[0]._id}">
+      let template = `<li data-transaction-id="${item._id}" data-user-id="${
+        item.userId
+      }" data-category-id="${item.category[0]._id}" data-account-id="${
+        item.account[0]._id
+      }">
                       <div class="transaction-info">
                         <img
                           src="${item.category[0].image}"
@@ -175,20 +194,26 @@ function childTemplate(transactions) {
                           class="transaction-icon"
                         />
                         <div class="cat-account">
-                          <div class="category-name little-bold">${item.category[0].name}</div>
+                          <div class="category-name little-bold">${
+                            item.category[0].name
+                          }</div>
                           <div class="transaction-account-info">
                             <img
                               src="${item.account[0].icon}"
                               alt=""
                               class="account-icon"
                             />
-                            <small class="account-name">${item.account[0].accountName}</small>
+                            <small class="account-name">${
+                              item.account[0].accountName
+                            }</small>
                           </div>
                         </div>
                       </div>
                     
                       <div class="transaction-amount">
-                        <p class="amount ${item.category[0].type}"><span class="currency-symbol">${userCurrency}</span> ${item.amount}</p>
+                        <p class="amount ${
+                          item.category[0].type
+                        }"><span class="currency-symbol">${userCurrency}</span> ${item.amount.toLocaleString()}</p>
                       </div>
                       <small style="display: none;" >${item.description}</small>
                     </li>`;
@@ -420,7 +445,6 @@ selectCatBtn.addEventListener("click", () => {
 
 function changeAndUpdate() {
   let bunchCategory = document.querySelectorAll(".bunch-category");
-
   bunchCategory.forEach((cat) => {
     cat.addEventListener("click", () => {
       let selectedCatId;
@@ -565,8 +589,7 @@ function verification() {
   );
 
   const finalFormattedDate = `${formattedDate}, ${weekday}`;
-
-  let userId = "66efd1552e03ec45ce74d5fd";
+  console.log(finalFormattedDate);
   //Display data
   let displayData = {
     accountName,
@@ -587,7 +610,6 @@ function verification() {
     amount,
     date: finalFormattedDate,
     description,
-    userId,
     type: whatType,
     toAccount: catId,
   };
@@ -609,7 +631,7 @@ function verification() {
 function transactionSave() {
   try {
     let { sturcturedData, displayData } = verification();
-    
+
     if (sturcturedData) {
       saveRecordToDb(sturcturedData);
       temporaryDisplay(displayData);
@@ -659,7 +681,7 @@ function deleteView() {
         clickedView.remove();
       } finally {
         clickedView.remove();
-        let userId = clickedView.dataset.userId;
+
         // updateBudgetDb(clickedView.dataset.categoryId, { spend: 0 });
         deleteRecordToDb(clickedView.dataset.transactionId);
       }
@@ -675,7 +697,7 @@ categoryTick.forEach((item, index) => {
     ).dataset.id = 2876543210;
 
     selectedCatImg.setAttribute("src", "icons/category.svg");
-    selectedCatImg.style.filter = "invert(0)";
+    // selectedCatImg.style.filter = "invert(0)";
     selectedCatImg.classList.add("imgSvg");
     selectedCatName.textContent = "Category";
     categoryTick.forEach((cat) => cat.children[0].removeAttribute("src"));
@@ -690,6 +712,7 @@ categoryTick.forEach((item, index) => {
       changeCategory(1);
     } else {
       catLabel.textContent = "Account";
+      categoryTicked.value = 2;
       selectedCatImg.setAttribute("src", "icons/account.svg");
       selectedCatImg.style.filter = "invert(0)";
       selectedCatName.textContent = "Account";
@@ -771,7 +794,7 @@ function changeDate(increament) {
   document
     .querySelectorAll(".month")
     .forEach((head) => (head.innerHTML = `${months[month]} ${year}`));
-  loadData("66efd1552e03ec45ce74d5fd", `${months[month]} ${year}`);
+  loadData(`${months[month]} ${year}`);
 }
 
 // Initial date display
@@ -812,15 +835,17 @@ function changePage(page, index) {
   pages[index].classList.add("active");
 }
 
+// PUT THIS FUNCTION CALL ON TOP OF THE HEAD*******//////****+++++++------------$#########################@@@@@@@@@@@@!!!!!!!!!! */
+
 //--------------READ RECORDS--------------------------
-async function loadData(userId, month) {
+async function loadData(month) {
   document
     .querySelectorAll(".home-skeleton-effect")
     .forEach((i) => (i.style.display = "block"));
 
   try {
     let req = await fetch(
-      `http://localhost:4000/api/v1/users/transactions/?month=${month}`
+      `https://pp-qln0.onrender.com/api/v1/users/transactions/?month=${month}`
     );
     let res = await req.json();
     if (res.status === "success") {
@@ -856,14 +881,14 @@ const options = { month: "long", year: "numeric" };
 const formatedMonth = date
   .toLocaleDateString("en-US", options)
   .replace(" ", "%20");
-loadData("66efd1552e03ec45ce74d5fd", formatedMonth);
+loadData(formatedMonth);
 
 //--------------UPDATE RECORDS--------------------------
 async function updateRecordToDb(transactionId, data) {
   console.log(transactionId, data);
   try {
     let response = await fetch(
-      `http://localhost:4000/api/v1/users/transactions/${transactionId}`,
+      `https://pp-qln0.onrender.com/api/v1/users/transactions/${transactionId}`,
       {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -885,10 +910,9 @@ async function updateRecordToDb(transactionId, data) {
 
 //--------------DELETE RECORDS--------------------------
 async function deleteRecordToDb(transactionId) {
-  console.log(clickedView);
   try {
     let response = await fetch(
-      `http://localhost:4000/api/v1/users/transactions/${transactionId}`,
+      `https://pp-qln0.onrender.com/api/v1/users/transactions/${transactionId}`,
       {
         method: "DELETE",
       }
@@ -910,7 +934,7 @@ async function deleteRecordToDb(transactionId) {
 async function saveRecordToDb(data) {
   try {
     let response = await fetch(
-      `http://localhost:4000/api/v1/users/transactions`,
+      `https://pp-qln0.onrender.com/api/v1/users/transactions`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -920,6 +944,7 @@ async function saveRecordToDb(data) {
 
     if (response.status === 201) {
       let { newTransaction } = await response.json();
+      console.log(newTransaction);
       document.getElementById("recently-added").dataset.transactionId =
         newTransaction._id;
 
@@ -936,6 +961,8 @@ async function saveRecordToDb(data) {
 function changeCategory(num) {
   categoryOptions.innerHTML = " ";
   if (num == 1) {
+    document.querySelector(".category-options-body h2").innerHTML =
+      "Select Category";
     expenseCategories.forEach((cat) => {
       let template = `<li data-category-id=${cat._id} class="bunch-category">
                         <img src="${cat.image}" alt="" />
@@ -948,6 +975,8 @@ function changeCategory(num) {
       categoryOptions.innerHTML += template;
     });
   } else if (num == 0) {
+    document.querySelector(".category-options-body h2").innerHTML =
+      "Select Category";
     incomeCategories.forEach((cat) => {
       let template = `<li data-category-id=${cat._id} class="bunch-category">
                         <img src="${cat.image}" alt="" />
@@ -956,6 +985,8 @@ function changeCategory(num) {
       categoryOptions.innerHTML += template;
     });
   } else {
+    document.querySelector(".category-options-body h2").textContent =
+      "Select Account";
     accounts.forEach((cat) => {
       let template = `<li data-account-id="${cat._id}" class="bunch-category transfer">
                                           <div class="left-part">
@@ -981,70 +1012,12 @@ function temporaryDisplay(data) {
     isCurrentMonth == formatedMonth.replace("%20", " ")
   ) {
     if (data.type !== "transfer") {
-      template = `
-                  <div class="transaction-info">
-                    <img
-                      src="${data.categoryIcon}"
-                      alt=""
-                      class="transaction-icon"
-                    />
-                    <div class="cat-account">
-                      <div class="category-name little-bold">${data.categoryName}</div>
-                      <div class="transaction-account-info">
-                        <img
-                          src="${data.accountIcon}"
-                          alt=""
-                          class="account-icon"
-                        />
-                        <small class="account-name">${data.accountName}</small>
-                      </div>
-                    </div>
-                  </div>
-                
-                  <div class="transaction-amount">
-                    <p class="amount ${data.type}"><span class="currency-symbol">${userCurrency}</span> ${data.amount}</p>
-                  </div>
-                  <small style="display: none;" >${data.description}</small>
-                `;
+      template = normalTemplate(data);
     } else {
-      template = `<li data-transaction-id="${data._id}" data-user-id="${data.userId}"  data-account-id="">
-  <div class="transaction-info">
-    <img
-      src="icons/Income-expense/transfer.jpg"
-      alt=""
-      class="transaction-icon"
-    />
-    <div class="cat-account">
-      <div class="category-name little-bold">Transfer</div>
-      <div class="transaction-account-info">
-        <img
-          src="${data.accountIcon}"
-          alt=""
-          class="account-icon"
-        />
-         <small class="account-name">${data.accountName}</small>
-          <img
-          src="icons/tarrow.svg"
-          alt=""
-         class="transfer-arrow"
-        />
-        <img
-          src="${data.categoryIcon}"
-          alt=""
-          class="account-icon"
-        />
-         <small class="account-name">${data.categoryName}</small>
-      </div>
-    </div>
-  </div>
- 
-  <div class="transaction-amount">
-    <p class="amount ${data.type}"><span class="currency-symbol">${userCurrency}</span> ${data.amount}</p>
-  </div>
-   <small style="display: none;" >${data.description}</small>
-</li>`;
+      template = `<li data-transaction-id="<pending>" id="recently-added" data-account-id="">${transferTemplate(
+        data
+      )}</li>`;
     }
-
     const li = document.createElement("li");
     li.dataset.transactionId = "<pending>";
     li.innerHTML = template;
@@ -1054,11 +1027,60 @@ function temporaryDisplay(data) {
       li,
       mainContent.firstElementChild.lastElementChild.firstElementChild
     );
-    reloadDetailveiw();
+  } else if (mainContent.children.length > 1) {
+    if (data.type !== "transfer") {
+      template = `
+                <div class="added-day-info semi-bold">${data.date}</div>
+                <ul class="transaction-history">
+                  <li data-transaction-id="<pending>" data-account-id="" id="recently-added">
+                   ${normalTemplate(data)}
+                  </li>
+                </ul>
+              `;
+    } else {
+      template = `
+      <div class="added-day-info semi-bold">${data.date}</div>
+                <ul class="transaction-history">
+                 <li data-transaction-id="<pending>" data-account-id="" id="recently-added">
+                 ${transferTemplate(data)}</li>
+                </ul>`;
+    }
+    let div = document.createElement("div");
+    div.innerHTML = template;
+    div.className = "sub-content";
+
+    mainContent.insertBefore(div, mainContent.firstElementChild);
+  } else {
+    mainContent.innerHTML = " ";
+    if (data.type !== "transfer") {
+      mainContent.innerHTML += `
+      <div class="sub-content">
+      <div class="added-day-info semi-bold">${data.date}</div>
+                <ul class="transaction-history">
+                  <li data-transaction-id="<pending>" data-account-id="" id="recently-added">
+                   ${normalTemplate(data)}
+                  </li>
+                </ul>
+                </div>
+      `;
+    } else {
+      mainContent.innerHTML += `
+      <div class="sub-content">
+      <div class="added-day-info semi-bold">${data.date}</div>
+                <ul class="transaction-history">
+                 <li data-transaction-id="<pending>" data-account-id="" id="recently-added">
+                 ${transferTemplate(data)}</li>
+                </ul>
+      </div>`;
+    }
   }
+
+  reloadDetailveiw();
 }
 
 document.querySelector(".edit-history").addEventListener("click", () => {
+  document.querySelector(".category-options-body").classList.remove("active")
+  document.querySelector(".account-options-body").classList.remove("active")
   let saveBtn = document.querySelector(".add-transcation-save-btn");
   try {
     saveBtn.removeEventListener("click", transactionSave);
@@ -1100,7 +1122,10 @@ document.querySelector(".edit-history").addEventListener("click", () => {
   // Extract the amount
   const amount = cardElement
     .querySelector(".respective-amount")
-    .textContent.trim();
+    .textContent.trim()
+    .replace(",", "")
+    .split(" ")[1];
+  console.log(amount);
 
   // Extract the account image source
   const accountImg = cardElement
@@ -1131,6 +1156,9 @@ document.querySelector(".edit-history").addEventListener("click", () => {
   if (type === "transfer") {
     transferName =
       clickedView.children[0].children[1].children[1].children[4].textContent;
+    document.querySelector(".category-body p").innerHTML = "Account";
+  } else {
+    document.querySelector(".category-body p").innerHTML = "Category";
   }
 
   document.querySelector(".category-body .child-body p").textContent =
@@ -1139,7 +1167,7 @@ document.querySelector(".edit-history").addEventListener("click", () => {
       : transferName.length > 8
       ? transferName.slice(0, 8) + ".."
       : transferName;
-  document.querySelector(".calc-values").textContent = amount.slice(1);
+  document.querySelector(".calc-values").textContent = amount;
 
   const types = {
     income: ".income-body img",
@@ -1147,10 +1175,11 @@ document.querySelector(".edit-history").addEventListener("click", () => {
     transfer: ".transfer-body img",
   };
 
-  Object.entries(types).forEach(([key, val]) => {
+  Object.entries(types).forEach(([key, val], index) => {
     const img = document.querySelector(val);
     if (type === key) {
       img.setAttribute("src", "icons/tick.svg");
+      changeCategory(index);
     } else {
       img.removeAttribute("src");
     }
@@ -1192,7 +1221,7 @@ function addEventListener() {
 function dynamicChange(data) {
   console.log(data);
   let element = clickedView;
-  console.log(clickedView.innerHTML);
+
   if (data.type == "transfer") {
     clickedView.innerHTML = `
     <div class="transaction-info">
@@ -1226,7 +1255,9 @@ function dynamicChange(data) {
   </div>
  
   <div class="transaction-amount">
-    <p class="amount ${data.type}"><span class="currency-symbol">${userCurrency}</span> ${data.amount}</p>
+    <p class="amount ${
+      data.type
+    }"><span class="currency-symbol">${userCurrency}</span> ${data.amount.toLocaleString()}</p>
   </div>
    <small style="display: none;" >${data.description}</small>`;
     // element.children[0].children[1].children[1].children[3].setAttribute(
@@ -1244,7 +1275,9 @@ function dynamicChange(data) {
                       class="transaction-icon"
                     />
                     <div class="cat-account">
-                      <div class="category-name little-bold">${data.categoryName}</div>
+                      <div class="category-name little-bold">${
+                        data.categoryName
+                      }</div>
                       <div class="transaction-account-info">
                         <img
                           src="${data.accountIcon}"
@@ -1257,7 +1290,9 @@ function dynamicChange(data) {
                   </div>
                 
                   <div class="transaction-amount">
-                    <p class="amount ${data.type}"><span class="currency-symbol">${userCurrency}</span> ${data.amount}</p>
+                    <p class="amount ${
+                      data.type
+                    }"><span class="currency-symbol">${userCurrency}</span> ${data.amount.toLocaleString()}</p>
                   </div>
                   <small style="display: none;" >${data.description}</small>`;
   }
@@ -1284,7 +1319,7 @@ function dynamicChange(data) {
 async function updateBudgetDb(catId, data) {
   let userId = "66efd1552e03ec45ce74d5fd";
   let req = await fetch(
-    `http://localhost:4000/api/v1/users/budgets/some/${userId}/?categoryId=${catId}`,
+    `https://pp-qln0.onrender.com/api/v1/users/budgets/some/${userId}/?categoryId=${catId}`,
     {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },

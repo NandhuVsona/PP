@@ -63,10 +63,10 @@ app.use(mongoSanitize());
 // Data sanitization against XSS
 // app.use(xss());
 
-app.use((req, res, next) => {
-  console.log(req.user);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log(req.user);
+//   next();
+// });
 app.get("/", product, (req, res) => {
   res.sendFile(path.join(__dirname, "views", "index.html"));
 });
