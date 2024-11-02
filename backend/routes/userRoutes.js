@@ -41,6 +41,7 @@ const {
   getAllTransactions,
   updateTransaction,
   deleteTransaction,
+  records,
 } = require("../controllers/transactionController");
 const router = express.Router();
 
@@ -76,11 +77,9 @@ router
   .delete(product, deleteCategory);
 
 //BUDGET ROUTES
+router.route("/budgets").get(product, getBudgets).post(product, setBudget);
 router
-  .route("/budgets")
-  .get(product, getBudgets)
-  .post(product, setBudget)
-router.route("/budgets/:id")
+  .route("/budgets/:id")
   .patch(product, updateBudget)
   .delete(product, deleteBudget);
 
@@ -88,11 +87,14 @@ router.route("/budgets/:id")
 router
   .route("/transactions")
   .get(product, getAllTransactions)
-  .post(product, createTransaction)
-  router
+  .post(product, createTransaction);
+router
   .route("/transactions/:id")
   .patch(product, updateTransaction)
   .delete(product, deleteTransaction);
+
+// EXCEL ROUTE
+router.route("/report").get(product, records);
 
 router.get("/data", product, getAccountsAndCategories);
 router.patch("/budgets/some/:id", homeUpdate);

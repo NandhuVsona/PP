@@ -2,11 +2,12 @@ const { Transactions } = require("../models/transactionModel");
 const mongoose = require("mongoose");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
+const { generateReport } = require("../utils/report");
 
 exports.getAllTransactions = catchAsync(async (req, res, next) => {
   const { month } = req.query;
-  console.log(req.query)
-  console.log(req.user)
+  console.log(req.query);
+  console.log(req.user);
   const allTransaction = await Transactions.aggregate([
     {
       $match: {
@@ -57,9 +58,9 @@ exports.getAllTransactions = catchAsync(async (req, res, next) => {
             description: "$description",
             month: "$month",
             userId: "$userId",
-            type:"$type",
-            toAccount:"$toAccount",
-            time:"$time"
+            type: "$type",
+            toAccount: "$toAccount",
+            time: "$time",
           },
         },
       },
@@ -68,7 +69,7 @@ exports.getAllTransactions = catchAsync(async (req, res, next) => {
       $sort: {
         _id: -1,
       },
-    }, 
+    },
   ]);
 
   res.status(200).json({
@@ -78,7 +79,7 @@ exports.getAllTransactions = catchAsync(async (req, res, next) => {
 });
 exports.createTransaction = catchAsync(async (req, res, next) => {
   let data = req.body;
-  data.userId = req.user._id
+  data.userId = req.user._id;
   let newTransaction = await Transactions.create(data);
   res.status(201).json({
     newTransaction,
@@ -91,8 +92,8 @@ exports.updateTransaction = catchAsync(async (req, res, next) => {
     req.body,
     { new: true }
   );
-  if(!updatedTransaction){
-    return next(new AppError("Invalid ID",404))
+  if (!updatedTransaction) {
+    return next(new AppError("Invalid ID", 404));
   }
   res.status(200).json({
     updatedTransaction,
@@ -102,4 +103,33 @@ exports.updateTransaction = catchAsync(async (req, res, next) => {
 exports.deleteTransaction = catchAsync(async (req, res, next) => {
   let updatedTransaction = await Transactions.findByIdAndDelete(req.params.id);
   res.status(204).json({});
+});
+
+exports.records = catchAsync(async (req, res, next) => {
+  let month = "November 2024";
+  let userId = req.user._id;
+  let data = await Transactions.aggregate([
+    { $match: { month, userId } },
+    {
+      $lookup: {
+        from: "accounts",
+        localField: "account",
+        foreignField: "_id",
+        as: "accountInfo",
+      },
+    },
+    { $unwind: { path: "$accountInfo", preserveNullAndEmptyArrays: true } },
+
+    {
+      $lookup: {
+        from: "categories",
+        localField: "category",
+        foreignField: "_id",
+        as: "categoryInfo",
+      },
+    },
+    { $unwind: { path: "$categoryInfo", preserveNullAndEmptyArrays: true } },
+  ]);
+
+  generateReport(data, res);
 });

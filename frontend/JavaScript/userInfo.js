@@ -143,17 +143,41 @@ setTimeout(() => {
 }, 1000);
 
 function changeCurrency($) {
-  let $preference = document
-    .getElementsByClassName("currency-symbol")
-  for(let i =0; i<$preference.length; i++){
-    $preference[i].textContent = $
+  let $preference = document.getElementsByClassName("currency-symbol");
+  for (let i = 0; i < $preference.length; i++) {
+    $preference[i].textContent = $;
   }
 }
 
 closeCurrency.addEventListener("click", () => {
-  
   if (selectedCurrency) {
-    localStorage.setItem("currency",JSON.stringify(selectedCurrency))
+    localStorage.setItem("currency", JSON.stringify(selectedCurrency));
     updateMe({ currency: selectedCurrency });
+  }
+});
+
+let reportBtn = document.getElementById("report");
+
+reportBtn.addEventListener("click", async () => {
+  try {
+    let req = await fetch("https://pp-qln0.onrender.com/api/v1/users/report", {
+      method: "GET",
+      headers: {
+        "Content-Type":
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      },
+    });
+    let blob = await req.blob();
+    const url = window.URL.createObjectURL(blob);
+    let aTag = document.getElementById("download-link");
+
+    aTag.href = url;
+    aTag.download = "report.xlsx"; // Set your desired filename here
+
+    aTag.click(); // Trigger the download
+    // aTag.remove(); // Clean up
+    window.URL.revokeObjectURL(url);
+  } catch (e) {
+    console.log(e);
   }
 });
