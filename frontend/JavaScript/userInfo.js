@@ -158,8 +158,9 @@ closeCurrency.addEventListener("click", () => {
 
 let reportBtn = document.getElementById("report");
 
-reportBtn.addEventListener("click", async () => {
+reportBtn.addEventListener("click", async (e) => {
   try {
+    e.preventDefault()
     let req = await fetch("https://pp-qln0.onrender.com/api/v1/users/report", {
       method: "GET",
       headers: {
@@ -176,6 +177,7 @@ reportBtn.addEventListener("click", async () => {
 
     aTag.click(); // Trigger the download
     // aTag.remove(); // Clean up
+    aTag.removeAttribute("href")
     window.URL.revokeObjectURL(url);
   } catch (e) {
     console.log(e);
