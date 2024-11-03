@@ -8,6 +8,7 @@ const {
   resetPassword,
   updatePassword,
   tempUser,
+  logOut,
 } = require("../controllers/authController");
 const {
   getall,
@@ -56,6 +57,7 @@ router.route("/accounts/:id").patch(updateAccount).delete(deleteAccount); //Here
 router.post("/signup", signup);
 router.post("/login", logIn);
 router.get("/users", getall);
+router.get("/logout", logOut);
 
 //FORGOT PASSWORD
 router.post("/forgotPassword", forgotPassword);

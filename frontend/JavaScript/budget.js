@@ -32,7 +32,8 @@ let updateLimitBtn = document.querySelector(".updated-limit");
 let setBudgetLimitBtn = document.querySelector(".set-limit");
 let ulParent = document.querySelector(".set-budgeted-list");
 function removeBudget(btn) {
-  reloadDots();
+  //reloadDots();
+  console.log("1");
   let btnId = btn.parentElement.dataset.categoryId;
   removeBudgetDb(btnId, loadBudgeted);
   btn.parentElement.parentElement.parentElement.parentElement.remove();
@@ -69,7 +70,8 @@ function reload() {
   let changeLimitBtn = document.querySelectorAll(".change-limit");
 
   removeBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
       reload();
       removeBudget(btn);
     });
@@ -116,7 +118,7 @@ function openEditBox(btn) {
   let text = parent.children[0].children[1].children[0].textContent;
   let budget =
     parent.parentElement.children[1].children[0].children[0].textContent;
-    console.log(budget)
+  console.log(budget);
 
   let itemName = document.querySelector(".edit-category-name");
   let itemImage = document.querySelector(".edit-budget-icon");
@@ -130,7 +132,7 @@ function openEditBox(btn) {
   updateLimitBtn.addEventListener("click", () => {
     closeEditBox();
     let updatedLimit = document.getElementById("budget-updated-value").value;
-    console.log(updatedLimit)
+    console.log(updatedLimit);
     try {
       if (!isNaN(Number(updatedLimit))) {
         parent.parentElement.children[1].children[0].children[0].innerHTML =
@@ -225,7 +227,7 @@ setBudgetLimitBtn.addEventListener("click", () => {
 
       createBudgetDb(data);
       setBudgetTemplate(id, name, image, budget, remaining, spend);
-      reload();
+      // reload();
       clickedBudget.remove();
     }
   } catch (err) {
@@ -275,9 +277,11 @@ document.addEventListener("click", (e) => {
 
 //-------------READ BUDGETS -----------------------
 async function loadDataBudgets(month) {
-  let req = await fetch(`https://pp-qln0.onrender.com/api/v1/users/budgets?month=${month}`);
+  let req = await fetch(
+    `https://pp-qln0.onrender.com/api/v1/users/budgets?month=${month}`
+  );
   let res = await req.json();
-console.log(res)
+  console.log(res);
   if (res.status == "success") {
     let { data } = res;
 
@@ -328,6 +332,7 @@ async function createBudgetDb(data) {
 
 //--------------------REMOVE BUDGETS---------------------
 async function removeBudgetDb(budgetId, callBack) {
+  console.log("cllad");
   let req = await fetch(
     `https://pp-qln0.onrender.com/api/v1/users/budgets/${budgetId}`,
     {
@@ -364,6 +369,7 @@ async function loadBudgeted() {
       baseTemplate(item.name, item.image, item._id);
     });
   }
+  
   reloadtwo();
 }
 
@@ -374,9 +380,11 @@ function reloadDots() {
   let changeLimitBtn = document.querySelectorAll(".change-limit");
 
   removeBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", (event) => {
+      event.stopPropagation();
       reload();
       removeBudget(btn);
+      // Prevent the event from bubbling up
     });
   });
 

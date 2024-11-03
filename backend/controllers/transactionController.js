@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const { generateReport } = require("../utils/report");
+const { Budgets } = require("../models/budgetModel");
 
 exports.getAllTransactions = catchAsync(async (req, res, next) => {
   const { month } = req.query;
@@ -79,6 +80,19 @@ exports.getAllTransactions = catchAsync(async (req, res, next) => {
 });
 exports.createTransaction = catchAsync(async (req, res, next) => {
   let data = req.body;
+  console.log(data);
+  if (data.type === "expense") {
+    let budget = await Budgets.findOne({
+      month: data.month,
+      userId: req.user._id,
+      categoryId: data.category,
+    });
+    if (budget) {
+      budget.spend += data.amount;
+      await budget.save();
+    }
+  }
+
   data.userId = req.user._id;
   let newTransaction = await Transactions.create(data);
   res.status(201).json({
@@ -87,21 +101,94 @@ exports.createTransaction = catchAsync(async (req, res, next) => {
 });
 
 exports.updateTransaction = catchAsync(async (req, res, next) => {
-  let updatedTransaction = await Transactions.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true }
-  );
-  if (!updatedTransaction) {
-    return next(new AppError("Invalid ID", 404));
+  let oldOne = await Transactions.findOne({
+    _id: req.params.id,
+    userId: req.user._id,
+  });
+  console.log(oldOne.category + "====" + req.body.categoryId);
+  console.log(oldOne.category == req.body.categoryId);
+  if (oldOne.category == req.body.categoryId) {
+    console.log("Old one amount: ", oldOne.amount);
+    console.log("Updated one amount: ", req.body.amount);
+    let budget = await Budgets.findOne({
+      userId: req.user._id,
+      categoryId: oldOne.category,
+    });
+    console.log(budget);
+    console.log("here the update one");
+    if (budget) {
+      budget.spend -= oldOne.amount;
+      budget.spend += req.body.amount;
+      console.log(budget);
+      await budget.save();
+    }
+  } else {
+    console.log("category is changed;");
+    let budget = await Budgets.findOne({
+      userId: req.user._id,
+      categoryId: oldOne.category,
+    });
+    console.log("this is now");
+    console.log(budget);
+    if (budget) {
+      budget.spend -= oldOne.amount;
+      await budget.save();
+      console.log(budget);
+    }
+    const newnnn = await Budgets.findOne({
+      userId: req.user._id,
+      categoryId: req.body.categoryId,
+    });
+    console.log(newnnn);
+    if (newnnn) {
+      newnnn.spend += req.body.amount;
+      await newnnn.save();
+      console.log(newnnn);
+    }
   }
+
+  // return;
+  // if (data.type === "expense") {
+  //   let budget = await Budgets.findOne({
+  //     month: data.month,
+  //     userId: req.user._id,
+  //     categoryId: data.category,
+  //   });
+  //   if (budget) {
+  //     budget.spend += data.amount;
+  //     await budget.save();
+  //   }
+  // }
+  // let updatedTransaction = await Transactions.findByIdAndUpdate(
+  //   req.params.id,
+  //   req.body,
+  //   { new: true }
+  // );
+  // if (!updatedTransaction) {
+  //   return next(new AppError("Invalid ID", 404));
+  // }
   res.status(200).json({
-    updatedTransaction,
+    // updatedTransaction,
   });
 });
 
 exports.deleteTransaction = catchAsync(async (req, res, next) => {
-  let updatedTransaction = await Transactions.findByIdAndDelete(req.params.id);
+  let delTransaction = await Transactions.findOne({
+    _id: req.params.id,
+    userId: req.user._id,
+  });
+
+  let budget = await Budgets.findOne({
+    userId: req.user._id,
+    categoryId: delTransaction.category,
+  });
+
+  if (budget) {
+    budget.spend -= delTransaction.amount;
+    await budget.save();
+  }
+
+  await Transactions.deleteOne({ _id: req.params.id });
   res.status(204).json({});
 });
 

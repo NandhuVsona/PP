@@ -19,6 +19,7 @@ const categorySchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  
 });
 
 exports.Categories = mongoose.model("Categories", categorySchema);

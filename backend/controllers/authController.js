@@ -32,7 +32,7 @@ const createSendToken = (user, statusCode, res) => {
     ),
     secure: true,
     HttpOnly: true,
-    sameSite: "none",
+   
   };
   res.cookie("jwt", token, cookieOptions);
   res.status(statusCode).json({
@@ -101,6 +101,25 @@ exports.logIn = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, res);
 });
 
+//-------------------------LOGOUT---------------------------
+exports.logOut = (req, res) => {
+  try {
+    res.cookie("jwt", "", {
+      expires: new Date(Date.now() + 5 * 1000),
+      HttpOnly: true,
+    });
+    return res.status(200).json({
+      status:"success",
+      message:"you are logged out.!"
+    })
+  } catch (e) {
+    return res.status(500).json({
+      status: "fail",
+      message: e.message,
+    });
+  }
+};
+
 exports.product = catchAsync(async (req, res, next) => {
   console.log("product calling");
   //  1) Getting token and check of it's there
@@ -145,7 +164,7 @@ exports.product = catchAsync(async (req, res, next) => {
 
   //GRAND ACCESS TO THE PRODUCTED ROUTE
   req.user = freshUser;
- 
+
   // console.log(req.user);
   next();
 });

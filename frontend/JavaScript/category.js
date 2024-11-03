@@ -177,7 +177,7 @@ saveCategoryBtn.addEventListener("click", () => {
       type: category,
       userId,
     };
-    saveCategoryDb(data, globalId);
+    saveCategoryDb(data);
   } else {
     return;
   }
@@ -285,9 +285,9 @@ function showCategory() {
 }
 
 // -----------------CREATE CATEGORY TO DB ----------------------------
-async function saveCategoryDb(data, userId) {
+async function saveCategoryDb(data) {
   let req = await fetch(
-    `https://pp-qln0.onrender.com/api/v1/users/categories/${userId}`,
+    `https://pp-qln0.onrender.com/api/v1/users/categories`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },

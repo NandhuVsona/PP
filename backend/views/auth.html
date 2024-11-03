@@ -760,6 +760,7 @@
         let res = await req.json();
         console.log(res);
         if (res.status == "success") {
+          location.reload(true)
         } else {
           loginBtn.disabled = true;
           loginBtn.innerHTML = "GET STARTED";

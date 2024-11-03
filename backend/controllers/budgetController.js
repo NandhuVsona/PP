@@ -1,14 +1,15 @@
 const { Budgets } = require("../models/budgetModel");
 const { Categories } = require("../models/categoryModel");
+const { Transactions } = require("../models/transactionModel");
 const catchAsync = require("../utils/catchAsync");
 
 exports.getBudgets = catchAsync(async (req, res, next) => {
   let userId = req.user._id;
-  console.log(req.query.month)
- 
+  console.log(req.query.month);
+
   const budgets = await Budgets.find({
     userId,
-    month:req.query.month,
+    month: req.query.month,
   }).populate("categoryId");
 
   const userCategoreis = await Categories.find({ userId, type: "expense" });
@@ -31,6 +32,16 @@ exports.getBudgets = catchAsync(async (req, res, next) => {
 exports.setBudget = catchAsync(async (req, res, next) => {
   let data = req.body;
   data.userId = req.user._id;
+
+  let a = await Transactions.find({
+    userId: req.user._id,
+    month: req.body.month,
+    category: req.body.categoryId,
+  });
+ 
+  let sum = a.reduce((acc, item) => acc + item.amount, 0);
+  console.log(sum);
+  data.spend = sum || 0;
   let newBudgets = await Budgets.create(req.body);
   res.status(201).json({
     status: "success",

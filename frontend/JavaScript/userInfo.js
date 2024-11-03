@@ -159,8 +159,13 @@ closeCurrency.addEventListener("click", () => {
 let reportBtn = document.getElementById("report");
 
 reportBtn.addEventListener("click", async (e) => {
+  e.preventDefault(); // Prevent default action
+
+  // Prevent additional requests if one is already in progress
+
   try {
-    e.preventDefault()
+    let month = "Nov_2024_";
+    e.preventDefault();
     let req = await fetch("https://pp-qln0.onrender.com/api/v1/users/report", {
       method: "GET",
       headers: {
@@ -169,17 +174,49 @@ reportBtn.addEventListener("click", async (e) => {
       },
     });
     let blob = await req.blob();
+
     const url = window.URL.createObjectURL(blob);
-    let aTag = document.getElementById("download-link");
 
-    aTag.href = url;
-    aTag.download = "report.xlsx"; // Set your desired filename here
+    const a = document.createElement("a");
+    a.style.display = "none";
 
-    aTag.click(); // Trigger the download
-    // aTag.remove(); // Clean up
-    aTag.removeAttribute("href")
+    a.href = url;
+
+    a.download = month + "report.xlsx"; // Set the default download name
+    document.querySelector(".download-link").appendChild(a);
+
+    a.addEventListener("click", (event) => {
+      event.stopPropagation(); // Prevent the event from bubbling up
+    });
+    a.click();
+    a.remove();
     window.URL.revokeObjectURL(url);
   } catch (e) {
-    console.log(e);
+    console.error("Download error:", e);
+  }
+});
+
+const logoutBtn = document.getElementById("logout");
+logoutBtn.addEventListener("dblclick", async () => {
+  let req = await fetch("https://pp-qln0.onrender.com/api/v1/users/logout");
+  let res = await req.json();
+  if (res.status == "success") {
+    console.log(res);
+    window.location.reload();
+  } else {
+    console.log("something wrong..!");
+  }
+});
+
+const delBtn = document.getElementById("delete");
+delBtn.addEventListener("dblclick", async () => {
+  let req = await fetch("https://pp-qln0.onrender.com/api/v1/users/deleteMe", {
+    method: "DELETE",
+  });
+
+  if (req.status == 204) {
+    location.reload(true);
+  } else {
+    console.log("something wrong..!");
   }
 });

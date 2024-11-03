@@ -1,7 +1,12 @@
 const { default: mongoose } = require("mongoose");
+
 const User = require("../models/userModel");
 const catchAsync = require("../utils/catchAsync.js");
 const AppError = require("../utils/appError.js");
+const { Categories } = require("../models/categoryModel.js");
+const { Accounts } = require("../models/accountModel.js");
+const { Budgets } = require("../models/budgetModel.js");
+const { Transactions } = require("../models/transactionModel.js");
 
 // Filter Body
 const filterObj = (obj, ...allowedFields) => {
@@ -37,11 +42,33 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteMe = catchAsync(async (req, res, next) => {
-  const user = await User.findByIdAndUpdate(req.user.id, { active: false });
-  res.status(204).json({
-    status: "success",
-    data: null,
-  });
+  let session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    const userId = req.user._id;
+    await Categories.deleteMany({ userId }, { session });
+    await Accounts.deleteMany({ userId }, { session });
+    await Budgets.deleteMany({ userId }, { session });
+    await Transactions.deleteMany({ userId }, { session });
+    await User.deleteOne({ _id: userId }, { session });
+    await session.commitTransaction();
+    res.cookie("jwt", "", {
+      expires: new Date(Date.now() + 5 * 1000),
+      HttpOnly: true,
+    });
+    return res.status(204).json({
+      status: "success",
+      data: null,
+    });
+  } catch (error) {
+    session.abortTransaction();
+    return res.status(500).json({
+      status: "fail",
+      data: error.message,
+    });
+  } finally {
+    session.endSession();
+  }
 });
 
 exports.getUser = catchAsync(async (req, res) => {
