@@ -23,3 +23,12 @@ exports.createReviews = catchAsync(async (req, res, next) => {
     review: newReview,
   });
 });
+
+exports.deleteReview = catchAsync(async (req, res, next) => {
+  console.log(req.params.id)
+  await Reviews.findByIdAndDelete(req.params.id);
+
+  res.status(204).json({
+    status: "success",
+  });
+});

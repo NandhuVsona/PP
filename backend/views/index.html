@@ -1272,7 +1272,9 @@
           </div>
         </div>
 
-        <ul class="user-feedback"></ul>
+        <ul class="user-feedback">
+          <h1>helllo</h1>
+        </ul>
         <div class="review-back-btn">
           <img src="icons/return.svg" alt="" />
         </div>
@@ -1367,6 +1369,144 @@
               </div>
             </div>
           </div>
+
+          <div class="privacy-container">
+            <header>
+              <h2>Privacy Policy</h2>
+              <p>Effective Date: <strong>[Insert Date]</strong></p>
+            </header>
+
+            <section>
+              <h4>Introduction</h4>
+              <p>
+                At <strong>Penny Partner</strong>, we prioritize your privacy.
+                This Privacy Policy explains how we collect, use, and safeguard
+                your data when using our financial management web application.
+                By using the app, you agree to the practices outlined below.
+              </p>
+            </section>
+
+            <section>
+              <h4>1. Information We Collect</h4>
+              <p>We collect the following types of information:</p>
+              <ul>
+                <li>
+                  <strong>Personal Information</strong>: When you create an
+                  account, we collect your name, email address, and password to
+                  ensure secure access.
+                </li>
+                <li>
+                  <strong>Transaction Data</strong>: We collect data about your
+                  income, expenses, budgets, accounts, and categories to help
+                  you manage and analyze your finances.
+                </li>
+              </ul>
+            </section>
+
+            <section>
+              <h4>2. How We Use Your Information</h4>
+              <p>
+                Your information is used to provide and enhance our services:
+              </p>
+              <ul>
+                <li>
+                  <strong>Account Authentication</strong>: We verify your
+                  identity to ensure secure login and protect your account.
+                </li>
+                <li>
+                  <strong>Financial Management</strong>: We store your
+                  transaction data to help you track your finances, set budgets,
+                  and generate reports.
+                </li>
+                <li>
+                  <strong>Security</strong>: We encrypt your password to keep
+                  your account secure. If you change your password, you will be
+                  logged out of all other devices to protect your information.
+                </li>
+              </ul>
+            </section>
+
+            <section>
+              <h4>3. Data Security</h4>
+              <p>Your security is our priority:</p>
+              <ul>
+                <li>
+                  <strong>Password Encryption</strong>: We encrypt your password
+                  for secure authentication, ensuring only you can access your
+                  account.
+                </li>
+                <li>
+                  <strong>Transaction Data</strong>: Your transaction data is
+                  stored securely in its original form to maintain performance
+                  while ensuring confidentiality.
+                </li>
+              </ul>
+            </section>
+
+            <section>
+              <h4>4. Data Retention</h4>
+              <p>
+                We retain your data only as long as necessary to provide our
+                services or as required by law. You can delete your account at
+                any time, and we will remove your data from our servers upon
+                request.
+              </p>
+            </section>
+
+            <section>
+              <h4>5. Your Rights</h4>
+              <p>You have the right to:</p>
+              <ul>
+                <li>
+                  <strong>Access and Manage</strong>: View and update your
+                  personal and transaction information at any time.
+                </li>
+                <li>
+                  <strong>Delete</strong>: Request the deletion of your account
+                  and all associated data.
+                </li>
+                <li>
+                  <strong>Withdraw Consent</strong>: You may withdraw your
+                  consent to data processing at any time by contacting us.
+                </li>
+              </ul>
+            </section>
+
+            <section>
+              <h4>6. Changes to This Privacy Policy</h4>
+              <p>
+                We may update this Privacy Policy as needed. Significant changes
+                will be communicated to you through the app or on our website.
+                Continued use of the app after updates indicates acceptance of
+                the changes.
+              </p>
+            </section>
+
+            <section>
+              <h4>7. Contact Us</h4>
+              <p>
+                If you have any questions about this Privacy Policy, feel free
+                to contact us:
+              </p>
+              <ul>
+                <li>
+                  <strong>Email</strong>:
+                  <a href="mailto:official.devpro@gmail.com"
+                    >official.devpro@gmail.com</a
+                  >
+                </li>
+              </ul>
+            </section>
+            <section>
+              <i>
+                <q
+                  >Your financial success is our mission; your privacy is our
+                  promise.</q
+                >
+              </i>
+            </section>
+          </div>
+
           <div class="settings">
             <ul>
               <li class="edit-username">
@@ -1407,7 +1547,7 @@
                   <img class="svg" src="icons/xls.svg" alt="Export Icon" />
                   <div class="info download-link">
                     <p>Export Records</p>
-                    <small >Download records as a XLSX file</small>
+                    <small>Download records as a XLSX file</small>
                   </div>
                 </div>
                 <img
@@ -1416,12 +1556,12 @@
                   alt="Right Arrow Icon"
                 />
               </li>
-              <li>
+              <li id="reset-app">
                 <div class="left-part">
                   <img class="svg" src="icons/reset.svg" alt="Reset Icon" />
                   <div class="info">
                     <p>Reset App</p>
-                    <small>Restore app to its default settings</small>
+                    <small>Restore app to its initial state</small>
                   </div>
                 </div>
                 <img
@@ -1430,21 +1570,40 @@
                   alt="Right Arrow Icon"
                 />
               </li>
-              <li>
-                <div class="left-part">
-                  <img class="svg" src="icons/message.svg" alt="Contact Icon" />
-                  <div class="info">
-                    <p>Contact Support</p>
-                    <small>Get in touch or send a message</small>
-                  </div>
-                </div>
+              <style>
+                #contact-us a {
+                  color: inherit;
+                  text-decoration: none;
+                }
+                .settings ul li:hover {
+                  background-color: rgb(244, 244, 244);
+                  transition: all 0s ease;
+                }
+                .app.dark .settings ul li:hover {
+                  background-color: rgb(36, 36, 36);
+                }
+              </style>
+              <li id="contact-us">
+                <a href="mailto:official.devpro@gmail.com">
+                  <div class="left-part">
+                    <img
+                      class="svg"
+                      src="icons/message.svg"
+                      alt="Contact Icon"
+                    />
+                    <div class="info">
+                      <p>Contact Support</p>
+                      <small>Get in touch or send a message</small>
+                    </div>
+                  </div></a
+                >
                 <img
                   class="arrow-right"
                   src="icons/arrowright.svg"
                   alt="Right Arrow Icon"
                 />
               </li>
-              <li>
+              <li id="privacy-btn">
                 <div class="left-part">
                   <img class="svg" src="icons/privacy.svg" alt="Privacy Icon" />
                   <div class="info">
@@ -1488,11 +1647,131 @@
                 />
               </li>
             </ul>
+            <style>
+             
+              .message-box-main,.export-box {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: rgb(255, 255, 255);
+                width: 100%;
+                height: 100%;
+               display: none;
+                
+              }
+              .message-box-main .message-body,.export-box-body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                width: 100%;
+                height: 100%;
+
+                text-align: center;
+              }
+              .message-body .msg-content,.export-box-body .msg-content {
+                width: 320px;
+                background-color: rgb(188, 134, 236);
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                border-radius: 5px;
+                animation: caution .3s ease-out;
+              }
+              .message-body .msg-content .caution-conformation {
+                width: 100%;
+                gap: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: space-evenly;
+                margin-top: 10px;
+              }
+              .message-body .msg-content .caution-conformation button {
+                width: 200px;
+                height: 40px;
+                font-weight: 600;
+              }
+              @keyframes caution {
+                0% {
+                  transform: scale(0.5);
+                }
+              }
+              .message-box-main.active{
+               display: flex;
+             
+              }
+              .export-box{
+                display: flex;
+              }
+              .export-box .left-arrow,
+
+
+.export-box .right-arrow {
+  width: 12px;
+  height: 12px;
+  background-color: transparent;
+  border-left: 3px solid;
+  border-top: 3px solid;
+  transform: rotate(-46deg);
+  -webkit-transform: rotate(-46deg);
+  -moz-transform: rotate(-46deg);
+  -ms-transform: rotate(-46deg);
+  -o-transform: rotate(-46deg);
+}
+            </style>
+
+            <div class="message-box-main">
+              <div class="message-body">
+                <div class="msg-content">
+                  <b>Caution</b>
+                  <p>
+                    Everything will be delete and app will go to initial state.
+                    Are you sure?
+                  </p>
+                  <div class="caution-conformation">
+                    <button>Confirm</button>
+                    <button class="close-msg-box">Dismiss</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="export-box">
+              <div class="export-box-body">
+                <div class="msg-content">
+                  <b>Select Month</b>
+                  <div class="month-body">
+                    <div class="left-arrow"></div>
+                    <h3 class="month"></h3>
+                    <div class="right-arrow"></div>
+                  </div>
+                  <div class="export-btn">
+                    <button>EXPORT NOW</button>
+                  </div>
+                </div>
+              </div>
+            </div> -->
           </div>
         </div>
       </div>
     </div>
+    <script>
+      let messageBox = document.querySelector(".message-box-main");
+      let resetBtn = document.getElementById("reset-app");
+      resetBtn.addEventListener("click",()=>{
+       
+console.log(messageBox)
+        messageBox.classList.add("active")
+        
+      })
 
+      let closeMsgBtn = document.querySelector('.close-msg-box');
+      closeMsgBtn.addEventListener("click",()=>{
+        messageBox.classList.remove("active")
+      }
+      )
+    </script>
     <!-- <script>
       
       if ('serviceWorker' in navigator) {
@@ -1516,9 +1795,14 @@
     <script defer type="module" src="JavaScript/functions.js"></script>
     <script defer type="module" src="JavaScript/category.js"></script>
     <script defer type="module" src="JavaScript/budget.js"></script>
-    <!-- <script type="module" src="JavaScript/review.js"></script> -->
+    <script type="module" src="JavaScript/review.js"></script>
     <!-- <script src="JavaScript/animation.js"></script> -->
-
+    <script>
+      let privacyBtn = document.getElementById("privacy-btn");
+      privacyBtn.addEventListener("click", () => {
+        document.querySelector(".privacy-container").classList.toggle("active");
+      });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
   </body>
 </html>
