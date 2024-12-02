@@ -20,7 +20,6 @@ const signToken = (id) => {
     return token;
   } catch (e) {
     console.log(e.message);
-  }
 };
 
 const createSendToken = (user, statusCode, res) => {

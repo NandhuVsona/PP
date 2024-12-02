@@ -3,6 +3,7 @@ const app = express();
 const path = require("path");
 const userRoutes = require("./routes/userRoutes.js");
 const reviewRoutes = require("./routes/reviewRoutes.js");
+const analysRoutes = require("./routes/analysRoutes.js");
 const morgan = require("morgan");
 const AppError = require("./utils/appError.js");
 const globalErrorHandler = require("./controllers/errorController.js");
@@ -72,6 +73,7 @@ app.get("/", product, (req, res) => {
 });
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/reviews", reviewRoutes);
+app.use("/api/v1/analytics", analysRoutes);
 
 //OTP VERIFICATION
 app.post("/verifyMe", tempUser);
