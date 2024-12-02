@@ -75,6 +75,8 @@
                 <li></li>
                 <li></li>
                 <li></li>
+                <li></li>
+                <li></li>
               </ul>
             </div>
             <header>
@@ -86,15 +88,21 @@
               <div class="balance-info">
                 <div class="expense-box">
                   <p>EXPENSE</p>
-                  <p class="red stylish">₹0.00</p>
+                  <p class="red stylish">
+                    <span class="currency-symbol home-cs"></span>0.00
+                  </p>
                 </div>
                 <div class="income-box">
                   <p>INCOME</p>
-                  <p class="green stylish">₹0.00</p>
+                  <p class="green stylish">
+                    <span class="currency-symbol"></span>0.00
+                  </p>
                 </div>
                 <div class="total-box">
                   <p>TOTAL</p>
-                  <p class="green stylish">₹0.00</p>
+                  <p class="green stylish">
+                    <span class="currency-symbol"></span>0.00
+                  </p>
                 </div>
               </div>
             </header>
@@ -285,15 +293,21 @@
               <div class="balance-info">
                 <div class="expense-box">
                   <p>EXPENSE</p>
-                  <p class="red stylish">₹0.00</p>
+                  <p class="red stylish">
+                    <span class="currency-symbol"></span> 0.00
+                  </p>
                 </div>
                 <div class="income-box">
                   <p>INCOME</p>
-                  <p class="green stylish">₹2,999</p>
+                  <p class="green stylish">
+                    <span class="currency-symbol"></span> 2,999
+                  </p>
                 </div>
                 <div class="total-box">
                   <p>TOTAL</p>
-                  <p class="green stylish">₹5899</p>
+                  <p class="green stylish">
+                    <span class="currency-symbol"></span> 5899
+                  </p>
                 </div>
               </div>
             </header>
@@ -330,11 +344,15 @@
                 <div class="budget-info">
                   <div class="total-budget">
                     <p>TOTAL BUDGET</p>
-                    <b class="green stylish">₹0.00</b>
+                    <b class="green stylish"
+                      ><span class="currency-symbol"></span> 0.00</b
+                    >
                   </div>
                   <div class="spent-budget">
                     <p>SPENT BUDGET</p>
-                    <b class="red stylish">₹0.00</b>
+                    <b class="red stylish"
+                      ><span class="currency-symbol"></span> 0.00</b
+                    >
                   </div>
                 </div>
               </div>
@@ -437,7 +455,9 @@
                 </div>
                 <div class="bottom total-box">
                   <p>All accounts balance:</p>
-                  <p class="bold">₹23,323</p>
+                  <p class="bold">
+                    <span class="currency-symbol account-cs"></span> 23,323
+                  </p>
                 </div>
               </div>
               <div class="skeleton-penny-info"></div>
@@ -1061,7 +1081,7 @@
           </ul>
         </nav>
       </footer>
-      <div class="sidebar">
+      <div class="sidebar active">
         <img
           src="icons/close.svg"
           alt=""
@@ -1076,8 +1096,8 @@
           <div class="scroll-container">
             <img src="./cloud.png" class="cloud" alt="Cloud" />
           </div>
-          <img class="user-profile" src="images/men.png" alt="" />
-          <h2>Hello Ganesh</h2>
+          <img class="user-profile" src="" alt="" />
+          <h2 class="home-display-username"></h2>
         </header>
 
         <div class="settings">
@@ -1102,6 +1122,16 @@
               </div>
               <img class="arrow-right" src="./icons/arrowright.svg" alt="" />
             </li>
+            <!-- <li class="download-app">
+              <div class="left-part">
+                <img class="svg" src="icons/download.svg" alt="" />
+                <div class="info">
+                  <p>Download App</p>
+                  <small>Quick access with one tap</small>
+                </div>
+              </div>
+              <img class="arrow-right" src="./icons/arrowright.svg" alt="" />
+            </li> -->
             <li class="view-mode">
               <div class="left-part">
                 <img class="svg" src="icons/fullscreen.svg" alt="" />
@@ -1163,7 +1193,7 @@
               <div class="app-logo">
                 <img src="images/app-logo.png" alt="" />
               </div>
-              <p>Rate this web app</p>
+              <p>Enjoying this app? Rate us!</p>
             </div>
             <div class="rating-star-container">
               <input hidden type="tel" value="0" id="rateValue" />
@@ -1201,10 +1231,10 @@
 
         <div class="rr-body">
           <div class="rating-num-left">
-            <h1>4.5</h1>
+            <h1></h1>
             <div class="obtained-star-container"></div>
             <div class="overall-star-container"></div>
-            <small>134</small>
+            <small class="nRating">134</small>
           </div>
           <div class="rating-bar-right">
             <ul class="rr-bar-container">
@@ -1242,34 +1272,7 @@
           </div>
         </div>
 
-        <ul class="user-feedback">
-          <li class="review-card">
-            <div class="review-card-head">
-              <div class="review-left-part">
-                <div style="background-color: red" class="img review-profile">
-                  $
-                </div>
-                <p>username</p>
-              </div>
-              <div class="review-operations">
-                <img
-                  style="transform: rotateX('30deg')"
-                  class="dot svg"
-                  src="icons/dot.svg"
-                  alt=""
-                />
-                <div class="options" data-account-id=>
-                <p class="edit-btn">Edit</p>
-                <p class="delete-account">Delete</p>
-              </div>
-            </div>
-            <div class="review-card-center">
-              <div class="reviewed-star">3</div>
-              <small class="review-date">2024-10-19</small>
-            </div>
-            <p class="review-text">super</p>
-          </li>
-        </ul>
+        <ul class="user-feedback"></ul>
         <div class="review-back-btn">
           <img src="icons/return.svg" alt="" />
         </div>
@@ -1284,103 +1287,54 @@
           <img class="svg" src="images/app-logo.png" alt="" />
           <h2 style="color: #ffffff">My Account</h2>
         </div>
-
-        <style>
-          .profile-container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            gap: 15px;
-            padding: 10px 5px 5px 5px;
-          }
-          .current-profile-conteiner {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            
-          }
-          .current-profile-conteiner .imgs {
-            width: 80px;
-            height: 80px;
-            background-color: rgba(16, 110, 105, 0.461);
-            border-radius: 50%;
-          }
-          .profile-options {
-            width: 100%;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          }
-          .profile-options .profile-list {
-            display: flex;
-            width: 100%;
-            scrollbar-width: none;
-            overflow-y: hidden;
-            overflow-x: scroll;
-            gap: 10px;
-          }
-          .profile-options .profile-list li {
-            width: 50px;
-            flex: 0 0 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: rgba(16, 110, 105, 0.461);
-            overflow: hidden;
-          }
-          .profile-options .profile-list li img {
-            width: 100%;
-          }
-          .current-profile-conteiner .imgs img{ 
-            width: 100%;
-          }
-          .current-profile-conteiner .imgs{
-            overflow: hidden;
-          }
-          .username-display{
-            height: 2em;
-          }
-        </style>
         <div class="account-container-body">
-          <div class="edit-box active">
+          <div class="edit-box">
             <div class="input-container">
               <div class="form">
                 <div class="profile-container">
                   <div class="current-profile-conteiner">
                     <div class="imgs">
-                      <img src="./images/profiles/profile-0.png" alt="">
+                      <img src="images/profiles/profile-0.png" alt="" />
                     </div>
-                    <h3 class="username-display">Ganesh</h3>
+                    <h3 class="username-display"></h3>
                   </div>
                   <div class="profile-options">
                     <ul class="profile-list">
-                     
                       <li>
-                        <img src="./images/profiles/profile-0.png" alt="" />
+                        <img src="images/profiles/profile-0.png" alt="" />
                       </li>
-                      <li><img src="./images/profiles/profile-3.png" alt="" /></li>
-                      <li><img src="./images/profiles/profile-4.png" alt="" /></li>
-                      <li><img src="./images/profiles/profile-5.png" alt="" /></li>
-                     
-                      
-                      <li><img src="./images/profiles/profile-8.jpeg" alt="" /></li>
-                      <li><img src="./images/profiles/profile-9.jpg" alt="" /></li>
-                     
-                      
-                      <li><img src="./images/profiles/profile-7.jpg" alt="" /></li>
-                      <li><img src="./images/profiles/profile-1.png" alt="" /></li>
-                      <li><img src="./images/profiles/profile-6.png" alt="" /></li>
-                      <li><img src="./images/profiles/profile-2.png" alt="" /></li>
-                  
-                  
+                      <li>
+                        <img src="images/profiles/profile-3.png" alt="" />
+                      </li>
+                      <li>
+                        <img src="images/profiles/profile-4.png" alt="" />
+                      </li>
+                      <li>
+                        <img src="images/profiles/profile-5.png" alt="" />
+                      </li>
+
+                      <li>
+                        <img src="images/profiles/profile-8.png" alt="" />
+                      </li>
+                      <li>
+                        <img src="images/profiles/profile-9.png" alt="" />
+                      </li>
+
+                      <li>
+                        <img src="images/profiles/profile-7.png" alt="" />
+                      </li>
+                      <li>
+                        <img src="images/profiles/profile-1.png" alt="" />
+                      </li>
+                      <li>
+                        <img src="images/profiles/profile-6.png" alt="" />
+                      </li>
+                      <li>
+                        <img src="images/profiles/profile-2.png" alt="" />
+                      </li>
                     </ul>
                   </div>
                 </div>
-                
                 <div class="input-box">
                   <img src="icons/user.svg" alt="" />
                   <input
@@ -1390,35 +1344,15 @@
                     autocomplete="off"
                     name="username"
                     id="username"
-                    maxlength="20"
                   />
                 </div>
                 <div class="aBtns">
                   <button class="cancel-btn">Discard</button>
-                  <button>Update</button>
+                  <button class="update-profile">Update</button>
                 </div>
               </div>
             </div>
           </div>
-          <script>
-            let profileList = document.querySelectorAll(".profile-options .profile-list li");
-            let currentProfile = document.querySelector(".current-profile-conteiner .imgs img");
-            let userName = document.querySelector(".username-display");
-
-            profileList.forEach(profile =>{
-              profile.addEventListener("click",()=>{
-                currentProfile.setAttribute("src",profile.children[0].getAttribute('src'))
-              })
-            })
-
-            let inBox = document.getElementById("username");
-
-            inBox.addEventListener("input",(e)=>{
-              userName.textContent = e.target.value
-            })
-
-
-          </script>
           <div class="currency-container">
             <div class="currency-body">
               <h2>
@@ -1433,7 +1367,178 @@
               </div>
             </div>
           </div>
+          <style>
+            .privacy-container {
+              width: 100%;
+              height: 100%;
+              background-color: rgb(255, 255, 255);
+              overflow-x: hidden;
+              overflow-y: scroll;
+              scrollbar-width: none;
+              padding: 10px 15px;
+              text-align: justify;
+              padding-bottom: 40px;
+            }
+            .privacy-container section {
+              margin-top: 20px;
+            }
+            .privacy-container section {
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+            }
+            .privacy-container section i {
+              text-align: center;
+            }
+            i q {
+              font-family: cursive;
+
+              background: linear-gradient(
+                to bottom left,
+                rgb(0, 255, 213),
+                rgb(230, 0, 255)
+              );
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+            }
+            .privacy-container section ul li {
+              list-style: disc;
+              margin-left: 15px;
+            }
+          </style>
+          <div class="privacy-container">
+            <header>
+              <h2>Privacy Policy</h2>
+              <p>Effective Date: <strong>[Insert Date]</strong></p>
+            </header>
+
+            <section>
+              <h4>Introduction</h4>
+              <p>
+                At <strong>Penny Partner</strong>, we prioritize your privacy.
+                This Privacy Policy explains how we collect, use, and safeguard
+                your data when using our financial management web application.
+                By using the app, you agree to the practices outlined below.
+              </p>
+            </section>
+
+            <section>
+              <h4>1. Information We Collect</h4>
+              <p>We collect the following types of information:</p>
+              <ul>
+                <li>
+                  <strong>Personal Information</strong>: When you create an
+                  account, we collect your name, email address, and password to
+                  ensure secure access.
+                </li>
+                <li>
+                  <strong>Transaction Data</strong>: We collect data about your
+                  income, expenses, budgets, accounts, and categories to help
+                  you manage and analyze your finances.
+                </li>
+              </ul>
+            </section>
+
+            <section>
+              <h4>2. How We Use Your Information</h4>
+              <p>
+                Your information is used to provide and enhance our services:
+              </p>
+              <ul>
+                <li>
+                  <strong>Account Authentication</strong>: We verify your
+                  identity to ensure secure login and protect your account.
+                </li>
+                <li>
+                  <strong>Financial Management</strong>: We store your
+                  transaction data to help you track your finances, set budgets,
+                  and generate reports.
+                </li>
+                <li>
+                  <strong>Security</strong>: We encrypt your password to keep
+                  your account secure. If you change your password, you will be
+                  logged out of all other devices to protect your information.
+                </li>
+              </ul>
+            </section>
+
+            <section>
+              <h4>3. Data Security</h4>
+              <p>Your security is our priority:</p>
+              <ul>
+                <li>
+                  <strong>Password Encryption</strong>: We encrypt your password
+                  for secure authentication, ensuring only you can access your
+                  account.
+                </li>
+                <li>
+                  <strong>Transaction Data</strong>: Your transaction data is
+                  stored securely in its original form to maintain performance
+                  while ensuring confidentiality.
+                </li>
+              </ul>
+            </section>
+
+            <section>
+              <h4>4. Data Retention</h4>
+              <p>
+                We retain your data only as long as necessary to provide our
+                services or as required by law. You can delete your account at
+                any time, and we will remove your data from our servers upon
+                request.
+              </p>
+            </section>
+
+            <section>
+              <h4>5. Your Rights</h4>
+              <p>You have the right to:</p>
+              <ul>
+                <li>
+                  <strong>Access and Manage</strong>: View and update your
+                  personal and transaction information at any time.
+                </li>
+                <li>
+                  <strong>Delete</strong>: Request the deletion of your account
+                  and all associated data.
+                </li>
+                <li>
+                  <strong>Withdraw Consent</strong>: You may withdraw your
+                  consent to data processing at any time by contacting us.
+                </li>
+              </ul>
+            </section>
+
+            <section>
+              <h4>6. Changes to This Privacy Policy</h4>
+              <p>
+                We may update this Privacy Policy as needed. Significant changes
+                will be communicated to you through the app or on our website.
+                Continued use of the app after updates indicates acceptance of
+                the changes.
+              </p>
+            </section>
+
+            <section>
+              <h4>7. Contact Us</h4>
+              <p>
+                If you have any questions about this Privacy Policy, feel free
+                to contact us:
+              </p>
+              <ul>
+                <li><strong>Email</strong>: official.devpro@gmail.com</li>
+              </ul>
+            </section>
+            <section>
+              <i>
+                <q
+                  >Your financial success is our mission; your privacy is our
+                  promise.</q
+                >
+              </i>
+            </section>
+          </div>
           <div class="settings">
+            
             <ul>
               <li class="edit-username">
                 <div class="left-part">
@@ -1468,13 +1573,12 @@
                   alt="Right Arrow Icon"
                 />
               </li>
-
-              <li>
+              <li id="report">
                 <div class="left-part">
-                  <img class="svg" src="icons/csv.svg" alt="Export Icon" />
-                  <div class="info">
+                  <img class="svg" src="icons/xls.svg" alt="Export Icon" />
+                  <div class="info download-link">
                     <p>Export Records</p>
-                    <small>Download records as a CSV file</small>
+                    <small>Download records as a XLSX file</small>
                   </div>
                 </div>
                 <img
@@ -1525,12 +1629,12 @@
                   alt="Right Arrow Icon"
                 />
               </li>
-              <li>
+              <li id="logout">
                 <div class="left-part">
                   <img class="svg" src="icons/logout.svg" alt="Logout Icon" />
                   <div class="info">
                     <p>Logout</p>
-                    <small>Double-tap to sign out of your account</small>
+                    <small>Double-tap to securely sign out.</small>
                   </div>
                 </div>
                 <img
@@ -1540,7 +1644,7 @@
                 />
               </li>
 
-              <li>
+              <li id="delete">
                 <div class="left-part">
                   <img class="svg" src="icons/delete.svg" alt="Delete Icon" />
                   <div class="info">
@@ -1559,6 +1663,7 @@
         </div>
       </div>
     </div>
+
     <!-- <script>
       
       if ('serviceWorker' in navigator) {
@@ -1573,14 +1678,15 @@
         });
       }
           </script> -->
+    <script type="module" src="JavaScript/userInfo.js"></script>
     <script type="module" src="JavaScript/home.js"></script>
     <script type="module" src="./service-worker.js"></script>
     <script async type="module" src="JavaScript/script.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
-    <!-- <script type="module" src="JavaScript/analysis.js"></script> -->
-    <!-- <script defer type="module" src="JavaScript/functions.js"></script> -->
-    <!-- <script defer type="module" src="JavaScript/category.js"></script> -->
-    <!-- <script defer type="module" src="JavaScript/budget.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="JavaScript/analysis.js"></script>
+    <script defer type="module" src="JavaScript/functions.js"></script>
+    <script defer type="module" src="JavaScript/category.js"></script>
+    <script defer type="module" src="JavaScript/budget.js"></script>
     <!-- <script type="module" src="JavaScript/review.js"></script> -->
     <!-- <script src="JavaScript/animation.js"></script> -->
 

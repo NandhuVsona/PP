@@ -238,24 +238,6 @@ let totalTags = document.querySelectorAll(".total-box p+p");
 let incomeAmount = 0;
 let expenseAmount = 0;
 
-function analysis(src, name, amount, percentage) {
-  let template = `<li>
-                  <div class="img-container">
-                    <img src="${src}" alt="" />
-                  </div>
-                  <div class="text-amount-bar">
-                    <div class="category-name-analysis">
-                      <p class="little-bold">${name}</p>
-                      <div class="money-value"><span class="currency-symbol">${userCurrency}</span> ${amount}</div>
-                    </div>
-                    <div class="analysis-bar-container">
-                      <div class="analysis-bar" style="width:${percentage}%;"></div>
-                    </div>
-                  </div>
-                  <div class="percentage little-bold">${percentage}%</div>
-                </li>`;
-  dataAnalysContainer.innerHTML += template;
-}
 let budgetCategory = [];
 // setTimeout(() => {
 //   transactionHistory.forEach((data) => {
@@ -273,35 +255,29 @@ let budgetCategory = [];
 //   localStorage.setItem("Trasnactions", JSON.stringify(budgetCategory));
 // }, 2500);
 
-function overview(category) {
-  dataAnalysContainer.innerHTML = " ";
-  transactionHistory.forEach((data) => {
-    let { transactions } = data;
-    transactions.forEach((item) => {
-      // if (item.category.type == category) {
-      let amount = item.amount;
-      let divideValue =
-        category == "income" ? incomeAmount : expenseAmount || 1000;
-      let name = item.category[0].name;
-      let src = item.category[0].image;
-      // let percentage = ((amount / divideValue) * 100).toFixed("2");
-      let percentage = item.amount / 10;
-      analysis(src, name, amount, percentage);
-      // }
-    });
-  });
-}
+// function overview(category) {
+//   dataAnalysContainer.innerHTML = " ";
+//   transactionHistory.forEach((data) => {
+//     let { transactions } = data;
+//     transactions.forEach((item) => {
+//       // if (item.category.type == category) {
+//       let amount = item.amount;
+//       let divideValue =
+//         category == "income" ? incomeAmount : expenseAmount || 1000;
+//       let name = item.category[0].name;
+//       let src = item.category[0].image;
+//       // let percentage = ((amount / divideValue) * 100).toFixed("2");
+//       let percentage = item.amount / 10;
+//       analysis(src, name, amount, percentage);
+//       // }
+//     });
+//   });
+// }
 
 analysisOpt.forEach((opt) => {
   opt.addEventListener("click", (e) => {
     document.querySelector(".category-options").classList.remove("active");
     currentView.innerHTML = e.target.textContent.toUpperCase();
-
-    if (e.target.classList.contains("expense-view")) {
-      overview("expense");
-    } else {
-      overview("income");
-    }
   });
 });
 
@@ -1079,8 +1055,8 @@ function temporaryDisplay(data) {
 }
 
 document.querySelector(".edit-history").addEventListener("click", () => {
-  document.querySelector(".category-options-body").classList.remove("active")
-  document.querySelector(".account-options-body").classList.remove("active")
+  document.querySelector(".category-options-body").classList.remove("active");
+  document.querySelector(".account-options-body").classList.remove("active");
   let saveBtn = document.querySelector(".add-transcation-save-btn");
   try {
     saveBtn.removeEventListener("click", transactionSave);

@@ -369,7 +369,7 @@ async function loadBudgeted() {
       baseTemplate(item.name, item.image, item._id);
     });
   }
-  
+
   reloadtwo();
 }
 

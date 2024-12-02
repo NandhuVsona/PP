@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        .message-box {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: rgba(255, 255, 255, 0.484);
+          width: 100%;
+          height: 100%;
+        }
+        .message-box .message-body {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          width: 100%;
+          height: 100%;
+
+          text-align: center;
+        }
+        .message-body .msg-content {
+          width: 320px;
+          background-color: rgb(188, 134, 236);
+          padding: 10px;
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
+          border-radius: 5px;
+          animation: caution .3s ease-out;
+        }
+        .message-body .msg-content .caution-conformation {
+          width: 100%;
+          gap: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: space-evenly;
+          margin-top: 10px;
+        }
+        .message-body .msg-content .caution-conformation button {
+          width: 200px;
+          height: 40px;
+          font-weight: 600;
+        }
+        @keyframes caution {
+          0% {
+        
+            transform: scale(0.5);
+          }
+        
+        }
+      </style>
+      <div class="message-box">
+        <div class="message-body">
+          <div class="msg-content">
+            <b>Caution</b>
+            <p>
+              Everything will be delete and app will go to initial state.
+              Are you sure?
+            </p>
+            <div class="caution-conformation">
+              <button>Confirm</button>
+              <button>Dismiss</button>
+            </div>
+          </div>
+        </div>
+      </div>
+</body>
+</html>

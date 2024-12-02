@@ -434,3 +434,46 @@ li.li-bar {
   font-size: 20px;
   font-weight: 600;
 }
+
+/* privacy content */
+.privacy-container.active {
+  display: block;
+}
+.privacy-container {
+  width: 100%;
+  display: none;
+  height: 100%;
+  background-color: rgb(255, 255, 255);
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  padding: 10px 15px;
+  text-align: justify;
+  padding-bottom: 40px;
+}
+.privacy-container section {
+  margin-top: 20px;
+}
+.privacy-container section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.privacy-container section i {
+  text-align: center;
+}
+i q {
+  font-family: cursive;
+
+  background: linear-gradient(
+    to bottom left,
+    rgb(0, 255, 213),
+    rgb(230, 0, 255)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.privacy-container section ul li {
+  list-style: disc;
+  margin-left: 15px;
+}

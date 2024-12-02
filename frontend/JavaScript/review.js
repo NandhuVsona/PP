@@ -29,35 +29,45 @@ function handleReviewStar(num) {
   }
   return star;
 }
-loadReviews();
-async function loadReviews() {
-  let req = await fetch(
-    "http://127.0.0.1:5500/frontend/JavaScript/reviews.json"
-  );
-  let res = await req.json();
-  console.log(res);
-  if (true) {
-    // let { stats, reviews } = res;
-    document.querySelector(".user-feedback").innerHTML = "";
-    // document.querySelector(".rating-num-left h1").innerHTML = stats.avgRating;
-    // document.querySelector(".nRating").innerHTML = stats.nRating;
-    res.forEach((data) => {
-      let template = ` <li class="review-card">
-        <div class="review-card-head">
-          <div class="review-left-part">
-            <div style="background-color:${getRandomColor()}" class="img review-profile">${data.user
-        .charAt(0)
-        .toLocaleUpperCase()}</div>
-            <p>${data.user}</p>
-          </div>
-          <div class="review-operations">
+setTimeout(() => {
+  loadReviews();
+}, 100);
+
+function isAuthor(review_userId, userId, reviewId) {
+  if (review_userId !== userId) {
+    return "";
+  } else {
+    return `<div class="review-operations">
            
                     <img class="dot svg rr-dots" src="icons/dot.svg" alt="" />
-                    <div class="options rr-options" data-account-id=>
+                    <div class="options rr-options" data-review-id=${reviewId}>
                       <p class="edit-btn-rr">Edit</p>
                       <p class="delete-review">Delete</p>
                     </div>
-                </div>  
+                </div>  `;
+  }
+}
+async function loadReviews() {
+  let userId = document.querySelector(".home-display-username").dataset;
+
+  let req = await fetch("https://pp-qln0.onrender.com/api/v1/reviews");
+  let res = await req.json();
+
+  if (true) {
+    let { stats, reviews } = res;
+    document.querySelector(".user-feedback").innerHTML = "";
+    document.querySelector(".rating-num-left h1").innerHTML = stats.avgRating;
+    document.querySelector(".nRating").innerHTML = stats.nRating;
+    reviews.forEach((data) => {
+      let template = ` <li class="review-card">
+        <div class="review-card-head">
+          <div class="review-left-part">
+            <div style="background-color:${getRandomColor()}" class="img review-profile">${data.user.username
+        .charAt(0)
+        .toLocaleUpperCase()}</div>
+            <p>${data.user.username}</p>
+          </div>
+          ${isAuthor(data.user._id, userId.userId, data._id)}
         </div>
         <div class="review-card-center">
           <div class="reviewed-star">
@@ -70,48 +80,107 @@ async function loadReviews() {
         </p>
       </li>`;
       userFeedBack.innerHTML += template;
+
+      let deleteButtons = document.querySelectorAll(".delete-review");
+
+      deleteButtons.forEach((btn, index) => {
+        btn.addEventListener("click", (event) => {
+          deleteReviewFromServer(event.target.parentElement.dataset.reviewId);
+          let reviewCard = event.target.closest(".review-card");
+
+          reviewCard.remove(); // Remove the review from DOM
+          console.log("Review deleted");
+        });
+      });
     });
   }
-  document.querySelectorAll(".rr-dots")[0].addEventListener("click", () => {
-    document.querySelectorAll(".rr-options")[0].classList.toggle("active");
-  });
-  let delBtn = document.querySelectorAll(".delete-review")[0];
-  delBtn.addEventListener("click", () => {
-    delBtn.parentElement.parentElement.parentElement.parentElement.remove();
-  });
 
-  let editBtn = document.querySelectorAll(".edit-btn-rr")[0];
-  editBtn.addEventListener("click", () => {
-    let review =
-      editBtn.parentElement.parentElement.parentElement.parentElement
-        .lastElementChild.textContent;
-    let filledStar =
-      editBtn.parentElement.parentElement.parentElement.parentElement
-        .children[1].children[0].innerHTML;
-
-    const filledStarCount = (filledStar.match(/icons\/filledstar\.svg/g) || [])
-      .length;
-    console.log(filledStarCount);
-    document.getElementById("rateValue").value = filledStarCount;
-    document.getElementById("calculate-word-len").innerHTML = review.trim();
-    let stars = document.querySelectorAll(".rating-star-container div.star");
-    for (let i = 0; i < filledStarCount; i++) {
-      stars[i].classList.add("active");
-    }
-    let btn = document.querySelector(".review-post-btn");
-    btn.disabled = false;
-    btn.textContent = "UPDATE";
-    document.querySelector(".review-input-container").classList.add("active");
-
-    btn.addEventListener("click", () => {
-      let stars = document.querySelectorAll(
-        ".rating-star-container .star.active"
-      );
-      document.getElementById("rateValue").value = stars.length
-      editBtn.parentElement.parentElement.parentElement.parentElement.lastElementChild.textContent =
-        document.getElementById("calculate-word-len").textContent.trim();
+  attachEditListeners();
+  document.querySelectorAll(".rr-dots").forEach((dot, index) => {
+    dot.addEventListener("click", () => {
+      console.log(index);
+      document
+        .querySelectorAll(".rr-options")
+        [index].classList.toggle("active");
     });
   });
+}
+
+function attachEditListeners() {
+  // Select all edit buttons
+  let editBtns = document.querySelectorAll(".edit-btn-rr");
+
+  editBtns.forEach((editBtn) => {
+    editBtn.addEventListener("click", () => {
+      // Find the review text
+      let reviewTextElement = editBtn
+        .closest(".review-card")
+        .querySelector(".review-text");
+      let reviewText = reviewTextElement.textContent.trim();
+
+      // Find the star rating
+      let filledStarsContainer = editBtn
+        .closest(".review-card")
+        .querySelector(".reviewed-star");
+      let filledStarCount = (
+        filledStarsContainer.innerHTML.match(/icons\/filledstar\.svg/g) || []
+      ).length;
+
+      // Populate edit modal or input fields
+      document.getElementById("rateValue").value = filledStarCount;
+      document.getElementById("calculate-word-len").textContent = reviewText;
+
+      // Update stars in the modal
+      let stars = document.querySelectorAll(".rating-star-container div.star");
+      stars.forEach((star, index) => {
+        star.classList.toggle("active", index < filledStarCount);
+      });
+
+      // Enable update button and change its text
+      let updateBtn = document.querySelector(".review-post-btn");
+      updateBtn.disabled = false;
+      updateBtn.textContent = "UPDATE";
+
+      // Show the review input container for editing
+      document.querySelector(".review-input-container").classList.add("active");
+
+      // Handle update on button click
+      updateBtn.addEventListener("click", () => {
+        // Get the updated stars and review text
+        let updatedStarCount = document.querySelectorAll(
+          ".rating-star-container .star.active"
+        ).length;
+        let updatedReviewText = document
+          .getElementById("calculate-word-len")
+          .textContent.trim();
+
+        // Update the DOM
+        filledStarsContainer.innerHTML = generateStarHTML(updatedStarCount);
+        reviewTextElement.textContent = updatedReviewText;
+
+        // Close the modal or editing section
+        document
+          .querySelector(".review-input-container")
+          .classList.remove("active");
+        updateBtn.textContent = "POST";
+        updateBtn.disabled = true;
+      });
+    });
+  });
+}
+
+// Call this function after rendering the reviews
+
+// Helper function to generate star HTML
+function generateStarHTML(count) {
+  let starHTML = "";
+  for (let i = 0; i < count; i++) {
+    starHTML += `<img src="icons/filledstar.svg" alt="star" />`;
+  }
+  for (let i = count; i < 5; i++) {
+    starHTML += `<img src="icons/emptystar.svg" alt="star" />`;
+  }
+  return starHTML;
 }
 
 //Star animation
@@ -256,3 +325,20 @@ function dynamictemplate(reviewObj) {
     </li>`;
   userFeedBack.innerHTML = template + userFeedBack.innerHTML;
 }
+
+async function deleteReviewFromServer(reviewId) {
+  try {
+    let response = await fetch(
+      `https://pp-qln0.onrender.com/api/v1/reviews/${reviewId}`,
+      {
+        method: "DELETE",
+      }
+    );
+  } catch (error) {
+    console.error("Error deleting review:", error);
+  }
+}
+
+document.querySelector(".account-back-btn").addEventListener("click", () => {
+  document.getElementById("privacy-btn").classList.remove("active");
+});

@@ -1,4 +1,3 @@
-
 //Skeleton load effect
 let incomeElement = document.querySelector(".income-list-skeketon");
 let expenseElement = document.querySelector(".expense-list-skeketon");
@@ -246,9 +245,7 @@ document.addEventListener("click", (e) => {
 });
 
 async function loadData() {
-  let req = await fetch(
-    `https://pp-qln0.onrender.com/api/v1/users/categories`
-  );
+  let req = await fetch(`https://pp-qln0.onrender.com/api/v1/users/categories`);
   let res = await req.json();
 
   if (res.status == "success") {
@@ -317,7 +314,6 @@ async function deleteCategoryDb(userId, categoryId) {
     {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
-      
     }
   );
   console.log("Successfully deleted");

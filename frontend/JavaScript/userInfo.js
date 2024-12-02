@@ -16,6 +16,7 @@ async function profileSetup() {
 
     homeDisplay.textContent = data.username;
     uNameDisplay.textContent = data.username;
+    homeDisplay.dataset.userId = data._id;
     username.value = data.username;
 
     currentProfile.setAttribute("src", "images/profiles/" + data.profile);

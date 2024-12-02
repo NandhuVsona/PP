@@ -1,6 +1,5 @@
 import { closeEditBox, closeAccountBox } from "./script.js";
-let  userCurrency = JSON.parse(localStorage.getItem("currency"))
-
+let userCurrency = JSON.parse(localStorage.getItem("currency"));
 
 const globalId = "66efd1552e03ec45ce74d5fd";
 let accountsList = document.querySelectorAll(".account-list li");
@@ -58,8 +57,10 @@ export function reloadFunctionality() {
           .children[0].textContent;
 
       const amount =
-        btn.parentElement.parentElement.parentElement.children[0].children[1].children[1].children[0].textContent.trim().split(" ")[1]
-        console.log(amount)
+        btn.parentElement.parentElement.parentElement.children[0].children[1].children[1].children[0].textContent
+          .trim()
+          .split(" ")[1];
+      console.log(amount);
       options[index].classList.remove("active");
       selectedCard = btn.parentElement.parentElement.parentElement;
 
@@ -104,9 +105,11 @@ export function saveAccount() {
                   <img class='icon' src="${icon}" alt="" />
                   <div class="card-info">
                     <p class="bold">${accountName}</p>
-                    <p>Balance: <span class="green bold"><span class="currency-symbol">${JSON.parse(localStorage.getItem("currency"))}</span> ${
-                      balance == 0 ? "0" : balance.toLocaleString("en-IN")
-                    }</span></p>
+                    <p>Balance: <span class="green bold"><span class="currency-symbol">${JSON.parse(
+                      localStorage.getItem("currency")
+                    )}</span> ${
+    balance == 0 ? "0" : balance.toLocaleString("en-IN")
+  }</span></p>
                   </div>
                 </div>
                 <div class="operations">
@@ -135,7 +138,7 @@ export function saveAccount() {
 //update functionality---------------------------------------------
 
 export function updateAccount() {
-  let currency = JSON.parse(localStorage.getItem("currency"))
+  let currency = JSON.parse(localStorage.getItem("currency"));
   accountPage.classList.remove("blur");
   closeEditBox();
   let updatedAmount = document.getElementById("edit-amount").value.trim();
@@ -158,7 +161,10 @@ export function updateAccount() {
     updatedAccountName;
 
   selectedCard.children[0].children[1].children[1].children[0].innerHTML =
-    formatedAmount == 0 ? `<span class='currency-symbol'>${currency}</span> 0` : `<span class='currency-symbol'>${currency}</span> ` + formatedAmount.toLocaleString("en-IN");
+    formatedAmount == 0
+      ? `<span class='currency-symbol'>${currency}</span> 0`
+      : `<span class='currency-symbol'>${currency}</span> ` +
+        formatedAmount.toLocaleString("en-IN");
 
   const accountId =
     selectedCard.lastElementChild.lastElementChild.dataset.accountId;
@@ -174,7 +180,7 @@ export function updateAccount() {
 //edit account functainolity
 editBtns.forEach((btn, index) => {
   btn.addEventListener("click", () => {
-    console.log("hello")
+    console.log("hello");
     const accountName =
       btn.parentElement.parentElement.parentElement.children[0].children[1]
         .children[0].textContent;
@@ -183,7 +189,7 @@ editBtns.forEach((btn, index) => {
       btn.parentElement.parentElement.parentElement.children[0].children[1].children[1].children[0].textContent.slice(
         1
       );
-      console.log(amount)
+    console.log(amount);
     options[index].classList.remove("active");
     selectedCard = btn.parentElement.parentElement.parentElement;
 
@@ -260,8 +266,6 @@ async function deleteAccountDb(accountId) {
   );
   console.log("Successfully Deleted");
 }
-
-
 
 // TRANSACTION TEMPLATES
 export function normalTemplate(data) {
