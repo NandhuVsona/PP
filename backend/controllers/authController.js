@@ -119,7 +119,7 @@ const signToken = (id) => {
   };
 
   exports.product = catchAsync(async (req, res, next) => {
-    console.log("product calling");
+   
     //  1) Getting token and check of it's there
 
     let token;

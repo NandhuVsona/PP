@@ -3,12 +3,13 @@ const {
   signup,
   checkId,
   logIn,
-  product,
   forgotPassword,
   resetPassword,
   updatePassword,
   tempUser,
   logOut,
+  product,
+  
 } = require("../controllers/authController");
 const {
   getall,
@@ -49,7 +50,7 @@ const router = express.Router();
 //MIDDLEWARE
 router
   .route("/accounts")
-  .get(product, getAllAccounts)
+  .get(product,getAllAccounts)
   .post(product, createAccount); //Here id is user id
 router.route("/accounts/:id").patch(updateAccount).delete(deleteAccount); //Here id is account id
 
