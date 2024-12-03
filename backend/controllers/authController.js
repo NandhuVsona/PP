@@ -27,7 +27,7 @@ const createSendToken = (user, statusCode, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    secure: false,
+    secure: true,
     httpOnly: true,
   };
   res.cookie("jwt", token, cookieOptions);
@@ -129,8 +129,6 @@ const product = catchAsync(async (req, res, next) => {
   }
 
   req.user = freshUser;
-  console.log("product is calling..");
-  console.log(req.user)
   next();
 });
 
