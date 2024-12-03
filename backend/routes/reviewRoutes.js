@@ -8,8 +8,8 @@ const { product } = require("../controllers/authController");
 
 const router = express.Router();
 
-router.route("/").get(product, getAllReviews).post(product, createReviews)
+router.route("/").get( getAllReviews).post( createReviews)
 
-router.route("/:id").delete(product,deleteReview);
+router.route("/:id").delete(deleteReview);
 
 module.exports = router;

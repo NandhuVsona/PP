@@ -2,10 +2,10 @@ const { Transactions } = require("../models/transactionModel");
 const catchAsync = require("../utils/catchAsync");
 
 exports.visualizeData = catchAsync(async (req, res, next) => {
-    console.log(req.query)
+
   // Get the requested type (either 'income' or 'expense') from the query parameter
   const type = req.query.type;
-  console.log(type)
+
 
   // Ensure a valid type is provided, defaulting to 'income' if none is specified
   if (!type || (type !== "income" && type !== "expense")) {
@@ -74,3 +74,5 @@ exports.visualizeData = catchAsync(async (req, res, next) => {
     totalIncome,
   });
 });
+
+

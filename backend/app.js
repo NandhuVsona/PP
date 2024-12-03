@@ -3,7 +3,7 @@ const app = express();
 const path = require("path");
 const userRoutes = require("./routes/userRoutes.js");
 const reviewRoutes = require("./routes/reviewRoutes.js");
-const analysRoutes = require("./routes/analysRoutes.js");
+const analysRoutes = require("./routes/analysRoutes.js")
 const morgan = require("morgan");
 const AppError = require("./utils/appError.js");
 const globalErrorHandler = require("./controllers/errorController.js");
@@ -14,9 +14,14 @@ const helmet = require("helmet");
 const cors = require("cors");
 const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
-const { product, tempUser } = require("./controllers/authController.js");
+const {
+  product,
+  tempUser,
+  signup,
+} = require("./controllers/authController.js");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const { updateAccount } = require("./controllers/accountController.js");
 
 // 1) GLOBAL MIDDLEWARES
 
@@ -68,15 +73,17 @@ app.use(mongoSanitize());
 //   console.log(req.user);
 //   next();
 // });
-app.get("/", product, (req, res) => {
+
+app.get("/",product, (req, res) => {
   res.sendFile(path.join(__dirname, "views", "index.html"));
 });
+
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/reviews", reviewRoutes);
 app.use("/api/v1/analytics", analysRoutes);
 
 //OTP VERIFICATION
-app.post("/verifyMe", tempUser);
+// app.post("/verifyMe", tempUser);
 
 app.all("*", (req, res, next) => {
   // const err = new Error("Cant find " + req.originalUrl + " on this server");

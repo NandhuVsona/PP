@@ -1,16 +1,5 @@
 const express = require("express");
-const {
-  signup,
-  checkId,
-  logIn,
-  forgotPassword,
-  resetPassword,
-  updatePassword,
-  tempUser,
-  logOut,
-  product,
-  
-} = require("../controllers/authController");
+
 const {
   getall,
   getUser,
@@ -18,12 +7,7 @@ const {
   updateMe,
   deleteMe,
 } = require("../controllers/userController");
-const {
-  getAllAccounts,
-  createAccount,
-  updateAccount,
-  deleteAccount,
-} = require("../controllers/accountController");
+
 const {
   createCategory,
   updateCategory,
@@ -32,12 +16,7 @@ const {
   getAccountsAndCategories,
   homeUpdate,
 } = require("../controllers/categoryController");
-const {
-  getBudgets,
-  setBudget,
-  updateBudget,
-  deleteBudget,
-} = require("../controllers/budgetController");
+
 const {
   createTransaction,
   getAllTransactions,
@@ -45,12 +24,15 @@ const {
   deleteTransaction,
   records,
 } = require("../controllers/transactionController");
+const { product, signup, logIn, logOut, forgotPassword, resetPassword, updatePassword } = require("../controllers/authController");
+const { getAllAccounts, createAccount, updateAccount, deleteAccount } = require("../controllers/accountController");
+const { getBudgets, setBudget, updateBudget, deleteBudget } = require("../controllers/budgetController");
 const router = express.Router();
 
 //MIDDLEWARE
 router
   .route("/accounts")
-  .get(product,getAllAccounts)
+  .get(product, getAllAccounts)
   .post(product, createAccount); //Here id is user id
 router.route("/accounts/:id").patch(updateAccount).delete(deleteAccount); //Here id is account id
 
