@@ -1,10 +1,18 @@
 let chartInstance;
-async function visualizeData(type = "income") {
+const currentDate = new Date();
+const options = { year: "numeric", month: "long" };
+const formattedDate = currentDate.toLocaleDateString("en-US", options);
+
+let dataAnalysContainer = document.querySelector(".data-container");
+export default async function visualizeData(
+  type = "income",
+  month = formattedDate
+) {
   let req = await fetch(
-    `https://pp-qln0.onrender.com/api/v1/analytics?type=${type}`
+    `https://pp-qln0.onrender.com/api/v1/analytics?type=${type}&month=${month}`
   );
   let res = await req.json();
-  console.log(res);
+
   let transactions = res.transactions.map((item) => ({
     category: item.category.name,
     ...item,
@@ -40,7 +48,7 @@ async function visualizeData(type = "income") {
     },
     options: {
       responsive: true, // Make the chart responsive
-      maintainAspectRatio: false, // Allow the chart to adjust its aspect ratio
+      maintainAspectRatio: true, // Allow the chart to adjust its aspect ratio
       plugins: {
         legend: {
           position: "top", // Position the legend on top
@@ -81,8 +89,9 @@ async function visualizeData(type = "income") {
   // DOM content interaction
   let optionBody = document.querySelector(".opt-body");
   let options = document.querySelector(".category-options");
+
   optionBody.addEventListener("click", () => {
-    options.classList.toggle("active");
+    options.classList.add("active");
   });
 
   document.addEventListener("click", (e) => {
@@ -91,17 +100,18 @@ async function visualizeData(type = "income") {
     }
   });
 
+  dataAnalysContainer.innerHTML = "";
+
   transactions.forEach((item) => {
     analysis(
       item.category.image,
       item.category.name,
-      item.totalAmount,
+      item.totalAmount.toLocaleString(),
       ((item.totalAmount / res.totalIncome) * 100).toFixed(2)
     );
   });
 }
 
-let dataAnalysContainer = document.querySelector(".data-container");
 function analysis(src, name, amount, percentage) {
   let userCurrency = "";
   let template = `<li>
@@ -123,8 +133,15 @@ function analysis(src, name, amount, percentage) {
 }
 
 let analysisBtn = document.querySelector(".chart-section");
-analysisBtn.addEventListener("click", () => visualizeData("income"));
+analysisBtn.addEventListener("click", () =>
+  visualizeData("income", formattedDate)
+);
 
-document
-  .querySelector(".expense-view")
-  .addEventListener("click", () => visualizeData("expense"));
+document.querySelector(".expense-view").addEventListener("click", () => {
+  let month = document.querySelectorAll(".month-body .month")[1].textContent;
+  visualizeData("expense", month);
+});
+document.querySelector(".income-view").addEventListener("click", () => {
+  let month = document.querySelectorAll(".month-body .month")[1].textContent;
+  visualizeData("income", month);
+});

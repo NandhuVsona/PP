@@ -1,3 +1,4 @@
+import visualizeData from "./analysis.js";
 import { normalTemplate, transferTemplate } from "./functions.js";
 
 // import { updateBudgetDb } from "./budget.js";
@@ -771,6 +772,14 @@ function changeDate(increament) {
     .querySelectorAll(".month")
     .forEach((head) => (head.innerHTML = `${months[month]} ${year}`));
   loadData(`${months[month]} ${year}`);
+
+  let type = document
+    .querySelector(".current-view")
+    .textContent.toLowerCase()
+    .trim()
+    .split(" ")[0];
+
+  visualizeData(type, `${months[month]} ${year}`);
 }
 
 // Initial date display
@@ -831,7 +840,7 @@ async function loadData(month) {
       document.querySelector(".home-container header").style.display = "flex";
       let { data } = res;
       transactionHistory = data;
-      console.log(data);
+
       if (data.length > 0) {
         mainContent.innerHTML = " ";
         data.forEach((record) => {
