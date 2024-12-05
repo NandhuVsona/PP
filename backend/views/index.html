@@ -323,8 +323,29 @@
                 </div>
               </div>
             </div>
-            <div class="chart">
-              <canvas id="myChart"></canvas>
+            <style>
+              .chart{
+                width: 100%;
+                height: 400px;
+              }
+              @media screen and (min-width: 300px) {
+                /* CSS rules for screens with a max-width of 768px */
+               
+                .chart{
+                  width: 350px !important;
+                }
+            }
+              @media screen and (min-width: 800px) {
+                /* CSS rules for screens with a max-width of 768px */
+               
+                .chart{
+                  width: 400px !important;
+                }
+            }
+            
+            </style>
+            <div class="chart" style="height: 400px;">
+              <canvas width="400" height="400" id="myChart"></canvas>
             </div>
 
             <div class="text-view">
@@ -1796,7 +1817,7 @@ console.log(messageBox)
     <script defer type="module" src="JavaScript/category.js"></script>
     <script defer type="module" src="JavaScript/budget.js"></script>
     <script type="module" src="JavaScript/review.js"></script>
-    <!-- <script src="JavaScript/animation.js"></script> -->
+    <script src="JavaScript/animation.js"></script>
     <script>
       let privacyBtn = document.getElementById("privacy-btn");
       privacyBtn.addEventListener("click", () => {

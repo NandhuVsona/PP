@@ -2,9 +2,10 @@ const { Transactions } = require("../models/transactionModel");
 const catchAsync = require("../utils/catchAsync");
 
 exports.visualizeData = catchAsync(async (req, res, next) => {
-
+console.log(req.query)
   // Get the requested type (either 'income' or 'expense') from the query parameter
   const type = req.query.type;
+  const month = req.query.month;
 
 
   // Ensure a valid type is provided, defaulting to 'income' if none is specified
@@ -18,7 +19,7 @@ exports.visualizeData = catchAsync(async (req, res, next) => {
     {
       $match: {
         userId: req.user._id,
-        month: "November 2024", // Match only November 2024 transactions
+        month, // Match only November 2024 transactions
       },
     },
     {
