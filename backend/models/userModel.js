@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
     minlength: [8, "Password contain atleast 8 characters"],
     select: false,
   },
+  provider:{
+    type:String,
+    enum:["google","undefined"]
+  },
   currency: {
     type: String,
     default: "₹",

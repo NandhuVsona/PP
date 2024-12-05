@@ -13,6 +13,6 @@ exports.createDefaultData = async (userId) => {
     item.userId = userId;
     return item;
   });
-  await Categories.insertMany(updateUserIdToCategories);
-  await Accounts.insertMany(updateUserIdToAccounts);
+  // await Categories.insertMany(updateUserIdToCategories);
+  // await Accounts.insertMany(updateUserIdToAccounts);
 };

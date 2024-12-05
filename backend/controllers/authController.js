@@ -301,4 +301,4 @@ const tempUser = catchAsync(async (req, res, next) => {
   }
 });
 
-module.exports = {product,signup,logIn,logOut,resetPassword,updatePassword,tempUser,forgotPassword}
+module.exports = {product,signup,logIn,logOut,resetPassword,updatePassword,tempUser,forgotPassword,createSendToken}

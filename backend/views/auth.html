@@ -545,14 +545,17 @@
 
             <button class="signin-btn">GET STARTED</button>
             <div id="gSignInWrapper">
-              <div id="customBtn" class="customGPlusSignIn">
-                <img
-                  class="google"
-                  src="https://cdn.freebiesupply.com/logos/large/2x/google-icon-logo-png-transparent.png"
-                  alt=""
-                />
-                <span class="buttonText">Continue with Google</span>
-              </div>
+              <a href="/auth/google">
+                <div id="customBtn-login" class="customGPlusSignIn">
+                  <img
+                    class="google"
+                    src="https://cdn.freebiesupply.com/logos/large/2x/google-icon-logo-png-transparent.png"
+                    alt=""
+                  />
+
+                  <span class="buttonText">Continue with Google</span>
+                </div>
+              </a>
               <small class="no-account">Don't have an account? signup</small>
             </div>
           </section>
@@ -951,6 +954,31 @@
         console.log(obj);
         VerifyOTP(obj);
       });
+
+      document
+        .getElementById("customBtn-login")
+        .addEventListener("click", oAuth);
+      async function oAuth(data) {
+        let req = await fetch(
+          "https://pp-qln0.onrender.com/auth/google/callback",
+          {
+            method: "GET", // You may want to specify the method, usually it's POST or GET for OAuth
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        let res = await req.json();
+        console.log(res);
+        if (res.status == "success") {
+          location.reload(true);
+        } else {
+          loginBtn.disabled = true;
+          loginBtn.innerHTML = "GET STARTED";
+          showMessage(res);
+        }
+      }
     </script>
   </body>
 </html>

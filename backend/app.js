@@ -3,7 +3,7 @@ const app = express();
 const path = require("path");
 const userRoutes = require("./routes/userRoutes.js");
 const reviewRoutes = require("./routes/reviewRoutes.js");
-const analysRoutes = require("./routes/analysRoutes.js")
+const analysRoutes = require("./routes/analysRoutes.js");
 const morgan = require("morgan");
 const AppError = require("./utils/appError.js");
 const globalErrorHandler = require("./controllers/errorController.js");
@@ -14,14 +14,23 @@ const helmet = require("helmet");
 const cors = require("cors");
 const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
+const passport = require("./utils/passportSetup.js");
+
+// const dotenv = require("dotenv");
+// require("dotenv").config();
+// dotenv.config({ path: path.join(__dirname, ".env") });
+
 const {
   product,
   tempUser,
   signup,
+  createSendToken,
 } = require("./controllers/authController.js");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
-const { updateAccount } = require("./controllers/accountController.js");
+const User = require("./models/userModel.js");
+
+console.log(createSendToken)
 
 // 1) GLOBAL MIDDLEWARES
 
@@ -35,17 +44,6 @@ const { updateAccount } = require("./controllers/accountController.js");
 //   message: "Too many requests from this IP, please try again in an hour!",
 // });
 // app.use("/api", limiter);
-
-// app.use(
-//   session({
-//     secret: "secretpennypartner",
-//     resave: false, // Forces session to be saved back to the session store
-//     saveUninitialized: false, // Don't save uninitialized sessions
-//     saveUninitialized: true,
-//     cookie: { maxAge: 60000 },
-//   })
-// );
-//MIDDLEWARES
 
 // CORS configuration
 app.use(
@@ -73,8 +71,55 @@ app.use(mongoSanitize());
 //   console.log(req.user);
 //   next();
 // });
+// Middleware
 
-app.get("/",product, (req, res) => {
+// Import the configured passport instance
+
+app.use(
+  session({
+    secret: process.env.GOOGLE_CLIENT_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    scope: [
+      "https://www.googleapis.com/auth/userinfo.profile",
+      "https://www.googleapis.com/auth/userinfo.email",
+    ],
+  })
+);
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/" }),
+  async (req, res) => {
+    console.log(req.user);
+    let isExist = await User.findOne({ email: req.user.emails[0].value });
+    if (!isExist) {
+      let newUser = await User.create({
+        username: req.user.displayName,
+        email: req.user.emails[0].value,
+        password: "00000000",
+        provider: req.user.provider,
+      });
+      createSendToken(newUser, 201, res);
+      // await createDefaultData(newUser._id);
+      // await TempUsers.findByIdAndDelete(tempUser._id);
+    } else {
+      createSendToken(isExist, 200, res);
+    }
+  }
+);
+
+
+app.get("/", product, (req, res) => {
   res.sendFile(path.join(__dirname, "views", "index.html"));
 });
 
