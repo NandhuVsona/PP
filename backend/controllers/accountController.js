@@ -2,7 +2,7 @@ const { Accounts } = require("../models/accountModel");
 const catchAsync = require("../utils/catchAsync");
 
 exports.createAccount = catchAsync(async (req, res, next) => {
-console.log(req.user)
+
   const newAccount = await Accounts.create({
     icon: req.body.icon,
     accountName: req.body.accountName,

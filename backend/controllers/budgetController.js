@@ -40,7 +40,7 @@ exports.setBudget = catchAsync(async (req, res, next) => {
   });
  
   let sum = a.reduce((acc, item) => acc + item.amount, 0);
-  console.log(sum);
+
   data.spend = sum || 0;
   let newBudgets = await Budgets.create(req.body);
   res.status(201).json({

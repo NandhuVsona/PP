@@ -132,7 +132,6 @@ const product = catchAsync(async (req, res, next) => {
   next();
 });
 
-console.log(product)
 
 // FORGOT PASSWORD
 const forgotPassword = async (req, res, next) => {

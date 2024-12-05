@@ -157,14 +157,18 @@
     }
     #gSignInWrapper {
       width: 100%;
-
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
       gap: 15px;
     }
-    #customBtn {
+    #gSignInWrapper a {
+      width: 100%;
+      text-decoration: none;
+    }
+    #customBtn,
+    #customBtn-login {
       gap: 15px;
       background: white;
       color: #444;
@@ -556,7 +560,6 @@
                   <span class="buttonText">Continue with Google</span>
                 </div>
               </a>
-              <small class="no-account">Don't have an account? signup</small>
             </div>
           </section>
           <section class="section-2">
@@ -579,14 +582,18 @@
 
             <button id="sendOtp" class="signUp">GET STARTED</button>
             <div id="gSignInWrapper">
-              <div id="customBtn" class="customGPlusSignIn">
-                <img
-                  class="google"
-                  src="https://cdn.freebiesupply.com/logos/large/2x/google-icon-logo-png-transparent.png"
-                  alt=""
-                />
-                <span class="buttonText">Continue with Google</span>
-              </div>
+              <a href="/auth/google">
+                <div id="customBtn-login" class="customGPlusSignIn">
+                  <img
+                    class="google"
+                    src="https://cdn.freebiesupply.com/logos/large/2x/google-icon-logo-png-transparent.png"
+                    alt=""
+                  />
+
+                  <span class="buttonText">Continue with Google</span>
+                </div>
+              </a>
+              
             </div>
             <div class="otp-container">
               <div class="otp-body">
@@ -954,10 +961,6 @@
         console.log(obj);
         VerifyOTP(obj);
       });
-
-      document
-        .getElementById("customBtn-login")
-        .addEventListener("click", oAuth);
     </script>
   </body>
 </html>

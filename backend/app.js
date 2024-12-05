@@ -16,9 +16,6 @@ const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const passport = require("./utils/passportSetup.js");
 
-// const dotenv = require("dotenv");
-// require("dotenv").config();
-// dotenv.config({ path: path.join(__dirname, ".env") });
 
 const {
   product,
@@ -30,8 +27,10 @@ const {
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const User = require("./models/userModel.js");
+const { createDefaultData } = require("./utils/defaultData.js");
+const TempUsers = require("./models/tempModel.js");
 
-console.log(createSendToken);
+
 
 // 1) GLOBAL MIDDLEWARES
 
@@ -113,18 +112,17 @@ app.get(
   passport.authenticate("google", { failureRedirect: "/" }),
   async (req, res) => {
     try {
-      console.log(req.user);
+      
       let isExist = await User.findOne({ email: req.user.emails[0].value });
       if (!isExist) {
         let newUser = await User.create({
           username: req.user.displayName,
           email: req.user.emails[0].value,
-          password: "00000000",
+          password: process.env.GPASS,
           provider: req.user.provider,
         });
         setCookie(newUser._id, res);
-        // await createDefaultData(newUser._id);
-        // await TempUsers.findByIdAndDelete(tempUser._id);
+        await createDefaultData(newUser._id);
       } else {
         setCookie(isExist._id, res);
       }
@@ -144,8 +142,8 @@ app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/reviews", reviewRoutes);
 app.use("/api/v1/analytics", analysRoutes);
 
-//OTP VERIFICATION
-// app.post("/verifyMe", tempUser);
+// OTP VERIFICATION
+app.post("/verifyMe", tempUser);
 
 app.all("*", (req, res, next) => {
   // const err = new Error("Cant find " + req.originalUrl + " on this server");

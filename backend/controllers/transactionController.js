@@ -7,8 +7,7 @@ const { Budgets } = require("../models/budgetModel");
 
 exports.getAllTransactions = catchAsync(async (req, res, next) => {
   const { month } = req.query;
-  console.log(req.query);
-  console.log(req.user);
+
   const allTransaction = await Transactions.aggregate([
     {
       $match: {
