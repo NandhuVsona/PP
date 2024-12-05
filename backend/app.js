@@ -25,12 +25,13 @@ const {
   tempUser,
   signup,
   createSendToken,
+  signToken,
 } = require("./controllers/authController.js");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const User = require("./models/userModel.js");
 
-console.log(createSendToken)
+console.log(createSendToken);
 
 // 1) GLOBAL MIDDLEWARES
 
@@ -95,29 +96,45 @@ app.get(
     ],
   })
 );
+function setCookie(userId, res) {
+  const token = signToken(userId);
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    secure: false,
+    httpOnly: true,
+  };
+  res.cookie("jwt", token, cookieOptions);
+}
 
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   async (req, res) => {
-    console.log(req.user);
-    let isExist = await User.findOne({ email: req.user.emails[0].value });
-    if (!isExist) {
-      let newUser = await User.create({
-        username: req.user.displayName,
-        email: req.user.emails[0].value,
-        password: "00000000",
-        provider: req.user.provider,
-      });
-      createSendToken(newUser, 201, res);
-      // await createDefaultData(newUser._id);
-      // await TempUsers.findByIdAndDelete(tempUser._id);
-    } else {
-      createSendToken(isExist, 200, res);
+    try {
+      console.log(req.user);
+      let isExist = await User.findOne({ email: req.user.emails[0].value });
+      if (!isExist) {
+        let newUser = await User.create({
+          username: req.user.displayName,
+          email: req.user.emails[0].value,
+          password: "00000000",
+          provider: req.user.provider,
+        });
+        setCookie(newUser._id, res);
+        // await createDefaultData(newUser._id);
+        // await TempUsers.findByIdAndDelete(tempUser._id);
+      } else {
+        setCookie(isExist._id, res);
+      }
+      res.redirect("/");
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
     }
   }
 );
-
 
 app.get("/", product, (req, res) => {
   res.sendFile(path.join(__dirname, "views", "index.html"));

@@ -958,27 +958,6 @@
       document
         .getElementById("customBtn-login")
         .addEventListener("click", oAuth);
-      async function oAuth(data) {
-        let req = await fetch(
-          "https://pp-qln0.onrender.com/auth/google/callback",
-          {
-            method: "GET", // You may want to specify the method, usually it's POST or GET for OAuth
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        let res = await req.json();
-        console.log(res);
-        if (res.status == "success") {
-          location.reload(true);
-        } else {
-          loginBtn.disabled = true;
-          loginBtn.innerHTML = "GET STARTED";
-          showMessage(res);
-        }
-      }
     </script>
   </body>
 </html>
