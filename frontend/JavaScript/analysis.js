@@ -133,9 +133,15 @@ function analysis(src, name, amount, percentage) {
 }
 
 let analysisBtn = document.querySelector(".chart-section");
-analysisBtn.addEventListener("click", () =>
-  visualizeData("income", formattedDate)
-);
+analysisBtn.addEventListener("click", () => {
+  let month = document.querySelectorAll(".month-body .month")[1].textContent;
+  let type = document
+    .querySelector(".current-view")
+    .textContent.toLowerCase()
+    .trim()
+    .split(" ")[0];
+  visualizeData(type, month);
+});
 
 document.querySelector(".expense-view").addEventListener("click", () => {
   let month = document.querySelectorAll(".month-body .month")[1].textContent;
