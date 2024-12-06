@@ -5,7 +5,6 @@ const catchAsync = require("../utils/catchAsync");
 
 exports.getBudgets = catchAsync(async (req, res, next) => {
   let userId = req.user._id;
-  console.log(req.query.month);
 
   const budgets = await Budgets.find({
     userId,
