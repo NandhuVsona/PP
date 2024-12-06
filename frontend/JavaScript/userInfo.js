@@ -6,18 +6,26 @@ let homeDisplay = document.querySelector(".home-display-username");
 let uNameDisplay = document.querySelector(".username-display");
 let closeCurrency = document.querySelector(".close-currency");
 let selectedCurrency;
+let activateChart = document.querySelectorAll(".toggle-switch");
 
 async function profileSetup() {
   let req = await fetch("https://pp-qln0.onrender.com/api/v1/users");
   let res = await req.json();
   if (res.status == "success") {
     let { data } = res;
-    // console.log(res);
+    console.log(res);
 
     homeDisplay.textContent = data.username;
     uNameDisplay.textContent = data.username;
     homeDisplay.dataset.userId = data._id;
     username.value = data.username;
+    if (data.chart == "doughnut") {
+      activateChart[2].classList.add("active");
+    } else if (data.chart == "pie") {
+      activateChart[0].classList.add("active");
+    } else {
+      activateChart[1].classList.add("active");
+    }
 
     currentProfile.setAttribute("src", "images/profiles/" + data.profile);
     document
@@ -62,7 +70,7 @@ closeCurrencyBox.addEventListener("click", () => {
 });
 
 function filterObj(obj) {
-  let allowedFields = ["username", "profile", "currency"];
+  let allowedFields = ["username", "profile", "currency", "chart"];
   let sturcturedData = {};
   Object.keys(obj).forEach((field) => {
     if (allowedFields.includes(field)) {
@@ -78,8 +86,8 @@ async function updateMe(obj) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
-  // let res = await req.json();
-  // console.log(res);
+  let res = await req.json();
+  console.log(res);
 }
 
 let profileList = document.querySelectorAll(
@@ -222,13 +230,15 @@ delBtn.addEventListener("dblclick", async () => {
   }
 });
 
-
-
+const allToggles = document.querySelectorAll(".toggle-switch-parent");
+allToggles.forEach((sw) => {
+  sw.addEventListener("click", () => toggleSwitch(sw));
+});
 // CHART FUNCTAONALITY
 function toggleSwitch(clickedElement) {
   // Get all toggle switches
   const allToggles = document.querySelectorAll(".toggle-switch-parent");
-  console.log(allToggles);
+
   // Turn off all switches
   allToggles.forEach((toggle) =>
     toggle.lastElementChild.classList.remove("active")
@@ -236,6 +246,7 @@ function toggleSwitch(clickedElement) {
 
   // Activate the clicked switch
   clickedElement.lastElementChild.classList.add("active");
+  updateMe({ chart: clickedElement.dataset.chartName });
 }
 
 const customizeLabel = document.querySelector(".chart-label");
@@ -245,7 +256,10 @@ customizeLabel.addEventListener("click", () => {
   chartContainer.classList.remove("closed");
   chartContainer.classList.add("active"); // Adds the 'highlight' class to the element
 });
-function closeChartOptions(){
+function closeChart() {
   chartContainer.classList.remove("active");
   chartContainer.classList.add("closed");
 }
+
+let closeChartOptions = document.querySelector(".closeChartOptions");
+closeChartOptions.addEventListener("click", closeChart);

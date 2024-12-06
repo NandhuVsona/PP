@@ -1372,7 +1372,7 @@
 
           <div class="chart-type-container">
             <ul class="chart-body">
-              <li class="toggle-switch-parent" onclick="toggleSwitch(this)">
+              <li class="toggle-switch-parent" data-chart-name="pie">
                 <div class="chart-details">
                   <p>Pie Chart</p>
                   <small>Display data as segments</small>
@@ -1382,7 +1382,7 @@
                 </div>
               </li>
 
-              <li class="toggle-switch-parent" onclick="toggleSwitch(this)">
+              <li class="toggle-switch-parent" data-chart-name="polarArea">
                 <div class="chart-details">
                   <p>Polar Chart</p>
                   <small>Visualizes data in a radial layout</small>
@@ -1391,7 +1391,7 @@
                   <div class="toggle-circle"></div>
                 </div>
               </li>
-              <li class="toggle-switch-parent" onclick="toggleSwitch(this)">
+              <li class="toggle-switch-parent" data-chart-name="doughnut">
                 <div class="chart-details">
                   <div class="chart-details">
                     <p>Doughnut Chart</p>
@@ -1402,7 +1402,7 @@
                   <div class="toggle-circle"></div>
                 </div>
               </li>
-              <li onclick="closeChartOptions()">
+              <li class="closeChartOptions">
                 <button class="close-chart-container">Close</button>
               </li>
             </ul>
@@ -1581,7 +1581,7 @@
                   alt="Right Arrow Icon"
                 />
               </li>
-              <li class="">
+              <li class="chart-label">
                 <div class="left-part">
                   <img
                     class="svg"
@@ -1813,6 +1813,10 @@
         </div>
       </div>
     </div>
+
+    <script>
+      
+    </script>
     <script>
       let messageBox = document.querySelector(".message-box-main");
       let resetBtn = document.getElementById("reset-app");

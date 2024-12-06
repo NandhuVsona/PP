@@ -1101,3 +1101,24 @@ li .chart-details {
 .chart-body li {
   padding: 10px;
 }
+
+.close-chart-container{
+  width: 120px;
+  height: 40px;
+  font-weight: 500;
+  border-radius: 4px;
+border: none;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+
+}
+.close-chart-container:hover{
+  background: linear-gradient(
+    to bottom left,
+
+    rgb(0, 255, 213),
+    rgb(230, 0, 255)
+  );
+}

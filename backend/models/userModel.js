@@ -30,6 +30,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "₹",
   },
+  chart:{
+    type:String,
+    default:"doughnut",
+    enum:["doughnut","pie","polarArea"]
+  }
+  ,
   passwordChangedAt: {
     type: Date,
   },

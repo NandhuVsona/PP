@@ -41,7 +41,7 @@ export default async function visualizeData(
     chartInstance.destroy(); // Destroy the existing chart instance
   }
   chartInstance = new Chart(ctx, {
-    type: "doughnut",
+    type: res.chart || "doughnut",
     data: {
       // labels: labels, // Use dynamically generated labels from income transactions
       datasets: [

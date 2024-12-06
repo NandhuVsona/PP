@@ -29,7 +29,7 @@ exports.getall = catchAsync(async (req, res, next) => {
 });
 
 exports.updateMe = catchAsync(async (req, res, next) => {
-  const filteredBody = filterObj(req.body, "username", "profile", "currency");
+  const filteredBody = filterObj(req.body, "username", "profile", "currency","chart");
   const user = await User.findByIdAndUpdate(req.user._id, filteredBody, {
     new: true,
     runValidators: true,
