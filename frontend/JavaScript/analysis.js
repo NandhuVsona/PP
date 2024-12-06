@@ -12,6 +12,20 @@ export default async function visualizeData(
     `https://pp-qln0.onrender.com/api/v1/analytics?type=${type}&month=${month}`
   );
   let res = await req.json();
+  let chart = document.querySelector(".chart");
+  if (res.totalIncome == 0) {
+    dataAnalysContainer.innerHTML = "";
+
+    chart.innerHTML = `<div class="no-content-container" style="margin-bottom: 150px";>
+    <img src="images/404.png" alt="" />
+    <p>
+      No record in this month. Tap + to add new expense or income.
+    </p>
+  </div>`;
+    return;
+  } else {
+    chart.innerHTML = '<canvas width="400" height="400" id="myChart"></canvas>';
+  }
 
   let transactions = res.transactions.map((item) => ({
     category: item.category.name,

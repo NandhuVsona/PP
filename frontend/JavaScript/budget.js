@@ -35,6 +35,7 @@ function removeBudget(btn) {
   //reloadDots();
   console.log("1");
   let btnId = btn.parentElement.dataset.categoryId;
+
   removeBudgetDb(btnId, loadBudgeted);
   btn.parentElement.parentElement.parentElement.parentElement.remove();
 }
@@ -276,7 +277,7 @@ document.addEventListener("click", (e) => {
 });
 
 //-------------READ BUDGETS -----------------------
-async function loadDataBudgets(month) {
+export default async function loadDataBudgets(month) {
   let req = await fetch(
     `https://pp-qln0.onrender.com/api/v1/users/budgets?month=${month}`
   );
@@ -291,14 +292,20 @@ async function loadDataBudgets(month) {
     let unBudgeted = data[0].unBudgeted;
     let budgeted = data[0].budgeted;
 
-    budgeted.forEach((data) => {
-      let { budget, _id, remaining, spend } = data;
-      let { image, name } = data.categoryId;
-      setBudgetTemplate(_id, name, image, budget, remaining, spend);
-    });
     unBudgeted.forEach((item) => {
       baseTemplate(item.name, item.image, item._id);
     });
+    console.log(unBudgeted.length);
+    if (budgeted.length) {
+      budgeted.forEach((data) => {
+        let { budget, _id, remaining, spend } = data;
+        let { image, name } = data.categoryId;
+        setBudgetTemplate(_id, name, image, budget, remaining, spend);
+      });
+    } else {
+      ulParent.innerHTML =
+        '<li id="no-budget">Currently, no budget is applied for this month.</li>';
+    }
 
     reload();
   }
@@ -356,7 +363,7 @@ async function updateBudgetDb(budgetId, data) {
   let res = await req.json();
   console.log(res);
 }
-
+let month = document.querySelectorAll(".month-body .month")[1].textContent;
 async function loadBudgeted() {
   let req = await fetch(`https://pp-qln0.onrender.com/api/v1/users/budgets`);
   let res = await req.json();
@@ -420,5 +427,8 @@ function chechHistory(id) {
 }
 
 document.querySelector(".skeleton-budget").addEventListener("click", () => {
-  loadDataBudgets("November%202024");
+  let month = document.querySelectorAll(".month-body .month")[1].textContent;
+  console.log(month);
+  loadDataBudgets(month);
 });
+console.log(document.querySelectorAll(".month-body .month"));

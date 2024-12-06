@@ -997,3 +997,8 @@ z-index: 10 !important;
 .currency-symbol{
   margin: 5px;
 }
+
+#no-budget{
+  color: #009688;
+  text-align: center;
+}

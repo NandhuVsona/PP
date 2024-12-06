@@ -231,6 +231,7 @@
   position: absolute;
   background-color: #ececec;
   width: 100%;
+  z-index: 2;
   display: none;
   flex-direction: column;
   justify-content: flex-start;
@@ -1251,7 +1252,7 @@ width: 90%;
 }
 
 /* Styling for no content */
-.main-content .no-content-container {
+ .no-content-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1259,7 +1260,7 @@ width: 90%;
   position: relative;
 }
 
-.main-content .no-content-container img {
+.no-content-container img {
   width: 20em;
   height: 20em;
   animation: zoom 0.3s ease;
@@ -1275,7 +1276,7 @@ width: 90%;
     -o-transform: scale(0.8);
   }
 }
-.main-content .no-content-container p {
+.no-content-container p {
   text-align: center;
   position: absolute;
   bottom: -20px;

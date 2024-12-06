@@ -1,4 +1,5 @@
 import visualizeData from "./analysis.js";
+import loadDataBudgets from "./budget.js";
 import { normalTemplate, transferTemplate } from "./functions.js";
 
 // import { updateBudgetDb } from "./budget.js";
@@ -755,7 +756,7 @@ document
   .forEach((head) => (head.innerHTML = `${months[month]} ${year}`));
 
 // Function to update the date
-function changeDate(increament) {
+function changeDate(increament, index) {
   month = month + increament;
 
   if (month > 11) {
@@ -779,21 +780,25 @@ function changeDate(increament) {
     .trim()
     .split(" ")[0];
 
-  visualizeData(type, `${months[month]} ${year}`);
+  if (index == 1) {
+    visualizeData(type, `${months[month]} ${year}`);
+  } else if (index == 2) {
+    loadDataBudgets(`${months[month]} ${year}`);
+  }
 }
 
 // Initial date display
 
 let leftArrows = document.querySelectorAll(".left-arrow");
 let rightArrows = document.querySelectorAll(".right-arrow");
-leftArrows.forEach((larrow) => {
+leftArrows.forEach((larrow, index) => {
   larrow.addEventListener("click", () => {
-    changeDate(-1);
+    changeDate(-1, index);
   });
 });
-rightArrows.forEach((rarrow) => {
+rightArrows.forEach((rarrow, index) => {
   rarrow.addEventListener("click", () => {
-    changeDate(1);
+    changeDate(1, index);
   });
 });
 
