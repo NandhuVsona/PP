@@ -1370,6 +1370,45 @@
             </div>
           </div>
 
+          <div class="chart-type-container">
+            <ul class="chart-body">
+              <li class="toggle-switch-parent" onclick="toggleSwitch(this)">
+                <div class="chart-details">
+                  <p>Pie Chart</p>
+                  <small>Display data as segments</small>
+                </div>
+                <div class="toggle-switch" >
+                  <div class="toggle-circle"></div>
+                </div>
+              </li>
+
+              <li class="toggle-switch-parent" onclick="toggleSwitch(this)">
+                <div class="chart-details">
+                  <p>Polar Chart</p>
+                  <small>Visualizes data in a radial layout</small>
+                </div>
+                <div class="toggle-switch" >
+                  <div class="toggle-circle"></div>
+                </div>
+              </li>
+              <li class="toggle-switch-parent" onclick="toggleSwitch(this)">
+                <div class="chart-details">
+                  <div class="chart-details">
+                    <p>Doughnut Chart</p>
+                    <small>Pie chart with a center void</small>
+                  </div>
+                </div>
+                <div class="toggle-switch" >
+                  <div class="toggle-circle"></div>
+                </div>
+              </li>
+              <li onclick="closeChartOptions()">
+                <button class="close-chart-container">Close</button>
+              </li>
+            </ul>
+         
+          </div>
+
           <div class="privacy-container">
             <header>
               <h2>Privacy Policy</h2>
@@ -1534,6 +1573,24 @@
                   <div class="info">
                     <p>Currency Format</p>
                     <small>Indian Rupee (INR)</small>
+                  </div>
+                </div>
+                <img
+                  class="arrow-right"
+                  src="icons/arrowright.svg"
+                  alt="Right Arrow Icon"
+                />
+              </li>
+              <li class="">
+                <div class="left-part">
+                  <img
+                    class="svg"
+                    src="icons/chart.svg"
+                    alt="Currency Icon"
+                  />
+                  <div class="info">
+                    <p>Customize Chart</p>
+                    <small>Pick your chart style</small>
                   </div>
                 </div>
                 <img
