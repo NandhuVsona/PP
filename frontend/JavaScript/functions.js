@@ -341,3 +341,76 @@ export function transferTemplate(data) {
    <small style="display: none;" >${data.description}</small>`;
   return template;
 }
+
+export function toReadableDate(createdAt) {
+  const date = new Date(createdAt);
+
+  // Format the date
+  const options = {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  };
+  const formattedDate = date.toLocaleString("en-US", options).replace(",", "");
+  return formattedDate;
+}
+
+export function setHeaderInfo(income, expense) {
+  // Set the text content for the expense boxes
+  document.querySelector(
+    ".expense-box"
+  ).lastElementChild.lastChild.textContent = parseFloat(
+    expense.toFixed(1)
+  ).toLocaleString();
+  document.querySelectorAll(
+    ".expense-box"
+  )[1].lastElementChild.lastChild.textContent = parseFloat(
+    expense.toFixed(1)
+  ).toLocaleString();
+
+  // Set the text content for the income boxes
+  document.querySelector(".income-box").lastElementChild.lastChild.textContent =
+    parseFloat(income.toFixed(1)).toLocaleString();
+  document.querySelectorAll(
+    ".income-box"
+  )[1].lastElementChild.lastChild.textContent = parseFloat(
+    income.toFixed(1)
+  ).toLocaleString();
+
+  // Set the text content for the total boxes
+  const total = (income - expense).toFixed(1).toLocaleString();
+  document.querySelector(".total-box").lastElementChild.lastChild.textContent =
+    parseFloat(total).toLocaleString();
+  document.querySelectorAll(
+    ".total-box"
+  )[1].lastElementChild.lastChild.textContent =
+    parseFloat(total).toLocaleString();
+}
+
+export function resetHeaderInfo() {
+  // Set the text content for the expense boxes
+  document.querySelector(
+    ".expense-box"
+  ).lastElementChild.lastChild.textContent = "0.00";
+  document.querySelectorAll(
+    ".expense-box"
+  )[1].lastElementChild.lastChild.textContent = "0.00";
+
+  // Set the text content for the income boxes
+  document.querySelector(".income-box").lastElementChild.lastChild.textContent =
+    "0.00";
+  document.querySelectorAll(
+    ".income-box"
+  )[1].lastElementChild.lastChild.textContent = "0.00";
+
+  // Set the text content for the total boxes
+
+  document.querySelector(".total-box").lastElementChild.lastChild.textContent =
+    "0.00";
+  document.querySelectorAll(
+    ".total-box"
+  )[1].lastElementChild.lastChild.textContent = "0.00";
+}

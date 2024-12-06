@@ -263,3 +263,17 @@ function closeChart() {
 
 let closeChartOptions = document.querySelector(".closeChartOptions");
 closeChartOptions.addEventListener("click", closeChart);
+
+export function generateTimeStamp() {
+  const now = new Date();
+  const options = {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  };
+  const formatted = now.toLocaleString("en-US", options).replace(",", "");
+  return formatted;
+}

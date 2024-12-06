@@ -431,4 +431,3 @@ document.querySelector(".skeleton-budget").addEventListener("click", () => {
   console.log(month);
   loadDataBudgets(month);
 });
-console.log(document.querySelectorAll(".month-body .month"));

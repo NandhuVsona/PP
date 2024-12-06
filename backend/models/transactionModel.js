@@ -51,6 +51,10 @@ const transactionSchema = new mongoose.Schema(
         return this.type === "transfer"; // Only required if type is 'transfer'
       },
     },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   { timestamps: true }
 );
@@ -63,6 +67,5 @@ transactionSchema.pre("save", function (next) {
   }
   next();
 });
-
 
 exports.Transactions = mongoose.model("Transactions", transactionSchema);

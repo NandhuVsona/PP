@@ -1,6 +1,13 @@
 import visualizeData from "./analysis.js";
 import loadDataBudgets from "./budget.js";
-import { normalTemplate, transferTemplate } from "./functions.js";
+import {
+  normalTemplate,
+  resetHeaderInfo,
+  setHeaderInfo,
+  toReadableDate,
+  transferTemplate,
+} from "./functions.js";
+import { generateTimeStamp } from "./userInfo.js";
 
 // import { updateBudgetDb } from "./budget.js";
 
@@ -129,16 +136,24 @@ const daysOfWeek = [
   "Friday",
   "Saturday",
 ];
-
+let income = 0;
+let expense = 0;
 function childTemplate(transactions) {
   let content = "";
+
   transactions.forEach((item) => {
+    if (item.type == "income") {
+      income += item.amount;
+    } else if (item.type == "expense") {
+      expense += item.amount;
+    }
+
     if (item.type == "transfer") {
       let transferTemplate = `<li data-transaction-id="${
         item._id
       }" data-user-id="${item.userId}"  data-account-id="${
         item.account[0]._id
-      }">
+      }" data-time="${item.createdAt}">
                       <div class="transaction-info">
                         <img
                           src="icons/Income-expense/transfer.jpg"
@@ -188,7 +203,7 @@ function childTemplate(transactions) {
         item.userId
       }" data-category-id="${item.category[0]._id}" data-account-id="${
         item.account[0]._id
-      }">
+      }" data-time="${item.createdAt}">
                       <div class="transaction-info">
                         <img
                           src="${item.category[0].image}"
@@ -222,6 +237,7 @@ function childTemplate(transactions) {
       content += template;
     }
   });
+
   return content;
 }
 function parentTemplate(date, transactions) {
@@ -232,6 +248,8 @@ function parentTemplate(date, transactions) {
                 </ul>
               </div>`;
   mainContent.innerHTML += template;
+
+  setHeaderInfo(income, expense);
 }
 
 let expenseTags = document.querySelectorAll(".expense-box p+p");
@@ -295,6 +313,16 @@ function openDetailView() {
   let aInfo = document.querySelector(".a-info");
   let cardOperations = document.querySelector(".card-operations");
   let type = document.querySelector(".category-name-detail");
+
+  if (clickedView.dataset.time) {
+    document.querySelector(".date-time-details").innerHTML = toReadableDate(
+      clickedView.dataset.time
+    );
+  } else {
+    document.querySelector(".date-time-details").innerHTML =
+      generateTimeStamp();
+  }
+
   if (
     card.classList.contains("incomeBg") ||
     card.classList.contains("expenseBg")
@@ -845,7 +873,8 @@ async function loadData(month) {
       document.querySelector(".home-container header").style.display = "flex";
       let { data } = res;
       transactionHistory = data;
-
+      income = 0;
+      expense = 0;
       if (data.length > 0) {
         mainContent.innerHTML = " ";
         data.forEach((record) => {
@@ -860,6 +889,7 @@ async function loadData(month) {
           No record in this month. Tap + to add new expense or income.
         </p>
       </div>`;
+        resetHeaderInfo();
       }
     }
   } catch (err) {
