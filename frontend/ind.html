@@ -1367,6 +1367,7 @@
               </div>
             </div>
           </div>
+
           <style>
             .privacy-container {
               width: 100%;
@@ -1405,7 +1406,144 @@
               list-style: disc;
               margin-left: 15px;
             }
+            .chart-type-container {
+              position: absolute;
+              left: 0;
+              right: 0;
+              width: 100%;
+              height: 100%;
+              z-index: 1;
+              background-color: inherit;
+              padding: 10px;
+              display: none;
+            }
+            .chart-type-container.active {
+              display: block;
+              animation: slideLeft 0.4s ease-in-out forwards;
+            }
+            .chart-type-container.closed {
+              display: block;
+              animation: slideOutRight 0.4s ease-in-out forwards;
+            }
+            @keyframes slideOutRight {
+              from {
+                transform: translateX(0);
+              }
+              to {
+                transform: translateX(100%);
+              }
+            }
+
+            @keyframes slideLeft {
+              from {
+                transform: translateX(100%);
+              }
+              to {
+                transform: translateX(0);
+              }
+            }
+            .chart-type-container .chart-body {
+              width: 100%;
+              height: 100%;
+              background-color: rgb(255, 255, 255);
+            }
+            /* Toggle Switch Container */
+            .toggle-switch {
+              width: 60px;
+              height: 30px;
+              background-color: #ccc;
+              border-radius: 15px;
+              position: relative;
+              cursor: pointer;
+              transition: background-color 0.3s ease;
+            }
+
+            /* Toggle Circle */
+            .toggle-circle {
+              width: 26px;
+              height: 26px;
+              background-color: #fff;
+              border-radius: 50%;
+              position: absolute;
+              top: 2px;
+              left: 2px;
+              transition: left 0.3s ease, transform 0.3s ease;
+            }
+
+            /* Active State for the Toggle Switch */
+            .toggle-switch.active {
+              background: linear-gradient(
+                to bottom left,
+
+                rgb(230, 0, 255),
+                rgb(0, 255, 213)
+              );
+            }
+
+            .toggle-switch.active .toggle-circle {
+              left: 32px; /* Adjusted for the circle to move right */
+              transform: rotate(360deg);
+            }
+            .chart-body li {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 10px;
+            }
+            li .chart-details {
+              display: flex;
+              justify-content: center;
+              flex-direction: column;
+              align-items: start;
+              gap: 6px;
+            }
+            .chart-body li p {
+              font-weight: 500;
+              font-size: 17px;
+            }
+            .chart-body li {
+              padding: 10px;
+            }
           </style>
+          <div class="chart-type-container">
+            <ul class="chart-body">
+              <li class="toggle-switch-parent" onclick="toggleSwitch(this)">
+                <div class="chart-details">
+                  <p>Pie Chart</p>
+                  <small>Display data as segments</small>
+                </div>
+                <div class="toggle-switch" >
+                  <div class="toggle-circle"></div>
+                </div>
+              </li>
+
+              <li class="toggle-switch-parent" onclick="toggleSwitch(this)">
+                <div class="chart-details">
+                  <p>Polar Chart</p>
+                  <small>Visualizes data in a radial layout</small>
+                </div>
+                <div class="toggle-switch" >
+                  <div class="toggle-circle"></div>
+                </div>
+              </li>
+              <li class="toggle-switch-parent" onclick="toggleSwitch(this)">
+                <div class="chart-details">
+                  <div class="chart-details">
+                    <p>Doughnut Chart</p>
+                    <small>Pie chart with a center void</small>
+                  </div>
+                </div>
+                <div class="toggle-switch" >
+                  <div class="toggle-circle"></div>
+                </div>
+              </li>
+              <li onclick="closeChartOptions()">
+                <button class="close-chart-container">Close</button>
+              </li>
+            </ul>
+         
+          </div>
+
           <div class="privacy-container">
             <header>
               <h2>Privacy Policy</h2>
@@ -1538,7 +1676,6 @@
             </section>
           </div>
           <div class="settings">
-            
             <ul>
               <li class="edit-username">
                 <div class="left-part">
@@ -1565,6 +1702,21 @@
                   <div class="info">
                     <p>Currency Format</p>
                     <small>Indian Rupee (INR)</small>
+                  </div>
+                </div>
+                <img
+                  class="arrow-right"
+                  src="icons/arrowright.svg"
+                  alt="Right Arrow Icon"
+                />
+              </li>
+              <style></style>
+              <li class="chart-label">
+                <div class="left-part">
+                  <img class="svg" src="icons/chart.svg" alt="Currency Icon" />
+                  <div class="info">
+                    <p>Customize Chart</p>
+                    <small>Pick your chart style</small>
                   </div>
                 </div>
                 <img
@@ -1663,7 +1815,9 @@
         </div>
       </div>
     </div>
-
+    <script>
+     
+    </script>
     <!-- <script>
       
       if ('serviceWorker' in navigator) {
@@ -1680,16 +1834,16 @@
           </script> -->
     <script type="module" src="JavaScript/userInfo.js"></script>
     <script type="module" src="JavaScript/home.js"></script>
-    <script type="module" src="./service-worker.js"></script>
+    <!-- <script type="module" src="./service-worker.js"></script> -->
     <script async type="module" src="JavaScript/script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script type="module" src="JavaScript/analysis.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+    <!-- <script type="module" src="JavaScript/analysis.js"></script> -->
     <script defer type="module" src="JavaScript/functions.js"></script>
-    <script defer type="module" src="JavaScript/category.js"></script>
-    <script defer type="module" src="JavaScript/budget.js"></script>
+    <!-- <script defer type="module" src="JavaScript/category.js"></script>
+    <script defer type="module" src="JavaScript/budget.js"></script> -->
     <!-- <script type="module" src="JavaScript/review.js"></script> -->
     <!-- <script src="JavaScript/animation.js"></script> -->
 
-    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script> -->
   </body>
 </html>

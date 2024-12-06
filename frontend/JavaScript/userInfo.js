@@ -221,3 +221,31 @@ delBtn.addEventListener("dblclick", async () => {
     console.log("something wrong..!");
   }
 });
+
+
+
+// CHART FUNCTAONALITY
+function toggleSwitch(clickedElement) {
+  // Get all toggle switches
+  const allToggles = document.querySelectorAll(".toggle-switch-parent");
+  console.log(allToggles);
+  // Turn off all switches
+  allToggles.forEach((toggle) =>
+    toggle.lastElementChild.classList.remove("active")
+  );
+
+  // Activate the clicked switch
+  clickedElement.lastElementChild.classList.add("active");
+}
+
+const customizeLabel = document.querySelector(".chart-label");
+const chartContainer = document.querySelector(".chart-type-container");
+
+customizeLabel.addEventListener("click", () => {
+  chartContainer.classList.remove("closed");
+  chartContainer.classList.add("active"); // Adds the 'highlight' class to the element
+});
+function closeChartOptions(){
+  chartContainer.classList.remove("active");
+  chartContainer.classList.add("closed");
+}
