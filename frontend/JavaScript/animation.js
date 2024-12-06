@@ -1,16 +1,30 @@
+async function countUsers() {
+  let req = await fetch("https://pp-qln0.onrender.com/api/v1/users/count");
+  let res = await req.json();
+  if (res.status == "success") {
+    console.log(res);
+    return res.userCount;
+  }
+  return 0;
+}
+
 let countContainer = document.querySelector(".pp-users-container");
 let userCount = document.getElementById("user-count");
-let totalUsers = 100;
-let i = 0;
 let sideBar = document.querySelector(".sidebar");
-// Calculate the interval time inversely proportional to the total user count
-const intervalTime = 2500 / totalUsers; // Adjust the denominator to control the overall speed
-
 let showCountBtn = document.querySelector(".total-users");
 
-showCountBtn.addEventListener("click", () => {
+showCountBtn.addEventListener("click", async () => {
+  // Wait for totalUsers to be resolved before continuing
+  userCount.innerHTML = "0";
+  let totalUsers = await countUsers();
+
+  // Calculate the interval time after getting the total users
+  const intervalTime = 2500 / totalUsers; // Adjust the denominator to control the overall speed
+  let i = 0;
+
   sideBar.classList.remove("active");
   countContainer.classList.add("active");
+
   const counter = setInterval(() => {
     if (i <= totalUsers) {
       userCount.innerHTML = i;
@@ -21,11 +35,13 @@ showCountBtn.addEventListener("click", () => {
       clearInterval(counter);
       userCount.classList.add("active");
 
+      // Trigger confetti animation
       confetti({
         particleCount: 100,
         spread: 70,
         origin: { y: 0.6 },
       });
+
       const count = 200,
         defaults = {
           origin: { y: 0.7 },
@@ -83,22 +99,21 @@ document.addEventListener("click", (e) => {
   }
 });
 
-
-
-//SHARE FUNCTIONALITY 
-document.getElementById('invite-friends').addEventListener('click', async function() {
-  if (navigator.share) {
+// SHARE FUNCTIONALITY
+document
+  .getElementById("invite-friends")
+  .addEventListener("click", async function () {
+    if (navigator.share) {
       try {
-          await navigator.share({
-              title: 'Check this out!',
-              text: 'Here is something interesting I found.',
-              url: window.location.href
-          });
-         
+        await navigator.share({
+          title: "Check this out!",
+          text: "Here is something interesting I found.",
+          url: window.location.href,
+        });
       } catch (error) {
-          console.error('Error sharing content:', error);
+        console.error("Error sharing content:", error);
       }
-  } else {
-      alert('Web Share API is not supported in your browser.');
-  }
-});
+    } else {
+      alert("Web Share API is not supported in your browser.");
+    }
+  });

@@ -29,7 +29,13 @@ exports.getall = catchAsync(async (req, res, next) => {
 });
 
 exports.updateMe = catchAsync(async (req, res, next) => {
-  const filteredBody = filterObj(req.body, "username", "profile", "currency","chart");
+  const filteredBody = filterObj(
+    req.body,
+    "username",
+    "profile",
+    "currency",
+    "chart"
+  );
   const user = await User.findByIdAndUpdate(req.user._id, filteredBody, {
     new: true,
     runValidators: true,
@@ -76,5 +82,13 @@ exports.getUser = catchAsync(async (req, res) => {
   res.status(200).json({
     status: "success",
     data: user,
+  });
+});
+
+exports.userCount = catchAsync(async (req, res) => {
+  let count = await User.countDocuments({});
+  res.status(200).json({
+    status: "success",
+    userCount: count,
   });
 });
