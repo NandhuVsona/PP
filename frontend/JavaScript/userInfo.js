@@ -165,46 +165,6 @@ closeCurrency.addEventListener("click", () => {
   }
 });
 
-let reportBtn = document.getElementById("report");
-
-reportBtn.addEventListener("click", async (e) => {
-  e.preventDefault(); // Prevent default action
-
-  // Prevent additional requests if one is already in progress
-
-  try {
-    let month = "Nov_2024_";
-    e.preventDefault();
-    let req = await fetch("https://pp-qln0.onrender.com/api/v1/users/report", {
-      method: "GET",
-      headers: {
-        "Content-Type":
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      },
-    });
-    let blob = await req.blob();
-
-    const url = window.URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.style.display = "none";
-
-    a.href = url;
-
-    a.download = month + "report.xlsx"; // Set the default download name
-    document.querySelector(".download-link").appendChild(a);
-
-    a.addEventListener("click", (event) => {
-      event.stopPropagation(); // Prevent the event from bubbling up
-    });
-    a.click();
-    a.remove();
-    window.URL.revokeObjectURL(url);
-  } catch (e) {
-    console.error("Download error:", e);
-  }
-});
-
 const logoutBtn = document.getElementById("logout");
 logoutBtn.addEventListener("dblclick", async () => {
   let req = await fetch("https://pp-qln0.onrender.com/api/v1/users/logout");
@@ -277,3 +237,109 @@ export function generateTimeStamp() {
   const formatted = now.toLocaleString("en-US", options).replace(",", "");
   return formatted;
 }
+
+// EXPORT DATA FUNCTIONALITY
+
+let exportLabel = document.getElementById("export-label");
+let upArrow = document.querySelector(".up-arrow");
+exportLabel.addEventListener("click", () => {
+  document.querySelector(".export-box-body").classList.remove("closed");
+  document.querySelector(".export-box-body").classList.add("active");
+  document.querySelector(".export-box").classList.add("active");
+  document.querySelector(
+    ".export-month"
+  ).innerHTML = `${months[month]} ${year}`;
+});
+upArrow.addEventListener("click", () => {
+  document.querySelector(".export-box-body").classList.remove("active");
+  document.querySelector(".export-box-body").classList.add("closed");
+  document.querySelector(".export-box").classList.remove("active");
+});
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+const currentDate = new Date();
+let x = currentDate.getMonth(); // 0-indexed
+let month = x;
+let year = currentDate.getFullYear();
+document.querySelector(".export-month").innerHTML = `${months[month]} ${year}`;
+
+// Function to update the date
+function changeDate(increament) {
+  month = month + increament;
+
+  if (month > 11) {
+    month = 0;
+    year++;
+  }
+  if (month < 0) {
+    year--;
+    month = 11;
+  }
+  document.querySelector(
+    ".export-month"
+  ).innerHTML = `${months[month]} ${year}`;
+}
+
+let leftArrow = document.querySelector(".export-left-space");
+let rightArrow = document.querySelector(".export-right-space");
+leftArrow.addEventListener("click", () => changeDate(-1));
+rightArrow.addEventListener("click", () => changeDate(1));
+
+let exportBtn = document.querySelector(".export-btn");
+
+exportBtn.addEventListener("click", async (e) => {
+  let requestedMonth = document
+    .querySelector(".export-month")
+    .textContent.trim();
+  console.log(requestedMonth);
+  e.preventDefault(); // Prevent default action
+
+  // Prevent additional requests if one is already in progress
+
+  try {
+    e.preventDefault();
+    let req = await fetch(
+      `https://pp-qln0.onrender.com/api/v1/users/report?month=${requestedMonth}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type":
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        },
+      }
+    );
+    let blob = await req.blob();
+
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.style.display = "none";
+
+    a.href = url;
+
+    a.download = requestedMonth + " report.xlsx"; // Set the default download name
+    document.querySelector(".download-link").appendChild(a);
+
+    a.addEventListener("click", (event) => {
+      event.stopPropagation(); // Prevent the event from bubbling up
+    });
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (e) {
+    console.error("Download error:", e);
+  }
+});

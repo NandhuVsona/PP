@@ -61,7 +61,7 @@ exports.getAllTransactions = catchAsync(async (req, res, next) => {
             type: "$type",
             toAccount: "$toAccount",
             time: "$time",
-            createdAt:"$createdAt"
+            createdAt: "$createdAt",
           },
         },
       },
@@ -193,7 +193,7 @@ exports.deleteTransaction = catchAsync(async (req, res, next) => {
 });
 
 exports.records = catchAsync(async (req, res, next) => {
-  let month = "November 2024";
+  let month = req.query.month;
   let userId = req.user._id;
   let data = await Transactions.aggregate([
     { $match: { month, userId } },

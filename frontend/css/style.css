@@ -254,7 +254,7 @@ main section.active {
   display: none;
 }
 
-@keyframes slideRight {
+@keyframes slideRights {
   from {
     transform: translateX(-100px);
     -webkit-transform: translateX(-100px);
@@ -300,8 +300,8 @@ main section.active {
   -moz-transition: all 0.3s ease;
   -ms-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
-  animation: slideRight 0.3s ease;
-  -webkit-animation: slideRight 0.3s ease;
+  animation: slideRights 0.3s ease;
+  -webkit-animation: slideRights 0.3s ease;
 }
 .sun-theme {
   width: 100px;
@@ -479,8 +479,7 @@ main section.active {
   outline: none;
 }
 .input-body input:focus ~ label,
-.input-body input:valid ~ label
- {
+.input-body input:valid ~ label {
   top: -27px;
   left: 0px;
 }
@@ -737,7 +736,7 @@ main section.active {
   flex-direction: column;
   gap: 10px;
 }
-.my-account-container .settings{
+.my-account-container .settings {
   width: 100%;
   height: 100%;
   overflow-x: hidden;
@@ -839,8 +838,8 @@ main section.active {
   position: absolute;
   top: 0;
   left: 0;
-background-color: rgb(255, 255, 255);
-z-index: 10 !important;
+  background-color: rgb(255, 255, 255);
+  z-index: 10 !important;
   display: none;
   width: 100%;
   height: 100%;
@@ -879,8 +878,8 @@ z-index: 10 !important;
 .currency-container.active .currency-body {
   /*animation: openCurrency 0.3s ease;
   animation-fill-mode: forwards;
-  */transform: translateY(0px);
-  
+  */
+  transform: translateY(0px);
 }
 .currency-body h2 {
   padding: 10px 0px 10px 15px;
@@ -990,15 +989,15 @@ z-index: 10 !important;
   }
 }
 
-.account-container-body .edit-box .input-container .form .aBtns button{
+.account-container-body .edit-box .input-container .form .aBtns button {
   background-color: #ffffff;
 }
 
-.currency-symbol{
+.currency-symbol {
   margin: 5px;
 }
 
-#no-budget{
+#no-budget {
   color: #009688;
   text-align: center;
 }
@@ -1016,7 +1015,8 @@ z-index: 10 !important;
 }
 .chart-type-container.active {
   display: block;
-  animation: slideLeft 0.4s ease-in-out forwards;
+  animation: slideLeftChart 0.4s ease-in-out forwards;
+  -webkit-animation: slideLeftChart 0.4s ease-in-out forwards;
 }
 .chart-type-container.closed {
   display: block;
@@ -1031,7 +1031,7 @@ z-index: 10 !important;
   }
 }
 
-@keyframes slideLeft {
+@keyframes slideLeftChart {
   from {
     transform: translateX(100%);
   }
@@ -1102,23 +1102,172 @@ li .chart-details {
   padding: 10px;
 }
 
-.close-chart-container{
+.close-chart-container {
   width: 120px;
   height: 40px;
   font-weight: 500;
   border-radius: 4px;
-border: none;
+  border: none;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
-
 }
-.close-chart-container:hover{
+.close-chart-container:hover {
   background: linear-gradient(
     to bottom left,
 
     rgb(0, 255, 213),
     rgb(230, 0, 255)
   );
+}
+
+.export-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  padding-top: 15px;
+  display: flex;
+  justify-content: center;
+  display: none;
+  transition: all 0.3s ease;
+}
+.export-box.active {
+  display: flex;
+}
+
+.export-box-body.active {
+  animation: exportBox 0.5s ease forwards;
+}
+
+.export-box-body.closed {
+  animation: exportBoxClose 0.4s ease forwards;
+}
+
+@keyframes exportBox {
+  0% {
+    transform: translateY(-15rem);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes exportBoxClose {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-15rem);
+  }
+}
+.export-box-body {
+  transform: translateY(-15rem);
+  transition: transform 0.5s ease;
+}
+
+.msg-content,
+.export-box-body {
+  height: 35%;
+  width: 100%;
+}
+.msg-content {
+  display: flex;
+  justify-content: start;
+  gap: 30px;
+  align-items: center;
+  flex-direction: column;
+}
+.export-month-body {
+  position: relative;
+  width: 100%;
+}
+.export-left-space {
+  z-index: 1;
+  width: 35%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.export-right-space {
+  z-index: 1;
+  width: 35%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.export-btn button {
+  background: linear-gradient(
+    to bottom left,
+
+    rgb(240, 109, 255),
+    rgb(70, 237, 209)
+  );
+  width: 150px;
+  height: 40px;
+  font-weight: bold;
+  border-radius: 5px;
+  border: 1px solid rgb(137, 137, 137);
+  animation: come-up 0.3s ease;
+}
+.export-btn:active{
+  transform: scale(.98);
+  -webkit-transform: scale(.98);
+  -moz-transform: scale(.98);
+  -ms-transform: scale(.98);
+  -o-transform: scale(.98);
+}
+.up-arrow {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  position: absolute;
+  left: 0;
+  bottom: -50px;
+  z-index: 1;
+}
+.up-arrow img {
+  background-color: rgb(222, 234, 210);
+  border-radius: 50%;
+  width: 35px;
+  padding: 5px;
+  position: relative;
+  z-index: 1;
+}
+.export-left-arrow {
+  animation: slideLeft 0.3s ease;
+  animation-delay: 0.4s;
+  transform: translateX(-200px) rotate(-46deg);
+  animation-fill-mode: forwards;
+}
+.export-right-arrow {
+  animation: slideRight 0.3s ease;
+  animation-delay: 0.4s;
+  transform: translateX(200px) rotate(135deg);
+  animation-fill-mode: forwards;
+}
+@keyframes slideLeft {
+  100% {
+    transform: translateX(0px) rotate(-46deg);
+  }
+}
+@keyframes slideRight {
+  100% {
+    transform: translateX(0px) rotate(135deg);
+  }
+}
+
+.export-month {
+  opacity: 0;
+  animation: zoom 0.5s ease;
+  animation-delay: 0.4s;
+  animation-fill-mode: forwards;
 }

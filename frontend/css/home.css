@@ -22,7 +22,7 @@
 .home-container header {
   display: none;
 }
-.home-container header .left-arrow,
+.home-container header .left-arrow,.export-left-arrow,.export-right-arrow,
 .analysis-container header .left-arrow,
 .analysis-container header .right-arrow,
 .head-content .month-info .left-arrow,
@@ -51,7 +51,7 @@
   align-items: center;
   gap: 8px;
 }
-.home-container header .right-arrow,
+.home-container header .right-arrow,.export-right-arrow,
 .analysis-container header .right-arrow,
 .head-content .month-info .right-arrow {
   transform: rotate(135deg);
@@ -60,7 +60,7 @@
   -ms-transform: rotate(135deg);
   -o-transform: rotate(135deg);
 }
-.analysis-container header .month-body,
+.analysis-container header .month-body,.export-month-body,
 .home-container header .month-body {
   display: flex;
   justify-content: center;

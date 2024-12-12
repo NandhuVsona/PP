@@ -1512,7 +1512,7 @@
                   <p>Pie Chart</p>
                   <small>Display data as segments</small>
                 </div>
-                <div class="toggle-switch" >
+                <div class="toggle-switch">
                   <div class="toggle-circle"></div>
                 </div>
               </li>
@@ -1522,7 +1522,7 @@
                   <p>Polar Chart</p>
                   <small>Visualizes data in a radial layout</small>
                 </div>
-                <div class="toggle-switch" >
+                <div class="toggle-switch">
                   <div class="toggle-circle"></div>
                 </div>
               </li>
@@ -1533,7 +1533,7 @@
                     <small>Pie chart with a center void</small>
                   </div>
                 </div>
-                <div class="toggle-switch" >
+                <div class="toggle-switch">
                   <div class="toggle-circle"></div>
                 </div>
               </li>
@@ -1541,7 +1541,6 @@
                 <button class="close-chart-container">Close</button>
               </li>
             </ul>
-         
           </div>
 
           <div class="privacy-container">
@@ -1675,6 +1674,177 @@
               </i>
             </section>
           </div>
+          <style>
+            .export-box {
+              position: absolute;
+              top: 0;
+              left: 0;
+              z-index: 1;
+              width: 100%;
+              height: 100%;
+              background-color: white;
+              padding-top: 15px;
+              display: flex;
+              justify-content: center;
+              display: none;
+              transition: all 0.3s ease;
+            }
+            .export-box.active {
+              display: flex;
+            }
+
+            .export-box-body.active {
+              animation: exportBox 0.5s ease forwards;
+            }
+
+            .export-box-body.closed {
+              animation: exportBoxClose 0.4s ease forwards;
+            }
+
+            @keyframes exportBox {
+              0% {
+                transform: translateY(-15rem);
+              }
+              100% {
+                transform: translateY(0);
+              }
+            }
+
+            @keyframes exportBoxClose {
+              0% {
+                transform: translateY(0);
+              }
+              100% {
+                transform: translateY(-15rem);
+              }
+            }
+            .export-box-body {
+              transform: translateY(-15rem);
+              transition: transform 0.5s ease;
+            }
+
+            .msg-content,
+            .export-box-body {
+              height: 35%;
+              width: 100%;
+            }
+            .msg-content {
+              display: flex;
+              justify-content: start;
+              gap: 30px;
+              align-items: center;
+              flex-direction: column;
+            }
+            .export-month-body {
+              position: relative;
+              width: 100%;
+            }
+            .export-left-space {
+              z-index: 1;
+              width: 35%;
+              height: 100%;
+              position: absolute;
+              top: 0;
+              left: 0;
+            }
+            .export-right-space {
+              z-index: 1;
+              width: 35%;
+              height: 100%;
+              position: absolute;
+              top: 0;
+              right: 0;
+            }
+            .export-btn button {
+              background: linear-gradient(
+                to bottom left,
+
+                rgb(240, 109, 255),
+                rgb(70, 237, 209)
+              );
+              width: 150px;
+              height: 40px;
+              font-weight: bold;
+              border-radius: 5px;
+              border: 1px solid rgb(137, 137, 137);
+              animation: come-up .3s ease;
+            }
+            .up-arrow {
+              width: 100%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 100px;
+              position: absolute;
+              left: 0;
+              bottom: -50px;
+              z-index: 1;
+              
+            }
+            .up-arrow img {
+              background-color: rgb(222, 234, 210);
+              border-radius: 50%;
+              width: 35px;
+              padding: 5px;
+              position: relative;
+              z-index: 1;
+            }
+            .export-left-arrow{
+              animation: slideLeft .3s ease;
+              animation-delay: .4s;
+              transform: translateX(-200px) rotate(-46deg);
+              animation-fill-mode: forwards;
+            }
+            .export-right-arrow{
+              animation: slideRight .3s ease;
+              animation-delay: .4s;
+              transform: translateX(200px) rotate(135deg);
+              animation-fill-mode: forwards;
+            }
+            @keyframes slideLeft {
+              100%{
+                transform: translateX(0px) rotate(-46deg) ;
+              }
+            }
+            @keyframes slideRight {
+              100%{
+                transform: translateX(0px) rotate(135deg) ;
+              }
+            }
+           
+            .export-month{
+              opacity: 0;
+              animation: zoom .5s ease;
+              animation-delay: .4s;
+              
+              animation-fill-mode: forwards;
+            }
+          </style>
+          <div class="export-box">
+            <div class="export-box-body">
+              <div class="msg-content">
+                <b>Select Month</b>
+                <div class="export-month-body">
+                  <div class="export-left-space"></div>
+                  <div class="export-right-space"></div>
+                  <div class="export-left-arrow"></div>
+                  <h3 class="export-month"></h3>
+                  <div class="export-right-arrow"></div>
+                </div>
+                <div class="export-btn">
+                  <button>EXPORT NOW</button>
+                </div>
+              </div>
+              <div class="up-arrow">
+                <img
+                  style="transform: rotate(90deg)"
+                  src="./icons/arrorLeft.svg"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+
           <div class="settings">
             <ul>
               <li class="edit-username">
@@ -1725,7 +1895,7 @@
                   alt="Right Arrow Icon"
                 />
               </li>
-              <li id="report">
+              <li id="export-label">
                 <div class="left-part">
                   <img class="svg" src="icons/xls.svg" alt="Export Icon" />
                   <div class="info download-link">
@@ -1816,8 +1986,64 @@
       </div>
     </div>
     <script>
-     
+      let exportLabel = document.getElementById("export-label");
+      let upArrow = document.querySelector(".up-arrow");
+      exportLabel.addEventListener("click", () => {
+        document.querySelector(".export-box-body").classList.remove("closed");
+        document.querySelector(".export-box-body").classList.add("active");
+        document.querySelector(".export-box").classList.add("active");
+      });
+      upArrow.addEventListener("click", () => {
+        document.querySelector(".export-box-body").classList.remove("active");
+        document.querySelector(".export-box-body").classList.add("closed");
+        document.querySelector(".export-box").classList.remove("active");
+      });
+      const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+
+      const currentDate = new Date();
+      let x = currentDate.getMonth(); // 0-indexed
+      let month = x;
+      let year = currentDate.getFullYear();
+      document.querySelector(
+        ".export-month"
+      ).innerHTML = `${months[month]} ${year}`;
+
+      // Function to update the date
+      function changeDate(increament) {
+        month = month + increament;
+
+        if (month > 11) {
+          month = 0;
+          year++;
+        }
+        if (month < 0) {
+          year--;
+          month = 11;
+        }
+        document.querySelector(
+          ".export-month"
+        ).innerHTML = `${months[month]} ${year}`;
+      }
+
+      let leftArrow = document.querySelector(".export-left-space");
+      let rightArrow = document.querySelector(".export-right-space");
+      leftArrow.addEventListener("click", () => changeDate(-1));
+      rightArrow.addEventListener("click", () => changeDate(1));
     </script>
+
     <!-- <script>
       
       if ('serviceWorker' in navigator) {
@@ -1832,7 +2058,7 @@
         });
       }
           </script> -->
-    <script type="module" src="JavaScript/userInfo.js"></script>
+    <!-- <script type="module" src="JavaScript/userInfo.js"></script> -->
     <script type="module" src="JavaScript/home.js"></script>
     <!-- <script type="module" src="./service-worker.js"></script> -->
     <script async type="module" src="JavaScript/script.js"></script>

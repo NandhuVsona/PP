@@ -27,7 +27,7 @@ const createSendToken = (user, statusCode, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    secure:true,
+    secure: true,
     httpOnly: true,
   };
   res.cookie("jwt", token, cookieOptions);
@@ -131,7 +131,6 @@ const product = catchAsync(async (req, res, next) => {
   req.user = freshUser;
   next();
 });
-
 
 // FORGOT PASSWORD
 const forgotPassword = async (req, res, next) => {
@@ -300,4 +299,15 @@ const tempUser = catchAsync(async (req, res, next) => {
   }
 });
 
-module.exports = {product,signup,logIn,logOut,resetPassword,updatePassword,tempUser,forgotPassword,createSendToken,signToken}
+module.exports = {
+  product,
+  signup,
+  logIn,
+  logOut,
+  resetPassword,
+  updatePassword,
+  tempUser,
+  forgotPassword,
+  createSendToken,
+  signToken,
+};
