@@ -432,6 +432,7 @@ function accountEventListener() {
   let bunchAccounts = document.querySelectorAll(".bunch-account");
   bunchAccounts.forEach((acc) => {
     acc.addEventListener("click", () => {
+      console.log("clicked", acc);
       selectAccountBody.classList.remove("active");
       let selectedAccountId = acc.dataset.accountId;
 
@@ -1035,6 +1036,7 @@ function changeCategory(num) {
       categoryOptions.innerHTML += template;
     });
   }
+  changeAndUpdate();
 }
 
 function temporaryDisplay(data) {
@@ -1150,6 +1152,8 @@ document.querySelector(".edit-history").addEventListener("click", () => {
   // Extract the account name
   const accountName = cardElement.querySelector(".a-info").textContent.trim();
 
+  console.log(clickedView.dataset.accountId);
+  console.log(clickedView.dataset.categoryId);
   document.querySelector(".account-body .child-body").dataset.id =
     clickedView.dataset.accountId;
   document.querySelector(".category-body .child-body").dataset.id =
@@ -1347,7 +1351,7 @@ function dynamicChange(data) {
   //   data.accountName;
   // element.children[1].children[0].textContent = data.amount;
   //later you chaet this currrent it wil issue*********===============-------------==========---------
-  console.log(clickedView.innerHTML);
+
   document.querySelector(".input-containers").classList.remove("active");
 }
 

@@ -105,45 +105,46 @@ exports.updateTransaction = catchAsync(async (req, res, next) => {
     _id: req.params.id,
     userId: req.user._id,
   });
-  console.log(oldOne.category + "====" + req.body.categoryId);
-  console.log(oldOne.category == req.body.categoryId);
-  if (oldOne.category == req.body.categoryId) {
-    console.log("Old one amount: ", oldOne.amount);
-    console.log("Updated one amount: ", req.body.amount);
+
+  /*The category id is not changed mean user only update the amount or notes or something;
+  1)---->Then using the category id to check weather the budeget is set.. if set the caluclate spend and remaing;
+  2)----> if the category is changed then remove the budget from current category and check the budget is setted for 
+  new category if set the add the spend and remaining;
+  */
+  if (oldOne.category == req.body.category) {
     let budget = await Budgets.findOne({
       userId: req.user._id,
       categoryId: oldOne.category,
     });
-    console.log(budget);
-    console.log("here the update one");
+
     if (budget) {
       budget.spend -= oldOne.amount;
       budget.spend += req.body.amount;
       console.log(budget);
       await budget.save();
     }
+    oldOne.amount = req.body.amount;
+    await oldOne.save();
+    return;
   } else {
     console.log("category is changed;");
     let budget = await Budgets.findOne({
       userId: req.user._id,
       categoryId: oldOne.category,
     });
-    console.log("this is now");
-    console.log(budget);
+
     if (budget) {
       budget.spend -= oldOne.amount;
       await budget.save();
-      console.log(budget);
     }
-    const newnnn = await Budgets.findOne({
+    const newCategory = await Budgets.findOne({
       userId: req.user._id,
-      categoryId: req.body.categoryId,
+      categoryId: req.body.category,
     });
-    console.log(newnnn);
-    if (newnnn) {
-      newnnn.spend += req.body.amount;
-      await newnnn.save();
-      console.log(newnnn);
+
+    if (newCategory) {
+      newCategory.spend += req.body.amount;
+      await newCategory.save();
     }
   }
 
@@ -159,16 +160,16 @@ exports.updateTransaction = catchAsync(async (req, res, next) => {
   //     await budget.save();
   //   }
   // }
-  // let updatedTransaction = await Transactions.findByIdAndUpdate(
-  //   req.params.id,
-  //   req.body,
-  //   { new: true }
-  // );
-  // if (!updatedTransaction) {
-  //   return next(new AppError("Invalid ID", 404));
-  // }
+  let updatedTransaction = await Transactions.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
+  );
+  if (!updatedTransaction) {
+    return next(new AppError("Invalid ID", 404));
+  }
   res.status(200).json({
-    // updatedTransaction,
+    updatedTransaction,
   });
 });
 
@@ -187,7 +188,7 @@ exports.deleteTransaction = catchAsync(async (req, res, next) => {
     budget.spend -= delTransaction.amount;
     await budget.save();
   }
-
+  
   await Transactions.deleteOne({ _id: req.params.id });
   res.status(204).json({});
 });
