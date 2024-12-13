@@ -56,7 +56,7 @@ let currencyBtn = document.querySelector(".currency-open");
 countriesCurrencyData.forEach((item) => {
   let template = `<li data-currency-Id="${item.symbol}">
                   <input name="currency" type="radio">
-                  <p>${item.country} ${item.currency} - <span>${item.currencyCode}</span></p>
+                  <p>${item.country} - <span>${item.currencyCode}</span></p>
                 </li>`;
   currencyOptions.innerHTML += template;
 });
