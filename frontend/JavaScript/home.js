@@ -7,6 +7,7 @@ import {
   toReadableDate,
   transferTemplate,
 } from "./functions.js";
+import { modifyAccountHeader } from "./script.js";
 import { generateTimeStamp } from "./userInfo.js";
 
 // import { updateBudgetDb } from "./budget.js";
@@ -635,7 +636,9 @@ function verification() {
   if (whatType == "transfer" && accId !== catId) {
     return { sturcturedData, displayData };
   }
-
+  if (whatType != "transfer") {
+    modifyAccountHeader(whatType, amount);
+  }
   return { sturcturedData, displayData };
 }
 

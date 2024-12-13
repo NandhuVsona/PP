@@ -47,9 +47,9 @@ for (let i = 0; i < 7; i++) {
   existingAccounts.innerHTML += `<li class="skeleton-card"></li>`;
 }
 
-document
-  .querySelector(".skeleton-account")
-  .addEventListener("click", loadAccountsData);
+document.querySelector(".skeleton-account").addEventListener("click", () => {
+  loadAccountsData();
+});
 
 let navIcons = document.querySelectorAll("footer nav ul li");
 
@@ -76,6 +76,8 @@ let categoryContainer = document.querySelector(
   ".categories .category-container"
 );
 let accountContainer = document.querySelector(".account-container");
+let accountPageIn = document.querySelector(".account-page-income");
+let accountPageEx = document.querySelector(".account-page-expense");
 
 preference.addEventListener("click", () => {
   let app = document.querySelector(".app");
@@ -252,29 +254,25 @@ async function loadAccountsData() {
   }
 }
 
-async function cumulativeSummary() {
+export async function cumulativeSummary() {
   const req = await fetch(
-    " http://localhost:4000/api/v1/users/transactions/summary"
+    " https://pp-qln0.onrender.com/api/v1/users/transactions/summary"
   );
   const res = await req.json();
 
   if (res.status == "success") {
     let { summary } = res;
 
-    console.log(summary);
     summary.forEach((type) => {
       if (type.type == "income") {
-        document.querySelector(".account-page-income").textContent =
-          type.totalAmount;
+        accountPageIn.lastChild.textContent = type.totalAmount.toLocaleString();
       }
       if (type.type == "expense") {
-        document.querySelector(".account-page-expense").textContent =
-          type.totalAmount;
+        accountPageEx.lastChild.textContent = type.totalAmount.toLocaleString();
       }
     });
   }
 }
-
 cumulativeSummary();
 // let deferredPrompt;
 
@@ -305,3 +303,18 @@ cumulativeSummary();
 //     console.log("Install prompt is not ready yet.");
 //   }
 // });
+
+export function modifyAccountHeader(type, amount) {
+  if (type === "income") {
+    accountPageIn.lastChild.textContent = (
+      parseInt(accountPageIn.lastChild.textContent.replace(/,/g, ""), 10) +
+      parseInt(amount)
+    ).toLocaleString();
+  }
+  if (type === "expense") {
+    accountPageEx.lastChild.textContent = (
+      parseInt(accountPageEx.lastChild.textContent.replace(/,/g, ""), 10) +
+      parseInt(amount)
+    ).toLocaleString();
+  }
+}
