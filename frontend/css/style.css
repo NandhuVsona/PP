@@ -1059,7 +1059,7 @@ main section.active {
 .toggle-circle {
   width: 26px;
   height: 26px;
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 50%;
   position: absolute;
   top: 2px;
@@ -1203,12 +1203,7 @@ li .chart-details {
   right: 0;
 }
 .export-btn button {
-  background: linear-gradient(
-    to bottom left,
-
-    rgb(240, 109, 255),
-    rgb(70, 237, 209)
-  );
+  background: linear-gradient(to bottom left, #82b565, rgb(14 151 128));
   width: 150px;
   height: 40px;
   font-weight: bold;
@@ -1270,4 +1265,26 @@ li .chart-details {
   animation: zoom 0.5s ease;
   animation-delay: 0.4s;
   animation-fill-mode: forwards;
+}
+
+.spin {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 5px solid rgb(31, 31, 31);
+  background-color: transparent;
+  position: absolute;
+  border-left: 5px solid transparent;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: rotate 1s linear infinite;
+}
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+.confirm-reset-app{
+  position: relative;
 }

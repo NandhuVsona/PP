@@ -7,6 +7,7 @@ const {
   updateMe,
   deleteMe,
   userCount,
+  resetApp,
 } = require("../controllers/userController");
 
 const {
@@ -43,6 +44,7 @@ router.post("/login", logIn);
 router.get("/users", getall);
 router.get("/logout", logOut);
 router.get("/count", userCount);
+router.get("/resetApp",product,resetApp);
 
 //FORGOT PASSWORD
 router.post("/forgotPassword", forgotPassword);

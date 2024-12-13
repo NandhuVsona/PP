@@ -56,7 +56,7 @@ let currencyBtn = document.querySelector(".currency-open");
 countriesCurrencyData.forEach((item) => {
   let template = `<li data-currency-Id="${item.symbol}">
                   <input name="currency" type="radio">
-                  <p>${item.country} - <span>${item.currencyCode}</span></p>
+                  <p>${item.country} ${item.currency} - <span>${item.currencyCode}</span></p>
                 </li>`;
   currencyOptions.innerHTML += template;
 });
@@ -343,3 +343,15 @@ exportBtn.addEventListener("click", async (e) => {
     console.error("Download error:", e);
   }
 });
+
+let confirmResetBtn = document.querySelector(".confirm-reset-app");
+confirmResetBtn.addEventListener("click", resetApp);
+
+async function resetApp() {
+  confirmResetBtn.innerHTML = "<div class='spin'></div>";
+  let req = await fetch("https://pp-qln0.onrender.com/api/v1/users/resetApp");
+  let res = await req.json();
+  if (res.status == "success") {
+    window.location.reload(true);
+  }
+}

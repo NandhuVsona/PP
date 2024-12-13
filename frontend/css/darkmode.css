@@ -328,3 +328,16 @@
 .app.dark .account-container-body .edit-box .input-container {
   background-color: rgb(36 36 36)
 }
+
+.app.dark .export-box{
+  background-color: #000000;
+}
+.app.dark .chart-type-container,.app.dark .chart-body{
+  background-color: #000000;
+}
+.app.dark .privacy-container{
+  background-color: #000000;
+}
+.app.dark .message-box-main{
+  background-color: #000000;
+}

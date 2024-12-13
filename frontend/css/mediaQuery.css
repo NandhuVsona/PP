@@ -14,6 +14,10 @@
     background-color: rgb(241, 241, 241) !important;
     cursor: pointer;
   }
+  .app.dark .sidebar .settings ul li:hover {
+    background-color: rgb(28, 28, 28) !important;
+    cursor: pointer;
+  }
   .side-footer {
     display: block !important;
     margin-top: 70px !important;

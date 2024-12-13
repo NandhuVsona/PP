@@ -7,6 +7,7 @@ const { Categories } = require("../models/categoryModel.js");
 const { Accounts } = require("../models/accountModel.js");
 const { Budgets } = require("../models/budgetModel.js");
 const { Transactions } = require("../models/transactionModel.js");
+const { createDefaultData } = require("../utils/defaultData.js");
 
 // Filter Body
 const filterObj = (obj, ...allowedFields) => {
@@ -85,6 +86,31 @@ exports.getUser = catchAsync(async (req, res) => {
   });
 });
 
+exports.resetApp = catchAsync(async (req, res) => {
+  let session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    const userId = req.user._id;
+    await Categories.deleteMany({ userId }, { session });
+    await Accounts.deleteMany({ userId }, { session });
+    await Budgets.deleteMany({ userId }, { session });
+    await Transactions.deleteMany({ userId }, { session });
+
+    await session.commitTransaction();
+    await createDefaultData(userId);
+    return res.status(200).json({
+      status: "success",
+    });
+  } catch (error) {
+    session.abortTransaction();
+    return res.status(500).json({
+      status: "fail",
+      data: error.message,
+    });
+  } finally {
+    session.endSession();
+  }
+});
 exports.userCount = catchAsync(async (req, res) => {
   let count = await User.countDocuments({});
   res.status(200).json({

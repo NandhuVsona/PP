@@ -757,6 +757,12 @@ myAccountBtn.addEventListener("click", () => {
 });
 
 document.querySelector(".account-back-btn").addEventListener("click", () => {
+  if (
+    document.querySelector(".privacy-container").classList.contains("active")
+  ) {
+    document.querySelector(".privacy-container").classList.remove("active");
+    return;
+  }
   myAccount.classList.remove("active");
 });
 

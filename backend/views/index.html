@@ -1721,9 +1721,10 @@
                 text-align: center;
               }
               .message-body .msg-content {
-                width: 320px;
-                background-color: rgb(188, 134, 236);
+                width: 320px !important;
+                background: linear-gradient(to bottom left, rgb(0 150 126), rgb(0 0 0));
                 padding: 10px;
+                height: 175px;
                 display: flex;
                 flex-direction: column;
                 gap: 15px;
@@ -1762,7 +1763,7 @@
                     Are you sure?
                   </p>
                   <div class="caution-conformation">
-                    <button>Confirm</button>
+                    <button class="confirm-reset-app">Confirm</button>
                     <button class="close-msg-box">Dismiss</button>
                   </div>
                 </div>
