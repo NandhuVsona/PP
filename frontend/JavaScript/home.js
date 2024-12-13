@@ -62,7 +62,9 @@ saveBtn.addEventListener("click", transactionSave);
 getAccountsAndCategories();
 
 function loadUserAccounts(data) {
+  let totalAccountBalance = 0;
   data.forEach((item) => {
+    totalAccountBalance += item.balance;
     let existingAccounts = document.querySelector(".parent-box");
     let template = `<li data-account-id="${item._id}" class="bunch-account">
                   <div class="left-part">
@@ -76,6 +78,9 @@ function loadUserAccounts(data) {
     existingAccounts.innerHTML += template;
     accountEventListener();
     changeAndUpdate();
+    console.log(totalAccountBalance);
+    document.querySelector(".account-total-amount").lastChild.textContent =
+      totalAccountBalance.toLocaleString();
   });
 }
 

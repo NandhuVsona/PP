@@ -252,6 +252,30 @@ async function loadAccountsData() {
   }
 }
 
+async function cumulativeSummary() {
+  const req = await fetch(
+    " http://localhost:4000/api/v1/users/transactions/summary"
+  );
+  const res = await req.json();
+
+  if (res.status == "success") {
+    let { summary } = res;
+
+    console.log(summary);
+    summary.forEach((type) => {
+      if (type.type == "income") {
+        document.querySelector(".account-page-income").textContent =
+          type.totalAmount;
+      }
+      if (type.type == "expense") {
+        document.querySelector(".account-page-expense").textContent =
+          type.totalAmount;
+      }
+    });
+  }
+}
+
+cumulativeSummary();
 // let deferredPrompt;
 
 // window.addEventListener("beforeinstallprompt", (e) => {

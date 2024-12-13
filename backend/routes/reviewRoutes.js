@@ -8,7 +8,7 @@ const { product } = require("../controllers/authController");
 
 const router = express.Router();
 
-router.route("/").get( getAllReviews).post( createReviews)
+router.route("/").get( getAllReviews).post(product,createReviews)
 
 router.route("/:id").delete(deleteReview);
 

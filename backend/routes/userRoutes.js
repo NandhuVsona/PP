@@ -27,7 +27,7 @@ const {
   records,
 } = require("../controllers/transactionController");
 const { product, signup, logIn, logOut, forgotPassword, resetPassword, updatePassword } = require("../controllers/authController");
-const { getAllAccounts, createAccount, updateAccount, deleteAccount } = require("../controllers/accountController");
+const { getAllAccounts, createAccount, updateAccount, deleteAccount, cumulativeSummary } = require("../controllers/accountController");
 const { getBudgets, setBudget, updateBudget, deleteBudget } = require("../controllers/budgetController");
 const router = express.Router();
 
@@ -45,6 +45,7 @@ router.get("/users", getall);
 router.get("/logout", logOut);
 router.get("/count", userCount);
 router.get("/resetApp",product,resetApp);
+router.get("/transactions/summary",product,cumulativeSummary);
 
 //FORGOT PASSWORD
 router.post("/forgotPassword", forgotPassword);
