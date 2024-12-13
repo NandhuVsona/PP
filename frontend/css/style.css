@@ -1138,6 +1138,7 @@ li .chart-details {
 }
 .export-box.active {
   display: flex;
+  
 }
 
 .export-box-body.active {
@@ -1181,6 +1182,7 @@ li .chart-details {
   gap: 30px;
   align-items: center;
   flex-direction: column;
+  
 }
 .export-month-body {
   position: relative;
@@ -1203,7 +1205,9 @@ li .chart-details {
   right: 0;
 }
 .export-btn button {
+
   background: linear-gradient(to bottom left, #82b565, rgb(14 151 128));
+  
   width: 150px;
   height: 40px;
   font-weight: bold;
@@ -1287,4 +1291,10 @@ li .chart-details {
 }
 .confirm-reset-app{
   position: relative;
+}
+.privacy-container section ul li{
+margin-top: 15px;
+}
+.privacy-container section ul li strong{
+  color: #6e60ca;
 }

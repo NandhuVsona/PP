@@ -341,3 +341,7 @@
 .app.dark .message-box-main{
   background-color: #000000;
 }
+.app.dark .message-body .msg-content {
+  color: #ffffff;
+  background: linear-gradient(to bottom left, rgb(0 150 126), rgb(0 0 0));
+}

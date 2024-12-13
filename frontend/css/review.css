@@ -449,6 +449,8 @@ li.li-bar {
   padding: 10px 15px;
   text-align: justify;
   padding-bottom: 40px;
+  animation: openup .3s ease forwards;
+  -webkit-animation: openup .3s ease forwards;
 }
 .privacy-container section {
   margin-top: 20px;
@@ -460,6 +462,12 @@ li.li-bar {
 }
 .privacy-container section i {
   text-align: center;
+}
+.privacy-container h4{
+  color: #018c8c;
+}
+.app.dark .privacy-container h4{
+  color: aqua;
 }
 i q {
   font-family: cursive;
@@ -475,4 +483,60 @@ i q {
 .privacy-container section ul li {
   list-style: disc;
   margin-left: 15px;
+}
+
+
+/* Message box for reset app */
+.message-box-main {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(255, 255, 255);
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+.message-box-main .message-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+
+  text-align: center;
+}
+.message-body .msg-content {
+  width: 320px !important;
+  background: linear-gradient(to bottom left, rgb(0 150 126), rgb(0 0 0));
+  color: #ffffff;
+  padding: 10px;
+  height: 175px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border-radius: 5px;
+  animation: caution 0.3s ease-out;
+}
+.message-body .msg-content .caution-conformation {
+  width: 100%;
+  gap: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 10px;
+}
+.message-body .msg-content .caution-conformation button {
+  width: 200px;
+  height: 40px;
+  font-weight: 600;
+}
+@keyframes caution {
+  0% {
+    transform: scale(0.5);
+  }
+}
+.message-box-main.active {
+  display: flex;
 }

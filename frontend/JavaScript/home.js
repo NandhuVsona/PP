@@ -753,6 +753,8 @@ function goHomePage() {
 }
 
 myAccountBtn.addEventListener("click", () => {
+  document.querySelector(".chart-type-container").classList.remove("closed");
+
   myAccount.classList.add("active");
 });
 
