@@ -6,6 +6,7 @@ import {
   setHeaderInfo,
   toReadableDate,
   transferTemplate,
+  updateHeader,
 } from "./functions.js";
 import { modifyAccountHeader } from "./script.js";
 import { generateTimeStamp } from "./userInfo.js";
@@ -637,9 +638,16 @@ function verification() {
   if (whatType == "transfer" && accId !== catId) {
     return { sturcturedData, displayData };
   }
-  if (whatType != "transfer") {
-    modifyAccountHeader(whatType, amount);
+  if (
+    document.querySelector(".helper").textContent.toLocaleLowerCase() ===
+    "update"
+  ) {
+    updateHeader(clickedView, sturcturedData);
   }
+  if (whatType != "transfer") {
+    modifyAccountHeader(whatType, amount, "addition");
+  }
+
   return { sturcturedData, displayData };
 }
 
@@ -681,7 +689,7 @@ function showMessage(value) {
     successWidth--;
   }, 50);
 }
-
+let flag = true;
 function deleteView() {
   for (let i = 0; i < deleteHis.length; i++) {
     deleteHis[i].addEventListener("click", () => {
@@ -698,7 +706,29 @@ function deleteView() {
         clickedView.remove();
 
         // updateBudgetDb(clickedView.dataset.categoryId, { spend: 0 });
-        deleteRecordToDb(clickedView.dataset.transactionId);
+        if (flag) {
+          let deletedElement = clickedView.children[1];
+          let amount = Number(
+            deletedElement.children[0].lastChild.textContent
+              .trim()
+              .replace(/,/g, "")
+          );
+          // Determine the transaction type
+          let transactionType =
+            deletedElement.firstElementChild.classList.contains("income")
+              ? "income"
+              : deletedElement.firstElementChild.classList.contains("expense")
+              ? "expense"
+              : "transfer";
+
+          modifyAccountHeader(transactionType, amount, "subtraction");
+
+          deleteRecordToDb(clickedView.dataset.transactionId);
+          flag = false;
+          setInterval(() => {
+            flag = true;
+          }, 100);
+        }
       }
     });
   }
@@ -1237,25 +1267,32 @@ document.querySelector(".edit-history").addEventListener("click", () => {
   //   type,
   // });
 });
-
+let flag2 = true;
 function addEventListener() {
-  document
-    .querySelector(".update-transaction")
-    .addEventListener("click", () => {
-      let { sturcturedData, displayData } = verification();
+  if (flag2) {
+    flag2 = false;
+    document
+      .querySelector(".update-transaction")
+      .addEventListener("click", () => {
+        let { sturcturedData, displayData } = verification();
 
-      delete sturcturedData.date;
-      delete sturcturedData.month;
+        delete sturcturedData.date;
+        delete sturcturedData.month;
 
-      try {
-        if (sturcturedData) {
-          dynamicChange(displayData);
-          updateRecordToDb(clickedView.dataset.transactionId, sturcturedData);
+        try {
+          if (sturcturedData) {
+            dynamicChange(displayData);
+            updateRecordToDb(clickedView.dataset.transactionId, sturcturedData);
+          }
+        } catch (err) {
+          console.log(err.message);
+        } finally {
+          setTimeout(() => {
+            flag2 = true;
+          }, 100);
         }
-      } catch (err) {
-        console.log(err.message);
-      }
-    });
+      });
+  }
 }
 
 function dynamicChange(data) {

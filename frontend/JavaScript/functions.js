@@ -1,4 +1,8 @@
-import { closeEditBox, closeAccountBox } from "./script.js";
+import {
+  closeEditBox,
+  closeAccountBox,
+  modifyAccountHeader,
+} from "./script.js";
 let userCurrency = JSON.parse(localStorage.getItem("currency"));
 
 const globalId = "66efd1552e03ec45ce74d5fd";
@@ -413,4 +417,61 @@ export function resetHeaderInfo() {
   document.querySelectorAll(
     ".total-box"
   )[1].lastElementChild.lastChild.textContent = "0.00";
+}
+
+export function updateHeader(actualData, updatedData) {
+  let income = document.querySelectorAll(".income-box");
+  let expense = document.querySelectorAll(".expense-box");
+  let total = document.querySelectorAll(".total-box");
+
+  let previousIncome = Number(
+    income[0].lastElementChild.lastChild.textContent.trim()
+  );
+  let previousExpense = Number(
+    expense[0].lastElementChild.lastChild.textContent.trim()
+  );
+  let previoustotal = Number(
+    total[0].lastElementChild.lastChild.textContent.trim()
+  );
+  console.clear();
+  let oldAmount = Number(
+    actualData.children[1].firstElementChild.lastChild.textContent.trim()
+  );
+  let oldType = actualData.children[1].firstElementChild.classList.contains(
+    "income"
+  )
+    ? "income"
+    : actualData.children[1].firstElementChild.classList.contains("expense")
+    ? "expense"
+    : "transfer";
+  console.log({ oldType });
+  console.log({ oldAmount });
+  console.log("updated", updatedData.amount);
+
+  if (oldType == "income") {
+    if (updatedData.type == "expense") {
+      total.forEach((item) => {
+        item.lastElementChild.lastChild.textContent = previoustotal - oldAmount;
+      });
+    }
+    income.forEach((item) => {
+      item.lastElementChild.lastChild.textContent = previousIncome - oldAmount;
+    });
+  }
+  if (oldType == "expense") {
+    expense.forEach((item) => {
+      item.lastElementChild.lastChild.textContent = previousExpense - oldAmount;
+    });
+
+    if (previoustotal == 0) {
+      total.forEach((item) => {
+        item.lastElementChild.lastChild.textContent = oldAmount;
+      });
+      return;
+    }
+
+    total.forEach((item) => {
+      item.lastElementChild.lastChild.textContent = previoustotal + oldAmount;
+    });
+  }
 }

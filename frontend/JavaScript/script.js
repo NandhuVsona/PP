@@ -304,17 +304,83 @@ cumulativeSummary();
 //   }
 // });
 
-export function modifyAccountHeader(type, amount) {
-  if (type === "income") {
+export function modifyAccountHeader(type, amount, mode) {
+  const operations = {
+    addition: (a, b) => a + b,
+    subtraction: (a, b) => a - b,
+  };
+
+  let income = document.querySelectorAll(".income-box");
+  let expense = document.querySelectorAll(".expense-box");
+  let total = document.querySelectorAll(".total-box");
+
+  let previousIncome = Number(
+    income[0].lastElementChild.lastChild.textContent.trim()
+  );
+  let previousExpense = Number(
+    expense[0].lastElementChild.lastChild.textContent.trim()
+  );
+  let previoustotal = Number(
+    total[0].lastElementChild.lastChild.textContent.trim()
+  );
+
+  console.log({ previousIncome, previousExpense, previoustotal });
+  if (type == "income") {
+    income.forEach((item) => {
+      item.lastElementChild.lastChild.textContent = operations[mode](
+        previousIncome,
+        amount
+      );
+    });
+
+    total.forEach((item) => {
+      item.lastElementChild.lastChild.textContent = operations[mode](
+        previoustotal,
+        amount
+      );
+    });
     accountPageIn.lastChild.textContent = (
       parseInt(accountPageIn.lastChild.textContent.replace(/,/g, ""), 10) +
       parseInt(amount)
     ).toLocaleString();
   }
-  if (type === "expense") {
+  if (type == "expense") {
     accountPageEx.lastChild.textContent = (
       parseInt(accountPageEx.lastChild.textContent.replace(/,/g, ""), 10) +
       parseInt(amount)
     ).toLocaleString();
+
+    expense.forEach((item) => {
+      item.lastElementChild.lastChild.textContent = operations[mode](
+        previousExpense,
+        amount
+      );
+    });
+
+    if (mode == "addition") {
+      total.forEach((item) => {
+        item.lastElementChild.lastChild.textContent = previoustotal - amount;
+      });
+      return;
+    }
+    if (mode == "subtraction") {
+      total.forEach((item) => {
+        item.lastElementChild.lastChild.textContent = previoustotal + amount;
+      });
+      return;
+    }
+
+    if (previoustotal != 0) {
+      total.forEach((item) => {
+        item.lastElementChild.lastChild.textContent = operations[mode](
+          previoustotal,
+          amount
+        );
+      });
+    } else {
+      total.forEach((item) => {
+        item.lastElementChild.lastChild.textContent = amount * -1;
+      });
+    }
   }
 }
